@@ -1,8 +1,12 @@
 package fr.exanpe.roomeeting.web.services;
 
+import java.util.Date;
+
 import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.Translator;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.ComponentSource;
@@ -10,7 +14,10 @@ import org.apache.tapestry5.services.RequestExceptionHandler;
 import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.services.ResponseRenderer;
 import org.slf4j.Logger;
+import org.springframework.context.ApplicationContext;
 
+import fr.exanpe.roomeeting.domain.business.SiteManager;
+import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.t5.lib.services.RooMeetingLibraryModule;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.ExceptionHandlerService;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.RooMeetingRequestExceptionHandler;
@@ -35,8 +42,27 @@ public class RooMeetingModule
         // invoking the constructor.
     }
 
-    public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
+    public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration, @InjectService("applicationContext")
+    ApplicationContext applicationContext)
     {
+
+        // This code is a bridge to Spring profiles
+        boolean productionMode = true;
+
+        String[] profiles = applicationContext.getEnvironment().getActiveProfiles();
+
+        if (profiles != null)
+        {
+            for (String s : profiles)
+            {
+                if (s.equals("embedded"))
+                {
+                    productionMode = false;
+                    break;
+                }
+            }
+        }
+
         // Contributions to ApplicationDefaults will override any contributions to
         // FactoryDefaults (with the same key). Here we're restricting the supported
         // locales to just "en" (English). As you add localised message catalogs and other assets,
@@ -48,7 +74,7 @@ public class RooMeetingModule
         // The factory default is true but during the early stages of an application
         // overriding to false is a good idea. In addition, this is often overridden
         // on the command line as -Dtapestry.production-mode=false
-        configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
+        configuration.add(SymbolConstants.PRODUCTION_MODE, "" + productionMode);
 
         // The application version number is incorprated into URLs for some
         // assets. Web browsers will cache assets because of the far future expires
@@ -74,4 +100,22 @@ public class RooMeetingModule
     {
         return new RooMeetingRequestExceptionHandler(exceptionService, componentSource, renderer, request, productionMode);
     }
+
+    @SuppressWarnings("rawtypes")
+    public static void contributeTranslatorSource(MappedConfiguration<Class, Translator> configuration, @InjectService("siteManager")
+    SiteManager siteManager)
+    {
+        configuration.add(Site.class, new SiteTranslator(siteManager));
+        configuration.add(Date.class, new DateTranslator());
+    }
+    //
+    // public static void contributeTypeCoercer(Configuration<CoercionTuple<?, ?>> configuration,
+    // @InjectService("siteManager")
+    // SiteManager siteManager)
+    // {
+    // Coercion<String, Site> coercer = new SiteCoercer();
+    //
+    // configuration.add(new CoercionTuple<String, Site>(String.class, Site.class, coercer));
+    // }
+
 }

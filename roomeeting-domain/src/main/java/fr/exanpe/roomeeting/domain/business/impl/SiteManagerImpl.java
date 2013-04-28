@@ -18,7 +18,7 @@ import fr.exanpe.roomeeting.domain.core.dao.QueryParameters;
 import fr.exanpe.roomeeting.domain.model.Room;
 import fr.exanpe.roomeeting.domain.model.Site;
 
-@Service
+@Service("siteManager")
 public class SiteManagerImpl extends DefaultManagerImpl<Site, Long> implements SiteManager
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SiteManagerImpl.class);

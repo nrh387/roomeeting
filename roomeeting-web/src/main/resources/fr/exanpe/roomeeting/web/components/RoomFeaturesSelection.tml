@@ -10,9 +10,9 @@
 				<t:restImage imageType="roomFeatureIcon" t:context="currentFeature.id" title="${currentFeature.name}" alt="${currentFeature.name}" style="height:24px"/>
 			</button>
 			<t:if test="featureSelected">
-				<input style="display:none" id="rf${currentFeature.id}_hidden" name="${controlName}" type="checkbox" value="${currentFeature.id}" checked="checked" />
+				<input style="display:none" id="rf${currentFeature.id}_hidden" name="${controlName}" type="checkbox" value="${currentFeature.id}" checked="checked" > </input>
 			<p:else>
-				<input style="display:none" id="rf${currentFeature.id}_hidden" name="${controlName}" type="checkbox" value="${currentFeature.id}"/>
+				<input style="display:none" id="rf${currentFeature.id}_hidden" name="${controlName}" type="checkbox" value="${currentFeature.id}"> </input>
 			</p:else>
 			</t:if>
 		</t:loop>

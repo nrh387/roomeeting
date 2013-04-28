@@ -13,7 +13,8 @@ import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
  * Layout component for pages of application roomeeting-web.
  */
 @Import(stylesheet =
-{ "context:css/bootstrap-roomeeting.css", "context:css/roomeeting.css", "${exanpe.asset-base}/css/exanpe-t5-lib-skin.css" })
+{ "context:css/bootstrap-roomeeting.css", "context:css/roomeeting.css", "${exanpe.asset-base}/css/exanpe-t5-lib-skin.css",
+        "context:bootstrap/datepicker/datepicker.css" })
 public class Layout
 {
     /** The page title, for the <title> element and the <h1>element. */

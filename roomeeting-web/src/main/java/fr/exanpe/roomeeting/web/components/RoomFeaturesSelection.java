@@ -1,8 +1,6 @@
 package fr.exanpe.roomeeting.web.components;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Persist;
@@ -10,7 +8,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.services.Request;
 
 import fr.exanpe.roomeeting.domain.business.RoomFeatureManager;
@@ -32,7 +29,7 @@ public class RoomFeaturesSelection extends AbstractField
     @Property
     private RoomFeature currentFeature;
 
-    @Parameter(required = true, autoconnect = true)
+    @Parameter(required = true, autoconnect = true, allowNull = false)
     private List<RoomFeature> selected;
 
     @SetupRender
@@ -51,7 +48,7 @@ public class RoomFeaturesSelection extends AbstractField
 
         if (selected == null)
         {
-            selected = CollectionFactory.newList();
+            throw new IllegalStateException("Should not be null");
         }
         else
         {
@@ -70,13 +67,6 @@ public class RoomFeaturesSelection extends AbstractField
         }
     }
 
-    Set<RoomFeature> getSelected()
-    {
-        if (selected == null) { return Collections.emptySet(); }
-
-        return CollectionFactory.newSet(selected);
-    }
-
     @Override
     public boolean isRequired()
     {
@@ -85,7 +75,7 @@ public class RoomFeaturesSelection extends AbstractField
 
     public boolean isFeatureSelected()
     {
-        return selected.contains(currentFeature);
+        return selected != null && selected.contains(currentFeature);
     }
 
     public String getCssClassIfSelected()
