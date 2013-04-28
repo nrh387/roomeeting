@@ -6,5 +6,5 @@ if(!RooMeeting)
 
 jQuery(document).ready(function () {
 	jQuery('.datepicker-input').datepicker();
-	//jQuery("[rel=tooltip]").tooltip();
+	jQuery(".tooltiped").tooltip();
 });
