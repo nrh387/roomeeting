@@ -34,6 +34,7 @@ import fr.exanpe.roomeeting.domain.core.business.impl.DefaultManagerImpl;
 import fr.exanpe.roomeeting.domain.core.dao.CrudDAO;
 import fr.exanpe.roomeeting.domain.core.dao.QueryParameters;
 import fr.exanpe.roomeeting.domain.model.Role;
+import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.User;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
 
@@ -173,8 +174,16 @@ public class UserManagerImpl extends DefaultManagerImpl<User, Long> implements U
     }
 
     @Override
-    public void connected(User user)
+    public Site findDefaultSite(User user)
+    {
+
+        return find(user.getId()).getDefaultSite();
+    }
+
+    @Override
+    public void onConnected(User user)
     {
         user.setLastConnection(new Date());
     }
+
 }

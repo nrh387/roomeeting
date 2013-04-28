@@ -6,12 +6,15 @@ import org.apache.tapestry5.ioc.services.Coercion;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.model.Site;
 
-public class SiteCoercer implements Coercion<String, Site>
+public class StringSiteCoercer implements Coercion<String, Site>
 {
 
     private SiteManager siteManager;
 
-    private Class<Site> site;
+    public StringSiteCoercer(SiteManager siteManager)
+    {
+        this.siteManager = siteManager;
+    }
 
     @Override
     public Site coerce(String input)

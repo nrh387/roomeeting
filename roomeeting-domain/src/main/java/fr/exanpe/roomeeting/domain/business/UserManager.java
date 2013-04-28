@@ -9,6 +9,7 @@ import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.filters.UserFilter;
 import fr.exanpe.roomeeting.domain.core.business.DefaultManager;
 import fr.exanpe.roomeeting.domain.model.Role;
+import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.User;
 
 /**
@@ -58,5 +59,7 @@ public interface UserManager extends DefaultManager<User, Long>
 
     List<Role> listRoles();
 
-    void connected(User user);
+    void onConnected(User user);
+
+    Site findDefaultSite(User user);
 }

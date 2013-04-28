@@ -30,7 +30,7 @@ public class RooMeetingAuthenticationSuccessHandler extends SavedRequestAwareAut
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException,
             ServletException
     {
-        userManager.connected((User) authentication.getPrincipal());
+        userManager.onConnected((User) authentication.getPrincipal());
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

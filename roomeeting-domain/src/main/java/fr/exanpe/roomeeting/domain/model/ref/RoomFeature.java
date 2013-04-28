@@ -5,13 +5,19 @@ package fr.exanpe.roomeeting.domain.model.ref;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
+@Cacheable(true)
+@Cache(region = "roomeetingCacheRef", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class RoomFeature implements Serializable
 {
     /**

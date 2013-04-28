@@ -4,11 +4,13 @@ import java.util.Date;
 
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.Translator;
+import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.RequestExceptionHandler;
 import org.apache.tapestry5.services.RequestGlobals;
@@ -108,14 +110,11 @@ public class RooMeetingModule
         configuration.add(Site.class, new SiteTranslator(siteManager));
         configuration.add(Date.class, new DateTranslator());
     }
-    //
-    // public static void contributeTypeCoercer(Configuration<CoercionTuple<?, ?>> configuration,
-    // @InjectService("siteManager")
-    // SiteManager siteManager)
-    // {
-    // Coercion<String, Site> coercer = new SiteCoercer();
-    //
-    // configuration.add(new CoercionTuple<String, Site>(String.class, Site.class, coercer));
-    // }
 
+    public static void contributeTypeCoercer(Configuration<CoercionTuple<?, ?>> configuration, @InjectService("siteManager")
+    SiteManager siteManager)
+    {
+        configuration.add(new CoercionTuple<String, Site>(String.class, Site.class, new StringSiteCoercer(siteManager)));
+        configuration.add(new CoercionTuple<Site, String>(Site.class, String.class, new SiteStringCoercer(siteManager)));
+    }
 }

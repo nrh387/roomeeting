@@ -1,7 +1,7 @@
 <html t:type="layoutmenu" title="Recherche"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
-		
+
 	<div class="span10">
 		
 		<div class="well">
@@ -9,34 +9,39 @@
 			<h1 style="text-align:center">Recherche d'une salle</h1>
 			<hr/>
 			
-			<t:form class="form-horizontal">
-				<t:errors/>
+			<t:if test="sitesSelectModel">
+				<t:form class="form-horizontal">
+					<t:errors/>
+					
+					<t:inputlabel forId="site" label="site-name-label">
+						<t:select model="sitesSelectModel" t:value="filter.site"/>
+					</t:inputlabel>
+					<t:inputlabel forId="capacity" required="true" label="capacity-label">
+						<t:textfield t:value="filter.capacity" id="capacity"/>
+					</t:inputlabel>
+					<t:inputlabel forId="name" label="name-label">
+						<t:textfield t:value="filter.name" id="name"/>
+					</t:inputlabel>
+					<t:inputlabel label="features-label">
+						<t:roomFeaturesSelection selected="filter.features"/>
+					</t:inputlabel>
+					
+					<t:inputlabel label="date-label">
+						<t:textfield t:id="date" t:value="filter.date" class="datepicker-input"
+							data-date="${toStringDate(filter.date)}" data-date-format="dd/mm/yyyy" data-date-weekstart="1" autocomplete="off"
+							data-date-startdate="${toStringDate(today)}"/>
+					</t:inputlabel>
+					
+					<t:inputlabel>
+						<t:submit t:event="search" t:value="message:search-label" class="btn btn-primary"/>
+					</t:inputlabel>	
+				</t:form>
 				
-				<t:inputlabel forId="site" required="true" label="site-name-label">
-					<t:textfield t:value="filter.site" id="site"/>
-				</t:inputlabel>
-				<t:inputlabel forId="capacity" required="true" label="capacity-label">
-					<t:textfield t:value="filter.capacity" id="capacity"/>
-				</t:inputlabel>
-				<t:inputlabel forId="name" label="name-label">
-					<t:textfield t:value="filter.name" id="name"/>
-				</t:inputlabel>
-				<t:inputlabel label="features-label">
-					<t:roomFeaturesSelection selected="filter.features"/>
-				</t:inputlabel>
-				
-				<t:inputlabel label="date-label">
-					<t:textfield t:id="date" t:value="filter.date" class="datepicker-input"
-						data-date="${toStringDate(filter.date)}" data-date-format="dd/mm/yyyy" data-date-weekstart="1" autocomplete="off"
-						data-date-startdate="${toStringDate(today)}"/>
-				</t:inputlabel>
-				
-				<t:inputlabel>
-					<t:submit t:event="search" t:value="message:search-label" class="btn btn-primary"/>
-				</t:inputlabel>	
-			</t:form>
+			<p:else>
+				${message:no-site}
+			</p:else>
+			</t:if>
 			
-			<hr/>
 			
 			<!-- <t:if test="hasRooms()">
 				
