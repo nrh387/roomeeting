@@ -144,6 +144,11 @@ public class ManageSite
         return CollectionUtils.isNotEmpty(site.getRooms());
     }
 
+    public boolean isSiteExists()
+    {
+        return site.getId() != null;
+    }
+
     public List<RoomFeature> listFeatures()
     {
         return roomFeatureManager.list();

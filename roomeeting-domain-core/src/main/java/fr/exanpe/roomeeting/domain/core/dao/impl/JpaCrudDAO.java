@@ -45,8 +45,7 @@ public class JpaCrudDAO implements CrudDAO
 
     public <T> T update(T type)
     {
-        entityManager.merge(type);
-        return type;
+        return entityManager.merge(type);
     }
 
     public <T, PK extends Serializable> T find(Class<T> type, PK id)

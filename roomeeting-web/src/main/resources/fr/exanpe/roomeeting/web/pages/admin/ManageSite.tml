@@ -62,40 +62,42 @@
 
 			<br/>
 			
-			<div class="roomZone">
-			
-			<t:actionlink t:id="setupAddRoom" t:zone="roomZone" class="btn btn-success" style="margin:auto">
-				<i class="icon-plus icon-white"></i> ${message:add-room } 
-			</t:actionlink>
-			<br/><br/>
-			
-				<t:zone id="roomZone" t:id="roomZone" t:visible="editRoom" class="nobanner">
-					<t:if test="editRoom">
-						<t:form t:id="formRoom" class="form-horizontal">
-							<t:inputlabel forId="editRoom_name" required="true" label="name-label">
-								<t:textfield t:value="editRoom.name" id="editRoom_name"  t:validate="required"/>
-							</t:inputlabel>
-							<t:inputlabel forId="editRoom_capacity" required="true" label="capacity-label">
-								<t:textfield t:value="editRoom.capacity" id="editRoom_capacity" t:validate="required"/>
-							</t:inputlabel>
-							<t:inputlabel forId="editRoom_floor" label="floor-label">
-								<t:textfield t:value="editRoom.floor" id="editRoom_floor"/>
-							</t:inputlabel>
-							<t:inputlabel forId="editRoom_phoneNumber" label="phoneNumber-label">
-								<t:textfield t:value="editRoom.phoneNumber" id="editRoom_phoneNumber"/>
-							</t:inputlabel>
-							
-							<t:inputlabel forId="" required="false" label="features-label">
-								<t:roomFeaturesSelection selected="editRoom.features"/>
-							</t:inputlabel>
+			<t:if test="siteExists">
+				<div class="roomZone">
 					
-							<t:submit t:event="validateRoom" t:value="message:validate-room" class="btn btn-primary"/>
-							<t:actionlink t:id="cancelRoom" class="btn">${message:cancel-room}</t:actionlink>
-						</t:form>
-					</t:if>
-				</t:zone>
-			
-			</div>
+					<t:actionlink t:id="setupAddRoom" t:zone="roomZone" class="btn btn-success" style="margin:auto">
+						<i class="icon-plus icon-white"></i> ${message:add-room } 
+					</t:actionlink>
+					<br/><br/>
+				
+					<t:zone id="roomZone" t:id="roomZone" t:visible="editRoom" class="nobanner">
+						<t:if test="editRoom">
+							<t:form t:id="formRoom" class="form-horizontal">
+								<t:inputlabel forId="editRoom_name" required="true" label="name-label">
+									<t:textfield t:value="editRoom.name" id="editRoom_name"  t:validate="required"/>
+								</t:inputlabel>
+								<t:inputlabel forId="editRoom_capacity" required="true" label="capacity-label">
+									<t:textfield t:value="editRoom.capacity" id="editRoom_capacity" t:validate="required"/>
+								</t:inputlabel>
+								<t:inputlabel forId="editRoom_floor" label="floor-label">
+									<t:textfield t:value="editRoom.floor" id="editRoom_floor"/>
+								</t:inputlabel>
+								<t:inputlabel forId="editRoom_phoneNumber" label="phoneNumber-label">
+									<t:textfield t:value="editRoom.phoneNumber" id="editRoom_phoneNumber"/>
+								</t:inputlabel>
+								
+								<t:inputlabel forId="" required="false" label="features-label">
+									<t:roomFeaturesSelection selected="editRoom.features"/>
+								</t:inputlabel>
+						
+								<t:submit t:event="validateRoom" t:value="message:validate-room" class="btn btn-primary"/>
+								<t:actionlink t:id="cancelRoom" class="btn">${message:cancel-room}</t:actionlink>
+							</t:form>
+						</t:if>
+					</t:zone>
+				
+				</div>
+			</t:if>
 		</div>
 	
 	</div>
