@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="roomeetingDomainPersistence" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>fr.exanpe.roomeeting.domain.model.User</class>
+        <class>fr.exanpe.roomeeting.domain.model.Authority</class>
+        <class>fr.exanpe.roomeeting.domain.model.Role</class>
+        <class>fr.exanpe.roomeeting.domain.model.Room</class>
+        <class>fr.exanpe.roomeeting.domain.model.ref.RoomFeature</class>
+        <class>fr.exanpe.roomeeting.domain.model.Site</class>
+		<properties>
+			<property name="hibernate.jdbc.batch_size" value="10" />
+			<property name="hibernate.jdbc.batch_versioned_data" value="true" />
+			<property name="hibernate.use_sql_comments" value="true"/>
+			<property name="hibernate.query.substitutions" value="true 1, false 0" />
+			<property name="hibernate.connection.release_mode" value="auto" />			
+			<property name="hibernate.cache.use_structured_entries" value="true" />
+			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory" />
+		</properties>
+	</persistence-unit>
+</persistence>

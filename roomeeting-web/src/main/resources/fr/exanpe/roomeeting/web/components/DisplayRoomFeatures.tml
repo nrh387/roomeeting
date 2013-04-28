@@ -1,0 +1,15 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	<t:if test="features">
+		<ul class="displayRoomFeatures">
+			<t:loop source="features" value="currentFeature">
+				<li>
+					<t:restImage imageType="roomFeatureIcon" t:context="currentFeature.id" title="${currentFeature.name}" alt="${currentFeature.name}"/>
+				</li>
+			</t:loop>
+		</ul>
+	</t:if>
+
+</t:container>

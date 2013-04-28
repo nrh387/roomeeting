@@ -1,0 +1,41 @@
+<html t:type="layout" title="Accueil"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+
+   
+    <div style="padding-top:100px;margin:auto;width:550px">
+    
+    
+    <t:box t:title="Connexion">
+		<t:businessExceptionMessage/>
+		<t:if test="loginFailed">
+			Mauvais couple utilisateur ou mot de passe <br/>
+		</t:if>
+		<form action="${contextRoot}/j_spring_security_check" method="POST" class="form-horizontal">
+			<t:inputlabel t:forId="j_username" t:label="id-label">
+				<div class="input-prepend">
+					<span class="add-on">
+						<i class="icon-user"/>
+					</span>
+					<input id="j_username" type="text" name="j_username" placeholder="Identifiant"/>
+				</div>
+			</t:inputlabel>
+			<t:inputlabel t:forId="j_password" t:label="password-label">
+				<div class="input-prepend">
+					<span class="add-on">
+						<i class="icon-lock"/>
+					</span> 
+					<input id="j_password" type="password" name="j_password" placeholder="Mot de passe"/>
+				</div>
+			</t:inputlabel>
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn" value="">Se connecter</button>	
+				</div>
+			</div>
+			
+		</form>
+	</t:box>
+	</div>
+
+</html>

@@ -1,0 +1,17 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	<div class="control-group">
+		<label class="control-label" for="${forId}">
+			 ${label}
+			 <t:if test="required">
+			 	<span style="color:red"> * </span>
+			 </t:if>
+		</label>
+		<div class="controls">
+			<t:body/>
+		</div>
+	</div>
+
+</t:container>

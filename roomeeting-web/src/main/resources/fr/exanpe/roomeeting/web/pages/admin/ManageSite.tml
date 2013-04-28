@@ -1,0 +1,103 @@
+<html t:type="layoutmenu" title="Accueil"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+		
+	<div class="span10">
+		
+		<div class="well">
+		
+			<h1 style="text-align:center">Gestion du site</h1>
+			<hr/>
+			
+			<t:form class="form-horizontal">
+				
+				<t:inputlabel forId="name" required="true" label="site-name-label">
+					<t:textfield t:value="site.name" id="name"/>
+				</t:inputlabel>
+				<t:inputlabel forId="address" required="true" label="address-label" >
+					<t:textarea t:value="site.address" id="address"/>
+				</t:inputlabel>
+				
+				<t:inputlabel>
+					<t:submit t:event="validateSite" t:value="message:validate-site" class="btn btn-primary"/>
+				</t:inputlabel>	
+			</t:form>
+			
+			<hr/>
+			
+			<t:if test="hasRooms()">
+				
+				<t:grid t:id="gridRooms" t:source="site.rooms" t:row="currentRoom" 
+					t:include="name,capacity,floor,phoneNumber" t:add="features,edit,delete" 
+					t:order="name,capacity,floor,phoneNumber,features"
+					t:rowsPerPage="10" style="width:100%">
+					<p:editCell>
+						<div align="center">
+							<t:actionlink t:id="setupEditRoom" t:context="currentRoom.id" t:zone="roomZone">
+								<i class="icon-edit"></i>
+							</t:actionlink>
+						</div>
+					</p:editCell>
+					<p:deleteCell>
+						<div align="center">
+							<t:actionlink t:id="deleteRoom" t:context="currentRoom.id"
+								t:mixins="exanpe/dialog"
+								t:title="delete-warning"
+								t:message="delete-text"
+								t:yesLabelButton="delete-yes"
+								t:noLabelButton="delete-no">
+								<i class="icon-remove"></i>
+							</t:actionlink>
+						</div>
+					</p:deleteCell>
+					<p:featuresCell>
+						<t:displayRoomFeatures features="currentRoom.features"/>
+					</p:featuresCell>
+					<p:empty>
+						${message:no-results}
+					</p:empty>
+				</t:grid>
+			
+			</t:if>
+
+			<br/>
+			
+			<div class="roomZone">
+			
+			<t:actionlink t:id="setupAddRoom" t:zone="roomZone" class="btn btn-success" style="margin:auto">
+				<i class="icon-plus icon-white"></i> ${message:add-room } 
+			</t:actionlink>
+			<br/><br/>
+			
+				<t:zone id="roomZone" t:id="roomZone" t:visible="editRoom" class="nobanner">
+					<t:if test="editRoom">
+						<t:form t:id="formRoom" class="form-horizontal">
+							<t:inputlabel forId="editRoom_name" required="true" label="name-label">
+								<t:textfield t:value="editRoom.name" id="editRoom_name"  t:validate="required"/>
+							</t:inputlabel>
+							<t:inputlabel forId="editRoom_capacity" required="true" label="capacity-label">
+								<t:textfield t:value="editRoom.capacity" id="editRoom_capacity" t:validate="required"/>
+							</t:inputlabel>
+							<t:inputlabel forId="editRoom_floor" label="floor-label">
+								<t:textfield t:value="editRoom.floor" id="editRoom_floor"/>
+							</t:inputlabel>
+							<t:inputlabel forId="editRoom_phoneNumber" label="phoneNumber-label">
+								<t:textfield t:value="editRoom.phoneNumber" id="editRoom_phoneNumber"/>
+							</t:inputlabel>
+							
+							<t:inputlabel forId="" required="false" label="features-label">
+								<t:roomFeaturesSelection selected="editRoom.features"/>
+							</t:inputlabel>
+					
+							<t:submit t:event="validateRoom" t:value="message:validate-room" class="btn btn-primary"/>
+							<t:actionlink t:id="cancelRoom" class="btn">${message:cancel-room}</t:actionlink>
+						</t:form>
+					</t:if>
+				</t:zone>
+			
+			</div>
+		</div>
+	
+	</div>
+		
+</html>

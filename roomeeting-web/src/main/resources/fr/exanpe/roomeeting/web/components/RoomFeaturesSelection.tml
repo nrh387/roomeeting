@@ -1,0 +1,22 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+    <div class="btn-group" data-toggle="buttons-checkbox">
+        
+		<t:loop source="features" value="currentFeature" formState="NONE">
+			
+			<button type="button" class="btn ${cssClassIfSelected}" onclick="jQuery('#rf${currentFeature.id}_hidden').prop('checked', !jQuery('#rf${currentFeature.id}_hidden').prop('checked'));">
+				<t:restImage imageType="roomFeatureIcon" t:context="currentFeature.id" title="${currentFeature.name}" alt="${currentFeature.name}" style="height:24px"/>
+			</button>
+			<t:if test="featureSelected">
+				<input style="display:none" id="rf${currentFeature.id}_hidden" name="${controlName}" type="checkbox" value="${currentFeature.id}" checked="checked" />
+			<p:else>
+				<input style="display:none" id="rf${currentFeature.id}_hidden" name="${controlName}" type="checkbox" value="${currentFeature.id}"/>
+			</p:else>
+			</t:if>
+		</t:loop>
+
+	</div>
+
+</t:container>

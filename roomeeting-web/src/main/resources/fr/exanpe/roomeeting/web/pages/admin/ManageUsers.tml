@@ -1,0 +1,58 @@
+<html t:type="layoutmenu" title="Accueil"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+		
+	<div class="span10">
+		
+		<div class="well">
+		
+			<h1 style="text-align:center">Gestion des utilisateurs</h1>
+			<hr/>
+			
+			<t:form class="form-horizontal">
+			
+				<t:businessExceptionMessage/>
+
+				<t:inputlabel t:label="username-label" t:forId="username">
+					<t:textfield t:id="username" value="userFilter?.username"/>
+				</t:inputlabel>
+				
+				<t:inputlabel t:label="name-label" t:forId="name">
+					<t:textfield t:id="name" value="userFilter?.name"/>
+				</t:inputlabel>
+				
+				<t:inputlabel t:label="firstname-label" t:forId="firstname">
+					<t:textfield t:id="firstname" value="userFilter?.firstname"/>
+				</t:inputlabel>
+				
+				<t:submit t:value="message:search-label" class="btn btn-primary" t:event="search"/>
+				&nbsp;&nbsp;&nbsp;
+				<t:submit t:value="message:reset-label" class="btn btn-danger" t:event="reset"/>
+				
+			</t:form>
+			
+			<hr/>
+			
+			<t:grid t:id="gridUsers" t:source="users" t:row="currentUser" 
+				t:include="username,name,firstname" t:order="username,name,firstname,lastConnection"
+				t:rowsPerPage="10" style="width:100%">
+				<p:lastConnection>
+					<t:output format="literal:dd/MM/yyyy" value="currentUser.lastConnection"/>
+				</p:lastConnection>
+				<p:empty>
+					${message:no-results}
+				</p:empty>
+			</t:grid>
+			
+			<t:if test="maxFound">
+			    <div class="alert">
+				    <button type="button" class="close" data-dismiss="alert">&times;</button>
+				    ${message:max-results-alert}
+			    </div>
+			</t:if>
+
+		</div>
+	
+	</div>
+		
+</html>

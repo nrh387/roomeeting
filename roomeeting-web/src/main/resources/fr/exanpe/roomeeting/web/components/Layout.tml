@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+<head>
+	<meta charset="UTF-8"/>
+	<title>${title}</title>
+	
+	<script type="text/javascript" src="${contextRoot}/js/jquery/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript">
+		jQuery.noConflict();
+	</script>
+	<script type="text/javascript" src="${contextRoot}/bootstrap/2.1.1/js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="${contextRoot}/datepicker/js/bootstrap-datepicker.js"></script> -->
+	
+</head>
+<body class="exanpe-skin">
+	<header>
+	<div class="navbar navbar-fixed-top" style="position:relative">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<t:pagelink page="Index" class="brand">
+					<img src="${asset:context:img/logo_dmp.png}"  alt="${message:application-name-long}"/>
+					${message:application-name-long} : Votre portail de réservation de salle de réunion
+				</t:pagelink>
+				<div class="nav-collapse">
+					
+					<ul class="nav pull-right">
+						<t:if test="isAuthenticated()">
+							<li>
+								<a href="#">
+									<i class="icon-user" />&nbsp; &nbsp;
+								</a>
+							</li>
+							<li><a href="${contextRoot}/j_spring_security_logout"><i class="icon-chevron-right" /> Se déconnecter</a></li>
+						</t:if>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	</header>
+	
+
+	<t:body />
+
+
+	<footer>
+		<span>&nbsp; &copy; ${message:application-name-long } 2013</span>
+	</footer>
+	
+</body>
+</html>

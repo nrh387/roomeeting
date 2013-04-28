@@ -1,0 +1,185 @@
+/** MAIN **/
+body
+{
+	background: url("images/bg_body.gif") repeat-y scroll 0 0 #B3C9E4;
+    text-align: left;
+    font-family: Verdana, Arial, sans-serif;
+    font-style: normal;
+	font-size: 76%;
+}
+
+/** STRUCTURE **/
+.page
+{
+	margin-top: 20px;
+	background: white;
+}
+
+.leftCol
+{
+	width: 210px;
+}
+.rightCol
+{
+	width: 0px;
+	height: 0px;
+	overflow: hidden;
+}
+
+.foot
+{
+	margin-top: 10px;
+}
+.cleared
+{
+	clear: both;
+}
+
+/** HEADING **/
+
+/* ====== Headings ====== */
+
+h1, .h1
+{
+	font-weight: normal; 
+	font-style: normal;
+}
+h2, .h2
+{
+	background: url("images/bg_containercols2.gif") repeat-x scroll 0 22px transparent;
+	font-weight:normal; 
+	font-style: normal;
+	font-size: 1.5em; 
+	height: 35px;
+}
+h3, .h3
+{
+	font-weight:normal; 
+	font-style: normal; 
+}
+h4, .h4
+{
+	font-weight:normal; 
+	font-style: normal; 
+}
+h5, .h5
+{
+	font-weight:bold; 
+	font-style: normal; 
+}
+h6, .h6
+{
+	font-weight:normal; 
+	font-style: italic; 
+}
+
+/** LISTS **/
+ul.nav 
+{
+    list-style: none outside none;
+}
+
+ul.nav li {
+    background-image: none;
+    display: inline;
+    height: 1%;
+    margin: 0;
+    padding: 0;
+}
+
+ul.nav li a {
+    color: #000000;
+    display: block;
+    margin: 0 3px 0 0;
+    padding: 2px 0 2px 22px;
+}
+
+/** SKIN des composants Web **/
+
+/* **************** HEADER ***************** */
+.header
+{
+	position: relative;
+	text-align: left;
+	width: 100%;
+	
+}
+.header-bg-left
+{
+	background: url("images/header/bg_header_g.gif") no-repeat scroll 0 0 transparent;
+}
+.header-top
+{
+	background: url("images/bg_containercols.gif") repeat-x scroll 0 100% transparent;
+    margin: 0 0 0 130px;
+    padding-right: 17px;
+    padding-top: 5px;
+    text-align: right;
+    height: 25px;
+}
+.header-top a img
+{
+	vertical-align: middle;
+}
+.header-content
+{
+	background: url("images/header/bg_header_d.gif") no-repeat scroll 100% 0 transparent;	
+}
+.header-logo
+{
+	position: absolute;
+	top: 0;
+	left: 10;
+	margin: 45px 0 0 15px;
+}
+.header-main
+{
+	background: url("images/bg_containercols.gif") repeat-x scroll 0 100% #D3E4F8;
+    margin: 0 0 0 130px;
+    padding: 3px 10px;
+    height: 23px;
+}
+.header-main span
+{
+	color: #0B3263;
+    font: bold 1.3em "Trebuchet MS",Arial,Helvetica,sans-serif;	
+}
+.header-bottom
+{
+	background: url("images/header/bg_header.jpg") no-repeat scroll 0 0 #2F5380;
+    height: 60px;
+    margin: 0 auto;
+    padding: 7px 0;
+}
+
+/* **************** FOOTER ***************** */
+.footer
+{
+	position: relative;
+	background: url("images/bg_containercols.gif") repeat-x scroll 0 0;
+	text-align: center;
+	width: 100%;	
+}
+.footer-bg-left
+{
+	background: url("images/footer/bg_footer_g.gif") no-repeat scroll 0 100% transparent;
+}
+.footer-content
+{
+	background: url("images/footer/bg_footer_d.gif") no-repeat scroll 100% 100% transparent;
+	height: 25px;	
+}
+.footer-content
+{
+	font-size: 0.95em;
+}
+
+ul.displayRoomFeatures{
+	margin : 0px
+}
+
+ul.displayRoomFeatures li{
+	list-style: none outside none;
+	display:inline;
+	padding-right:5px;
+}

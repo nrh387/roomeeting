@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dataset.xsd">
+<USER id="1" username="admin" password="admin" />
+<ROLE id="1" name="ADMIN" />
+<AUTHORITY authority="ROLE_ADMIN" id="1"/>
+<J_USER_ROLE id_user="1" id_role="1"/>
+</dataset>
