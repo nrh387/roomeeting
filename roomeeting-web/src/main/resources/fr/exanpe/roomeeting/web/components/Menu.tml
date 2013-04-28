@@ -4,7 +4,16 @@
 
 	<div class="navbar">
 		<div class="navbar-inner">
-			<div class="container">
+			<div class="container" style="padding-left:100px;padding-right:100px">
+				<ul class="nav">
+					<li class="divider-vertical"></li>
+					<li>
+						<t:pagelink page="room/Search">
+							Réserver
+						</t:pagelink>
+					</li>
+					<li class="divider-vertical"></li>
+				</ul>
 				<ul class="nav nav pull-right">
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">

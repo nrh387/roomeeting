@@ -28,7 +28,7 @@
 					
 					<t:inputlabel label="date-label">
 						<t:textfield t:id="date" t:value="filter.date" class="datepicker-input"
-							data-date="${toStringDate(filter.date)}" data-date-format="dd/mm/yyyy" data-date-weekstart="1" autocomplete="off"
+							data-date="${toStringDate(filter.date)}" autocomplete="off"
 							data-date-startdate="${toStringDate(today)}"/>
 					</t:inputlabel>
 					
