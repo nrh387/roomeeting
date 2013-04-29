@@ -17,6 +17,8 @@ public class RoomFilter
 
     private Date date = new Date();
 
+    private Integer minutesLength;
+
     private List<RoomFeature> features = new ArrayList<RoomFeature>();
 
     /**
@@ -81,6 +83,22 @@ public class RoomFilter
     public void setDate(Date date)
     {
         this.date = date;
+    }
+
+    /**
+     * @return the minutesLength
+     */
+    public Integer getMinutesLength()
+    {
+        return minutesLength;
+    }
+
+    /**
+     * @param minutesLength the minutesLength to set
+     */
+    public void setMinutesLength(Integer minutesLength)
+    {
+        this.minutesLength = minutesLength;
     }
 
     /**

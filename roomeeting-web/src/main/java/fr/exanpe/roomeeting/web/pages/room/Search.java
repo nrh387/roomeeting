@@ -14,6 +14,7 @@ import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.internal.SelectModelImpl;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
+import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
@@ -27,6 +28,9 @@ public class Search
 
     @Inject
     private SiteManager siteManager;
+
+    @Inject
+    private BookingManager bookingManager;
 
     @Inject
     private RooMeetingSecurityContext securityContext;
@@ -67,7 +71,7 @@ public class Search
     @OnEvent(value = "search")
     public void search()
     {
-        System.out.println("search ok");
+        bookingManager.searchRoomAvailable(filter);
     }
 
     public String toStringDate(Date d)

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dataset.xsd">
+  
+  <Site id="1" name="Le Bois" address="1 allée du bois" roomCount="2"/>
+  <Site id="2" name="Le Bitume" address="1 allée du bitume" roomCount="0"/>
+  
+  <Room id="10" name="Oeillet" capacity="20" site_id="1"/>
+  <Room id="11" name="Rose" capacity="5" site_id="1"/>
+  
+  <Room id="20" name="Tulipe" capacity="5" site_id="2"/>
+  
+</dataset>

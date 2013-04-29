@@ -9,6 +9,8 @@
         <class>fr.exanpe.roomeeting.domain.model.Room</class>
         <class>fr.exanpe.roomeeting.domain.model.ref.RoomFeature</class>
         <class>fr.exanpe.roomeeting.domain.model.Site</class>
+        <class>fr.exanpe.roomeeting.domain.model.Booking</class>
+        <class>fr.exanpe.roomeeting.domain.model.Gap</class>
 		<properties>
 			<property name="hibernate.jdbc.batch_size" value="10" />
 			<property name="hibernate.jdbc.batch_versioned_data" value="true" />
