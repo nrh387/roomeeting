@@ -12,7 +12,7 @@ public final class RoomDateUtils
     /**
      * Return the next working date, excluding {@link Calendar#SATURDAY} and {@link Calendar#SUNDAY}
      */
-    public static Date nextWorkingDate(Date date)
+    public static Date nextWorkingDay(Date date)
     {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -22,6 +22,19 @@ public final class RoomDateUtils
             c.add(Calendar.DATE, 1);
         }
         while (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+
+        return c.getTime();
+    }
+
+    /**
+     * Return the next working date, excluding {@link Calendar#SATURDAY} and {@link Calendar#SUNDAY}
+     */
+    public static Date nextDay(Date date)
+    {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        c.add(Calendar.DATE, 1);
 
         return c.getTime();
     }

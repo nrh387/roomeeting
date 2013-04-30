@@ -22,13 +22,14 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li>
-								<a href="#">Salles</a>
+								
 								<t:pagelink page="admin/ManageSites">
 									Sites
 								</t:pagelink>
 								<t:pagelink page="admin/ManageUsers">
 									Utilisateurs
 								</t:pagelink>
+								<t:pagelink page="admin/ManageRef">Référentiel</t:pagelink>
 							</li>
 						</ul>
 					</li>

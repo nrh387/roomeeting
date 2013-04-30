@@ -1,0 +1,46 @@
+<html t:type="layoutmenu" title="Recherche"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+
+	<div class="span10">
+		
+		<div class="well">
+		
+			<h1 style="text-align:center">Salles disponibles</h1>
+
+			<t:pagelink class="btn btn-small" page="room/search">
+				<i class="icon-chevron-left"></i>
+				${message:return-search}
+			</t:pagelink>
+			
+			<hr/>
+			<div class="row">
+				<div class="span3">
+					<ul class="nav nav-list show-site-affix affix affix-top" >
+					  <t:loop source="sites" value="currentSite">
+					  	<li><a href="#site_${currentSite.id}"><i class="icon-chevron-right"></i> ${currentSite.name}</a></li>
+					  </t:loop>
+			        </ul>
+		        </div>
+		        <div class="span9">
+		        	<t:loop source="roomAvailabilityDTO" value="currentRA">
+		        		<t:if test="siteChanged">
+		        			<a name="site_${currentRA.room.site.id}" href="#"></a>
+		        			<h2 style="border-bottom:1px solid #CCCCCC;text-align:center">${currentRA.room.site.name}</h2>
+		        		</t:if>
+		        		
+		        		
+		        	</t:loop>
+		        	
+					${roomAvailabilityDTO.size() }
+		        </div>
+			</div>
+			
+			
+			<br/><br/>
+			
+		</div>
+	
+	</div>
+		
+</html>

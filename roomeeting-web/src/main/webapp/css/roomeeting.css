@@ -1,7 +1,7 @@
 /** MAIN **/
 body
 {
-	background: url("images/bg_body.gif") repeat-y scroll 0 0 #B3C9E4;
+	background: url("images/bg_body.gif") repeat-y scroll 0 0 #F9F6C0;
     text-align: left;
     font-family: Verdana, Arial, sans-serif;
     font-style: normal;
@@ -43,6 +43,9 @@ h1, .h1
 {
 	font-weight: normal; 
 	font-style: normal;
+	background: none repeat scroll 0 0 white;
+    border: 1px solid #CCCCCC;
+    padding: 10px;
 }
 h2, .h2
 {
@@ -182,4 +185,25 @@ ul.displayRoomFeatures li{
 	list-style: none outside none;
 	display:inline;
 	padding-right:5px;
+}
+
+.exanpe-skin table.t-data-grid tbody tr td{
+	background:#FFFFFF;	
+}
+
+.show-site-affix.affix {
+    top: 240px;
+    margin-left: 10px;
+}
+.show-site-affix {
+    background-color: #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    margin: 30px 0 0;
+    padding: 0;
+    width: 190px;
+}
+
+.show-site-affix i{
+	float:right	
 }

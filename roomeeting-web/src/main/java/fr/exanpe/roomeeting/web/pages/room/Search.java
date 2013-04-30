@@ -6,10 +6,12 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.tapestry5.OptionModel;
+import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SessionAttribute;
 import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.internal.SelectModelImpl;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -17,6 +19,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
+import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
@@ -35,6 +38,9 @@ public class Search
     @Inject
     private RooMeetingSecurityContext securityContext;
 
+    @SessionAttribute
+    private List<RoomAvailabilityDTO> roomAvailabilityDTO;
+
     @Persist
     @Property
     private RoomFilter filter;
@@ -42,6 +48,10 @@ public class Search
     @Property
     @Persist
     private SelectModel sitesSelectModel;
+
+    @Property
+    @Persist(PersistenceConstants.FLASH)
+    private boolean noResult;
 
     void onActivate()
     {
@@ -69,9 +79,19 @@ public class Search
     }
 
     @OnEvent(value = "search")
-    public void search()
+    public Object search()
     {
-        bookingManager.searchRoomAvailable(filter);
+        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(filter);
+
+        if (CollectionUtils.isEmpty(list))
+        {
+            noResult = true;
+            return this;
+        }
+
+        roomAvailabilityDTO = list;
+
+        return ShowAvailability.class;
     }
 
     public String toStringDate(Date d)

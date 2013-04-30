@@ -14,17 +14,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 
 import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
 
 @Entity
+@NamedQueries(
+{ @NamedQuery(name = Room.FIND_GAPS_FOR_DATE, query = "SELECT g FROM Gap g join fetch g.room WHERE g.room in (:rooms) AND g.date = :date order by g.room.id, g.date") })
 public class Room implements Serializable
 {
     /**
      * 
      */
     private static final long serialVersionUID = -243387796260345357L;
+
+    public static final String FIND_GAPS_FOR_DATE = "Room.findGapsForDate";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -163,5 +169,11 @@ public class Room implements Serializable
         if (obj == null || !(obj instanceof Room)) { return false; }
 
         return id != null && id.equals(((Room) obj).getId());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return id.intValue();
     }
 }

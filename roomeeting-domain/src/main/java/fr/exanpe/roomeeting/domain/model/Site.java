@@ -124,4 +124,17 @@ public class Site implements Serializable
         this.roomCount = roomNumber;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null || !(obj instanceof Room)) { return false; }
+
+        return id != null && id.equals(((Room) obj).getId());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return id.intValue();
+    }
 }

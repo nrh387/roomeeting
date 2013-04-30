@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dataset.xsd">
+  
+  <Site id="1" name="Le Bois" address="1 allée du bois" roomCount="2"/>
+  
+  <Room id="10" name="Oeillet" capacity="20" site_id="1"/>
+  <Gap id="1" room_id="10" date="2012-01-01" minutesLength="10"/>
+  <Booking id="1" room_id="10" date="2012-01-01"/>
+  
+  <Gap id="2" room_id="10" date="2012-01-12" minutesLength="600"/>
+  
+</dataset>

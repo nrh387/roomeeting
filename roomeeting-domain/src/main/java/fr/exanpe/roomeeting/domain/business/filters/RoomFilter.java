@@ -21,6 +21,10 @@ public class RoomFilter
 
     private List<RoomFeature> features = new ArrayList<RoomFeature>();
 
+    private int extendDays = 0;
+
+    private boolean extendWorkingOnly = true;
+
     /**
      * @return the site
      */
@@ -99,6 +103,38 @@ public class RoomFilter
     public void setMinutesLength(Integer minutesLength)
     {
         this.minutesLength = minutesLength;
+    }
+
+    /**
+     * @return the extendDays
+     */
+    public int getExtendDays()
+    {
+        return extendDays;
+    }
+
+    /**
+     * @param extendDays the extendDays to set
+     */
+    public void setExtendDays(int extendDays)
+    {
+        this.extendDays = extendDays;
+    }
+
+    /**
+     * @return the extendWorking
+     */
+    public boolean isExtendWorkingOnly()
+    {
+        return extendWorkingOnly;
+    }
+
+    /**
+     * @param extendWorking the extendWorking to set
+     */
+    public void setExtendWorkingOnly(boolean extendWorking)
+    {
+        this.extendWorkingOnly = extendWorking;
     }
 
     /**
