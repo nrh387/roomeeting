@@ -8,6 +8,7 @@
         <class>fr.exanpe.roomeeting.domain.model.Role</class>
         <class>fr.exanpe.roomeeting.domain.model.Room</class>
         <class>fr.exanpe.roomeeting.domain.model.ref.RoomFeature</class>
+        <class>fr.exanpe.roomeeting.domain.model.ref.Parameter</class>
         <class>fr.exanpe.roomeeting.domain.model.Site</class>
         <class>fr.exanpe.roomeeting.domain.model.Booking</class>
         <class>fr.exanpe.roomeeting.domain.model.Gap</class>

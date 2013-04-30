@@ -25,6 +25,10 @@ public class RoomFilter
 
     private boolean extendWorkingOnly = true;
 
+    private Integer restrictFrom;
+
+    private Integer restrictTo;
+
     /**
      * @return the site
      */
@@ -135,6 +139,38 @@ public class RoomFilter
     public void setExtendWorkingOnly(boolean extendWorking)
     {
         this.extendWorkingOnly = extendWorking;
+    }
+
+    /**
+     * @return the restrictFrom
+     */
+    public Integer getRestrictFrom()
+    {
+        return restrictFrom;
+    }
+
+    /**
+     * @param restrictFrom the restrictFrom to set
+     */
+    public void setRestrictFrom(Integer restrictFrom)
+    {
+        this.restrictFrom = restrictFrom;
+    }
+
+    /**
+     * @return the restrictTo
+     */
+    public Integer getRestrictTo()
+    {
+        return restrictTo;
+    }
+
+    /**
+     * @param restrictTo the restrictTo to set
+     */
+    public void setRestrictTo(Integer restrictTo)
+    {
+        this.restrictTo = restrictTo;
     }
 
     /**

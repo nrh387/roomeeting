@@ -16,7 +16,9 @@ import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.internal.SelectModelImpl;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
+import fr.exanpe.roomeeting.common.enums.ParameterEnum;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
+import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
@@ -36,6 +38,9 @@ public class Search
     private BookingManager bookingManager;
 
     @Inject
+    private ParameterManager parameterManager;
+
+    @Inject
     private RooMeetingSecurityContext securityContext;
 
     @SessionAttribute
@@ -48,6 +53,10 @@ public class Search
     @Property
     @Persist
     private SelectModel sitesSelectModel;
+
+    @Property
+    @Persist
+    private SelectModel hoursModel;
 
     @Property
     @Persist(PersistenceConstants.FLASH)
@@ -75,6 +84,20 @@ public class Search
 
                 sitesSelectModel = new SelectModelImpl(oms);
             }
+        }
+        if (hoursModel == null)
+        {
+            int start = parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue();
+            int end = parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue();
+
+            OptionModel[] oms = new OptionModel[end - start + 1];
+
+            for (int i = 0; i < oms.length; i++)
+            {
+                oms[i] = new OptionModelImpl("" + (start + i));
+            }
+
+            hoursModel = new SelectModelImpl(oms);
         }
     }
 

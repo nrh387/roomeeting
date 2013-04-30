@@ -47,6 +47,9 @@
 								<t:checkbox t:value="filter.extendWorkingOnly"/> ${message:working-only} 
 
 					</t:inputlabel>
+					<t:inputlabel label="restrict-label">
+						${message:from} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictFrom"/> ${message:to} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictTo"/> 
+					</t:inputlabel>
 					
 					<t:inputlabel>
 						<t:submit t:event="search" t:value="message:search-label" class="btn btn-primary"/>

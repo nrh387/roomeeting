@@ -54,6 +54,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
         Date dateSearch = filter.getDate();
 
+        // TODO consolidate multiple days
         List<Room> fullRooms = new ArrayList<Room>();
 
         while (CollectionUtils.isEmpty(rooms) && days <= daysSearch)
@@ -70,6 +71,8 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
                 }
             }
 
+            // TODO ajouter restrict from et to
+            // TODO do not check previous dates...
             rooms = bookingDAO.searchRoomAvailable(filter, dateSearch);
 
             days++;

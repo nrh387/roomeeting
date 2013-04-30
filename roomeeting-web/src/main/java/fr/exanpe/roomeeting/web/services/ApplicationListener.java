@@ -21,7 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
+import fr.exanpe.roomeeting.common.enums.ParameterEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
+import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.RoomFeatureManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
@@ -29,6 +31,7 @@ import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Room;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.User;
+import fr.exanpe.roomeeting.domain.model.ref.Parameter;
 import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
 
 /**
@@ -74,6 +77,7 @@ public class ApplicationListener
         // Chargement du jeu de données de test
         try
         {
+            loadParameters(context);
             loadRoomFeatures(context);
             loadRole(context);
             loadUser(context);
@@ -89,6 +93,26 @@ public class ApplicationListener
             LOGGER.error(">> Erreur fatale : impossible de charger le jeu de données de test: " + e);
             System.exit(1);
         }
+    }
+
+    private void loadParameters(ApplicationContext context)
+    {
+        LOGGER.info(">>> Parameter : Chargement du jeu de donnees par defaut...");
+
+        ParameterManager pm = context.getBean(ParameterManager.class);
+
+        Parameter p1 = new Parameter(ParameterEnum.HOUR_DAY_START.getCode(), "Heure d'ouverture des salles",
+                "Paramètre de l'heure d'ouverture des salles. Aucune salle ne pourra être réservée avant cet horaire.");
+        p1.setIntegerValue(8);
+
+        Parameter p2 = new Parameter(ParameterEnum.HOUR_DAY_END.getCode(), "Heure de fermeture des salles",
+                "Paramètre de l'heure de fermeture des salles. Aucune salle ne pourra être réservée après cet horaire.");
+        p2.setIntegerValue(20);
+
+        pm.create(p1);
+        pm.create(p2);
+
+        LOGGER.info("<<< Parameter : Chargement termine.");
     }
 
     private void loadRoomFeatures(ApplicationContext context) throws IOException
