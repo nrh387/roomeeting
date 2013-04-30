@@ -1,5 +1,6 @@
 package fr.exanpe.roomeeting.web.pages.room;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.tapestry5.OptionModel;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -17,6 +19,7 @@ import org.apache.tapestry5.internal.SelectModelImpl;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import fr.exanpe.roomeeting.common.enums.ParameterEnum;
+import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
@@ -79,7 +82,7 @@ public class Search
 
                 for (int i = 0; i < sites.size(); i++)
                 {
-                    oms[i] = new OptionModelImpl(sites.get(i).getName(), sites.get(i).getId());
+                    oms[i] = new OptionModelImpl(sites.get(i).getName() + "h", sites.get(i).getId());
                 }
 
                 sitesSelectModel = new SelectModelImpl(oms);
@@ -98,6 +101,24 @@ public class Search
             }
 
             hoursModel = new SelectModelImpl(oms);
+
+            filter.setRestrictFrom(start);
+            filter.setRestrictTo(end);
+        }
+    }
+
+    @BeginRender
+    void begin()
+    {
+        // date already passed... change day
+        if (RoomDateUtils.setHour(filter.getDate(), filter.getRestrictTo()).before(new Date()))
+        {
+            filter.setDate(RoomDateUtils.nextWorkingDay(new Date()));
+        }
+        // date from is passed, adjust it
+        if (RoomDateUtils.setHour(filter.getDate(), filter.getRestrictFrom()).before(new Date()))
+        {
+            filter.setRestrictFrom(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         }
     }
 
@@ -124,6 +145,7 @@ public class Search
 
     public Date getToday()
     {
+        if (Calendar.getInstance().after(RoomDateUtils.setHour(new Date(), filter.getRestrictTo()))) { return RoomDateUtils.nextWorkingDay(new Date()); }
         return new Date();
     }
 }

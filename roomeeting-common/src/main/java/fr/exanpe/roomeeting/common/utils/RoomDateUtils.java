@@ -38,4 +38,17 @@ public final class RoomDateUtils
 
         return c.getTime();
     }
+
+    /**
+     * Return the next working date, excluding {@link Calendar#SATURDAY} and {@link Calendar#SUNDAY}
+     */
+    public static Date setHour(Date date, int hour)
+    {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        c.add(Calendar.HOUR_OF_DAY, hour);
+
+        return c.getTime();
+    }
 }

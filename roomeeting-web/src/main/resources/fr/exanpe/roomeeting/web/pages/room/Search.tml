@@ -48,7 +48,7 @@
 
 					</t:inputlabel>
 					<t:inputlabel label="restrict-label">
-						${message:from} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictFrom"/> ${message:to} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictTo"/> 
+						${message:from} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictFrom" t:validate="required"/> ${message:to} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictTo" t:validate="required"/> 
 					</t:inputlabel>
 					
 					<t:inputlabel>

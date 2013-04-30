@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.core.dao.CrudDAO;
 import fr.exanpe.roomeeting.domain.model.Booking;
@@ -82,13 +83,23 @@ public class BookingDAO
         subqueryNot.where(new Predicate[]
         { cb.equal(objectNotBooking.<Date> get("date"), dateSearch), cb.equal(objectNotBooking.<Room> get("room"), objectRoom) });
 
+        Date fromDate = RoomDateUtils.setHour(dateSearch, filter.getRestrictFrom());
+        if (fromDate.before(new Date()))
+        {
+            fromDate = new Date();
+        }
+
+        // already checked
+        Date toDate = RoomDateUtils.setHour(dateSearch, filter.getRestrictTo());
+
         // or gap available
         Subquery<Gap> subqueryGap = q.subquery(Gap.class);
         Root<Gap> objectGap = subqueryGap.from(Gap.class);
         subqueryGap.select(objectGap);
         subqueryGap.where(new Predicate[]
         { cb.equal(objectGap.<Date> get("date"), dateSearch), cb.equal(objectGap.<Room> get("room"), objectRoom),
-                cb.ge(objectGap.<Integer> get("minutesLength"), filter.getMinutesLength()) });
+                cb.ge(objectGap.<Integer> get("minutesLength"), filter.getMinutesLength()),
+                cb.greaterThanOrEqualTo(objectGap.<Date> get("startTime"), fromDate), cb.lessThanOrEqualTo(objectGap.<Date> get("endTime"), toDate) });
 
         predicates.add(cb.or(cb.not(cb.exists(subqueryNot)), cb.exists(subqueryGap)));
 

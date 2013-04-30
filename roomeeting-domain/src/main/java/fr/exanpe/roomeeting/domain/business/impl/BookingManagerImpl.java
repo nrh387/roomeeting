@@ -71,6 +71,13 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
                 }
             }
 
+            // anterior date
+            Date toDate = RoomDateUtils.setHour(dateSearch, filter.getRestrictTo());
+            if (toDate.before(new Date()))
+            {
+                continue;
+            }
+
             // TODO ajouter restrict from et to
             // TODO do not check previous dates...
             rooms = bookingDAO.searchRoomAvailable(filter, dateSearch);

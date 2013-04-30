@@ -1,6 +1,7 @@
 package fr.exanpe.roomeeting.web.pages.room;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.tapestry5.annotations.Persist;
@@ -8,7 +9,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SessionAttribute;
 
 import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
-import fr.exanpe.roomeeting.domain.model.Site;
 
 public class ShowAvailability
 {
@@ -18,26 +18,26 @@ public class ShowAvailability
 
     @Persist
     @Property
-    private List<Site> sites;
+    private List<Date> dates;
 
     @Property
-    private Site currentSite;
+    private Date currentDate;
 
     private RoomAvailabilityDTO currentRA;
 
     @Property
-    private boolean siteChanged;
+    private boolean dateChanged;
 
     Object onActivate()
     {
         if (roomAvailabilityDTO == null) { return Search.class; }
 
-        sites = new ArrayList<Site>();
+        dates = new ArrayList<Date>();
         for (RoomAvailabilityDTO r : roomAvailabilityDTO)
         {
-            if (!sites.contains(r.getRoom().getSite()))
+            if (!dates.contains(r.getDate()))
             {
-                sites.add(r.getRoom().getSite());
+                dates.add(r.getDate());
             }
         }
 
@@ -57,13 +57,13 @@ public class ShowAvailability
      */
     public void setCurrentRA(RoomAvailabilityDTO currentRA)
     {
-        this.siteChanged = true;
+        this.dateChanged = true;
 
         if (this.currentRA != null)
         {
-            if (this.currentRA.getRoom().getSite().equals(currentRA.getRoom().getSite()))
+            if (this.currentRA.getDate().equals(currentRA.getDate()))
             {
-                this.siteChanged = false;
+                this.dateChanged = false;
             }
         }
         this.currentRA = currentRA;

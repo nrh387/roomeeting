@@ -18,7 +18,6 @@ import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
 
 public class BookingManagerTest extends RooMeetingDomainBaseTest
 {
-
     @SpringBeanByType
     private BookingManager bookingManager;
 
@@ -28,6 +27,15 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @SpringBeanByType
     private RoomFeatureManager roomFeatureManager;
 
+    private RoomFilter createFilter()
+    {
+        RoomFilter rf = new RoomFilter();
+        rf.setRestrictFrom(8);
+        rf.setRestrictTo(20);
+
+        return rf;
+    }
+
     @Test
     @DataSet("/dataset/BookingManagerTest-searchRoomAvailable.xml")
     public void searchRoomAvailableFilterCapacity()
@@ -35,7 +43,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         Site site = siteManager.find(1L);
 
         // 10
-        RoomFilter rf = new RoomFilter();
+        RoomFilter rf = createFilter();
         rf.setCapacity(10);
         rf.setDate(new Date());
         rf.setMinutesLength(30);
@@ -71,7 +79,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         Site site = siteManager.find(1L);
 
         // 10
-        RoomFilter rf = new RoomFilter();
+        RoomFilter rf = createFilter();
         rf.setCapacity(1);
         rf.setDate(new Date());
         rf.setMinutesLength(30);
@@ -101,7 +109,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @DataSet("/dataset/BookingManagerTest-searchRoomAvailable.xml")
     public void searchRoomAvailableFilterName()
     {
-        RoomFilter rf = new RoomFilter();
+        RoomFilter rf = createFilter();
         rf.setCapacity(1);
         rf.setDate(new Date());
         rf.setMinutesLength(30);
@@ -117,9 +125,9 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @DataSet("/dataset/BookingManagerTest-searchRoomAvailableExtended.xml")
     public void searchRoomAvailableExtended() throws ParseException
     {
-        RoomFilter rf = new RoomFilter();
+        RoomFilter rf = createFilter();
         rf.setCapacity(1);
-        rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2012"));
+        rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         rf.setMinutesLength(30);
 
         List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
@@ -149,7 +157,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         RoomFeature r3 = roomFeatureManager.find(3L);
 
         // 10
-        RoomFilter rf = new RoomFilter();
+        RoomFilter rf = createFilter();
         rf.setCapacity(10);
         rf.setDate(new Date());
         rf.setMinutesLength(30);
@@ -185,15 +193,42 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @DataSet("/dataset/BookingManagerTest-searchRoomAvailableExtended.xml")
     public void searchRoomAvailableGap() throws ParseException
     {
-        RoomFilter rf = new RoomFilter();
+        RoomFilter rf = createFilter();
         rf.setCapacity(1);
-        rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2012"));
+        rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         // minutes length
         rf.setMinutesLength(10);
         List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 1);
         Assert.assertEquals(list.get(0).getGaps().size(), 1);
+    }
+
+    @Test
+    @DataSet("/dataset/BookingManagerTest-searchRoomAvailableExtended.xml")
+    public void searchRoomAvailableGapRestrict() throws ParseException
+    {
+        RoomFilter rf = createFilter();
+        rf.setRestrictFrom(11);
+        rf.setCapacity(1);
+        rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
+        // minutes length
+        rf.setMinutesLength(10);
+        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+
+        Assert.assertEquals(list.size(), 0);
+
+        rf.setRestrictFrom(0);
+        rf.setRestrictTo(9);
+        list = bookingManager.searchRoomAvailable(rf);
+
+        Assert.assertEquals(list.size(), 0);
+
+        rf.setRestrictFrom(10);
+        rf.setRestrictTo(11);
+        list = bookingManager.searchRoomAvailable(rf);
+
+        Assert.assertEquals(list.size(), 1);
     }
 
 }
