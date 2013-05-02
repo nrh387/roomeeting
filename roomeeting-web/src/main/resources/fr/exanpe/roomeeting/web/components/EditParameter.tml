@@ -1,0 +1,26 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	
+	<t:if test="parameter.stringValue">
+		<t:textfield t:value="parameter.stringValue" id="edit_param" t:validate="required"/>
+	</t:if>
+	<t:if test="parameter.dateValue">
+		<t:textfield id="edit_param" t:value="parameter.dateValue" class="datepicker-input"
+						data-date="${toStringDate(parameter.dateValue)}" autocomplete="off"
+						data-date-startdate="${toStringDate(parameter.dateValue)}"/>
+	</t:if>
+	<t:if test="!testIsNull(parameter.booleanValue)">
+		<t:radiogroup t:value="parameter.booleanValue">
+			<t:radio t:id="yes" t:value="literal:true"/>
+               <t:label for="yes"/>
+               <t:radio t:id="no" t:value="literal:false"/>
+               <t:label for="no"/>
+		</t:radiogroup>
+	</t:if>
+	<t:if test="parameter.integerValue">
+		<t:textfield t:value="parameter.integerValue" id="edit_param" t:validate="required"/>
+	</t:if>
+
+</t:container>

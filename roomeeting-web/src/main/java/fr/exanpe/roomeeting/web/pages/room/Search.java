@@ -82,7 +82,7 @@ public class Search
 
                 for (int i = 0; i < sites.size(); i++)
                 {
-                    oms[i] = new OptionModelImpl(sites.get(i).getName() + "h", sites.get(i).getId());
+                    oms[i] = new OptionModelImpl(sites.get(i).getName(), sites.get(i).getId());
                 }
 
                 sitesSelectModel = new SelectModelImpl(oms);
@@ -97,7 +97,7 @@ public class Search
 
             for (int i = 0; i < oms.length; i++)
             {
-                oms[i] = new OptionModelImpl("" + (start + i));
+                oms[i] = new OptionModelImpl((start + i) + "h", "" + (start + i));
             }
 
             hoursModel = new SelectModelImpl(oms);
@@ -110,6 +110,7 @@ public class Search
     @BeginRender
     void begin()
     {
+        System.out.println("begin");
         // date already passed... change day
         if (RoomDateUtils.setHour(filter.getDate(), filter.getRestrictTo()).before(new Date()))
         {
@@ -118,6 +119,7 @@ public class Search
         // date from is passed, adjust it
         if (RoomDateUtils.setHour(filter.getDate(), filter.getRestrictFrom()).before(new Date()))
         {
+            System.out.println("change from");
             filter.setRestrictFrom(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         }
     }

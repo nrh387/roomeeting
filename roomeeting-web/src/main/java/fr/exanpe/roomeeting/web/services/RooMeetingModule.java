@@ -15,14 +15,19 @@ import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.RequestExceptionHandler;
 import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.services.ResponseRenderer;
+import org.apache.tapestry5.upload.services.UploadSymbols;
 import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.t5.lib.services.RooMeetingLibraryModule;
+import fr.exanpe.roomeeting.web.services.coercers.SiteStringCoercer;
+import fr.exanpe.roomeeting.web.services.coercers.StringSiteCoercer;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.ExceptionHandlerService;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.RooMeetingRequestExceptionHandler;
+import fr.exanpe.roomeeting.web.services.translators.DateTranslator;
+import fr.exanpe.roomeeting.web.services.translators.SiteTranslator;
 import fr.exanpe.t5.lib.services.ExanpeLibraryModule;
 
 /**
@@ -83,6 +88,11 @@ public class RooMeetingModule
         // header. If existing assets are changed, the version number should also
         // change, to force the browser to download new versions.
         configuration.add(SymbolConstants.APPLICATION_VERSION, "1.0.0-SNAPSHOT");
+
+        // < 100kb
+        configuration.add(UploadSymbols.FILESIZE_MAX, "99000");
+        // 100kb
+        configuration.add(UploadSymbols.REPOSITORY_THRESHOLD, "100000");
     }
 
     /**

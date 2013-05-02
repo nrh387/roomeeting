@@ -1,4 +1,4 @@
-package fr.exanpe.roomeeting.web.services;
+package fr.exanpe.roomeeting.web.services.coercers;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.tapestry5.ioc.services.Coercion;

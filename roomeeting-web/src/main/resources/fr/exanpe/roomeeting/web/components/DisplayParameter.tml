@@ -1,0 +1,29 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	<t:if test="parameter.stringValue">
+		${parameter.stringValue}
+	</t:if>
+	<t:if test="parameter.dateValue">
+		<t:output format="literal:dd/MM/yyyy" value="parameter.dateValue"/>
+	</t:if>
+	<t:if test="parameter.timeValue">
+		<t:output format="literal:HH:mm:ss" value="parameter.timeValue"/>
+	</t:if>
+	<t:if test="parameter.timestampValue">
+		<t:output format="literal:dd/MM/yyyy HH:mm:ss" value="parameter.timestampValue"/>
+	</t:if>
+	<t:if test="!testIsNull(parameter.booleanValue)">
+		<t:if test="parameter.booleanValue">
+			${message:true-label}
+		<p:else>
+			${message:false-label}
+		</p:else>
+		</t:if>
+	</t:if>
+	<t:if test="parameter.integerValue">
+		${parameter.integerValue}
+	</t:if>
+
+</t:container>

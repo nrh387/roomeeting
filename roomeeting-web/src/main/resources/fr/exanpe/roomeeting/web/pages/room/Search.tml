@@ -28,7 +28,7 @@
 						<t:select model="sitesSelectModel" t:value="filter.site"/>
 					</t:inputlabel>
 					<t:inputlabel forId="capacity" required="true" label="capacity-label">
-						<t:textfield t:value="filter.capacity" id="capacity"/>
+						<t:textfield t:value="filter.capacity" id="capacity" class="input-mini"/>
 					</t:inputlabel>
 
 					<t:inputlabel label="features-label">
@@ -37,7 +37,7 @@
 					<hr/>
 					
 					<t:inputlabel label="date-label">
-						<t:textfield t:id="date" t:value="filter.date" class="datepicker-input"
+						<t:textfield t:id="date" t:value="filter.date" class="datepicker-input input-small"
 							data-date="${toStringDate(filter.date)}" autocomplete="off"
 							data-date-startdate="${toStringDate(today)}"/>
 							
@@ -48,7 +48,7 @@
 
 					</t:inputlabel>
 					<t:inputlabel label="restrict-label">
-						${message:from} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictFrom" t:validate="required"/> ${message:to} <t:select style="width:50px" model="hoursModel" t:value="filter.restrictTo" t:validate="required"/> 
+						${message:from} <t:select class="hoursOnly" model="hoursModel" t:value="filter.restrictFrom" t:validate="required"/> ${message:to} <t:select class="hoursOnly" model="hoursModel" t:value="filter.restrictTo" t:validate="required"/> 
 					</t:inputlabel>
 					
 					<t:inputlabel>

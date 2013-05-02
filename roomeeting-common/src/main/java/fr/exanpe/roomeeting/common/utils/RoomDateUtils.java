@@ -47,7 +47,7 @@ public final class RoomDateUtils
         Calendar c = Calendar.getInstance();
         c.setTime(date);
 
-        c.add(Calendar.HOUR_OF_DAY, hour);
+        c.set(Calendar.HOUR_OF_DAY, hour);
 
         return c.getTime();
     }

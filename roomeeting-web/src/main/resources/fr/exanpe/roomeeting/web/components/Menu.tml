@@ -22,14 +22,22 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li>
-								
 								<t:pagelink page="admin/ManageSites">
 									Sites
 								</t:pagelink>
+							</li>
+							<li>
 								<t:pagelink page="admin/ManageUsers">
 									Utilisateurs
 								</t:pagelink>
-								<t:pagelink page="admin/ManageRef">Référentiel</t:pagelink>
+							</li>
+							<li class="divider"></li>
+							<li class="nav-header">Référentiel</li>
+							<li>
+								<t:pagelink page="admin/manage/ref/RoomFeaturesPage">Propriétés des salles</t:pagelink>
+							</li>
+							<li>
+								<t:pagelink page="admin/manage/ref/ParametersPage">Paramètres</t:pagelink>
 							</li>
 						</ul>
 					</li>

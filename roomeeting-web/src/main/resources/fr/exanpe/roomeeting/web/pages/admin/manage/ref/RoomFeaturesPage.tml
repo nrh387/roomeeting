@@ -1,0 +1,82 @@
+<html t:type="layoutmenu" title="Accueil"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+		
+	<div class="span10">
+		
+		<div class="well">
+		
+			<h1 style="text-align:center">Gestion des propriétés de salles</h1>
+			<hr/>
+			
+			<t:grid t:id="grid" t:source="list" t:row="current" 
+				t:include="name" t:add="icon,edit,delete" 
+				t:order="name,icon,edit,delete"
+				t:rowsPerPage="10" style="width:100%">
+				
+				<p:iconCell>
+					<t:restImage imageType="roomFeatureIcon" t:context="current.id" title="${current.name}" alt="${current.name}"/>
+				</p:iconCell>
+				
+				<p:editCell>
+					<div align="center">
+						<t:actionlink t:id="setupEdit" t:context="current.id" t:zone="editZone">
+							<i class="icon-edit"></i>
+						</t:actionlink>
+					</div>
+				</p:editCell>
+				<p:deleteCell>
+					<div align="center">
+						<t:actionlink t:id="delete" t:context="current.id"
+							t:mixins="exanpe/dialog"
+							t:title="delete-warning"
+							t:message="delete-text"
+							t:yesLabelButton="delete-yes"
+							t:noLabelButton="delete-no">
+							<i class="icon-remove"></i>
+						</t:actionlink>
+					</div>
+				</p:deleteCell>
+				<p:empty>
+					${message:no-results}
+				</p:empty>
+			</t:grid>
+			
+			<br/>
+			<t:actionlink t:id="setupAdd" t:zone="editZone" class="btn btn-success" style="margin:auto">
+				<i class="icon-plus icon-white"></i> ${message:add-label} 
+			</t:actionlink>
+			
+			<br/><br/>
+		
+			<t:zone id="editZone" t:id="editZone" t:visible="editing" class="nobanner">
+				<t:if test="editing">
+					<t:form t:id="form" class="form-horizontal">
+						<t:if test="errorUpload">
+							<div class="alert alert-error" style="text-align:center">
+								${errorUpload}
+							</div>
+						</t:if>
+					
+						<t:inputlabel forId="edit_name" required="true" label="name-label">
+							<t:textfield t:value="editing.name" id="edit_name" t:validate="required"/>
+						</t:inputlabel>
+						<t:inputlabel forId="edit_icon" label="icon-label">
+							 <t:upload t:id="file" t:value="icon"/>
+						</t:inputlabel>
+				
+						<div class="controls controls-row">	
+							<t:submit t:event="validateSave" t:value="message:validate-label" class="btn btn-primary"/>
+							
+							<t:actionlink t:id="cancel" class="btn" style="margin-left:20px">${message:cancel-label}</t:actionlink>	
+						</div>
+			
+					</t:form>
+				</t:if>
+			</t:zone>
+
+		</div>
+	
+	</div>
+		
+</html>

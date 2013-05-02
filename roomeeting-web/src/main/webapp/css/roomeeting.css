@@ -85,7 +85,6 @@ ul.nav
 
 ul.nav li {
     background-image: none;
-    display: inline;
     height: 1%;
     margin: 0;
     padding: 0;
@@ -207,4 +206,8 @@ ul.displayRoomFeatures li{
 
 .show-site-affix i{
 	float:right	
+}
+
+select.hoursOnly{
+	width:60px;	
 }

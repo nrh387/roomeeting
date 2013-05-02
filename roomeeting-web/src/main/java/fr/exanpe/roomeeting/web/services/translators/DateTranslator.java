@@ -1,4 +1,4 @@
-package fr.exanpe.roomeeting.web.services;
+package fr.exanpe.roomeeting.web.services.translators;
 
 import java.text.ParseException;
 import java.util.Date;
