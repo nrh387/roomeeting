@@ -71,4 +71,10 @@ public class SiteManagerImpl extends DefaultManagerImpl<Site, Long> implements S
 
     }
 
+    @Override
+    public Room findRoom(Long id)
+    {
+        return crudDAO.find(Room.class, id);
+    }
+
 }

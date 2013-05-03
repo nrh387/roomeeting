@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 @NamedQueries(
@@ -39,10 +40,15 @@ public class Site implements Serializable
 
     private String address;
 
+    @OrderBy("name")
     @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Room> rooms = new ArrayList<Room>();
 
     private int roomCount;
+
+    private String latitude;
+
+    private String longitude;
 
     /**
      * @return the id
@@ -122,6 +128,38 @@ public class Site implements Serializable
     public void setRoomCount(int roomNumber)
     {
         this.roomCount = roomNumber;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public String getLatitude()
+    {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(String latitude)
+    {
+        this.latitude = latitude;
+    }
+
+    /**
+     * @return the longitude
+     */
+    public String getLongitude()
+    {
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(String longitude)
+    {
+        this.longitude = longitude;
     }
 
     @Override

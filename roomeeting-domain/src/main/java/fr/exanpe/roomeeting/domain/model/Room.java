@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -50,6 +51,9 @@ public class Room implements Serializable
     @OrderBy("id")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<RoomFeature> features = new ArrayList<RoomFeature>();
+
+    @Lob
+    private byte[] map;
 
     /**
      * @return the id
@@ -161,6 +165,22 @@ public class Room implements Serializable
     public void setFeatures(List<RoomFeature> roomFeatures)
     {
         this.features = roomFeatures;
+    }
+
+    /**
+     * @return the icon
+     */
+    public byte[] getMap()
+    {
+        return map;
+    }
+
+    /**
+     * @param icon the icon to set
+     */
+    public void setMap(byte[] icon)
+    {
+        this.map = icon;
     }
 
     @Override

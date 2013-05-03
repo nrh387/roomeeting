@@ -7,6 +7,11 @@
 		<div class="well">
 		
 			<h1 style="text-align:center">Gestion du site</h1>
+
+			<t:pagelink class="btn btn-small" page="admin/ManageSites">
+				<i class="icon-chevron-left"></i>
+				${message:return-list}
+			</t:pagelink>
 			<hr/>
 			
 			<t:form class="form-horizontal">
@@ -15,7 +20,13 @@
 					<t:textfield t:value="site.name" id="name"/>
 				</t:inputlabel>
 				<t:inputlabel forId="address" required="true" label="address-label" >
-					<t:textarea t:value="site.address" id="address"/>
+					<t:textarea t:value="site.address" id="address"/> 
+				</t:inputlabel>
+				<t:inputlabel forId="latitude" label="latitude-label" >
+					<t:textfield t:value="site.latitude" t:id="latitude" t:validate="regexp"/> ${message:coordinate-format}
+				</t:inputlabel>
+				<t:inputlabel forId="longitude" label="longitude-label" >
+					<t:textfield t:value="site.longitude" t:id="longitude" t:validate="regexp"/> ${message:coordinate-format}
 				</t:inputlabel>
 				
 				<t:inputlabel>
@@ -28,9 +39,27 @@
 			<t:if test="hasRooms()">
 				
 				<t:grid t:id="gridRooms" t:source="site.rooms" t:row="currentRoom" 
-					t:include="name,capacity,floor,phoneNumber" t:add="features,edit,delete" 
-					t:order="name,capacity,floor,phoneNumber,features"
+					t:include="name,capacity,floor,phoneNumber" t:add="map,features,edit,delete" 
+					t:order="name,capacity,floor,phoneNumber,map,features"
 					t:rowsPerPage="10" style="width:100%">
+					<p:mapCell>
+						<t:if test="hasRoomMap()">
+							<div align="center">
+								<a href="#" 
+										data-map-id="${currentRoom.id}_map"
+										class="btn" 
+										data-original-title="${message:map-label}" 
+										data-toggle="popover" 
+										data-html="true"
+										data-placement="top" onclick="return false;">
+									<img src="${asset:context:/img/show_map.png}" title="${message:show-map}" alt="${message:show-map}"/>
+								</a>
+							</div>
+							<div id="${currentRoom.id}_map" style="display:none">
+								<t:restImage imageType="roomMap" t:context="currentRoom.id" title="${currentRoom.name}" alt="${currentRoom.name}"/>
+							</div>
+						</t:if>
+					</p:mapCell>
 					<p:editCell>
 						<div align="center">
 							<t:actionlink t:id="setupEditRoom" t:context="currentRoom.id" t:zone="roomZone">
@@ -89,6 +118,10 @@
 								<t:inputlabel forId="" required="false" label="features-label">
 									<t:roomFeaturesSelection selected="editRoom.features"/>
 								</t:inputlabel>
+								
+								<t:inputlabel forId="roomMap" label="map-label">
+									 <t:upload t:id="roomMap" t:value="roomMap"/>
+								</t:inputlabel>
 						
 								<t:submit t:event="validateRoom" t:value="message:validate-room" class="btn btn-primary"/>
 								<t:actionlink t:id="cancelRoom" class="btn">${message:cancel-room}</t:actionlink>
@@ -101,5 +134,17 @@
 		</div>
 	
 	</div>
-		
+	
+	<script type="text/javascript">
+	
+	jQuery(document).ready(function () {
+		jQuery('a[data-toggle=popover]').popover({
+			content : function(){
+				return jQuery('#'+jQuery(this).attr('data-map-id')).html();
+			}
+		});
+	});
+	
+	</script>
+	
 </html>

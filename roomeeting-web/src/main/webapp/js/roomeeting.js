@@ -13,3 +13,4 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".tooltiped").tooltip();
 });
+

@@ -6,11 +6,13 @@ import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.Translator;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.services.CoercionTuple;
+import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.RequestExceptionHandler;
 import org.apache.tapestry5.services.RequestGlobals;
@@ -28,6 +30,8 @@ import fr.exanpe.roomeeting.web.services.exceptionHandler.ExceptionHandlerServic
 import fr.exanpe.roomeeting.web.services.exceptionHandler.RooMeetingRequestExceptionHandler;
 import fr.exanpe.roomeeting.web.services.translators.DateTranslator;
 import fr.exanpe.roomeeting.web.services.translators.SiteTranslator;
+import fr.exanpe.t5.lib.constants.ExanpeSymbols;
+import fr.exanpe.t5.lib.internal.contextpagereset.ContextPageResetFilter;
 import fr.exanpe.t5.lib.services.ExanpeLibraryModule;
 
 /**
@@ -93,6 +97,13 @@ public class RooMeetingModule
         configuration.add(UploadSymbols.FILESIZE_MAX, "99000");
         // 100kb
         configuration.add(UploadSymbols.REPOSITORY_THRESHOLD, "100000");
+
+        configuration.add(ExanpeSymbols.CONTEXT_PAGE_RESET_MARKER, "_cleanup_");
+    }
+
+    public void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration)
+    {
+        configuration.addInstance("ContextPageResetFilter", ContextPageResetFilter.class);
     }
 
     /**

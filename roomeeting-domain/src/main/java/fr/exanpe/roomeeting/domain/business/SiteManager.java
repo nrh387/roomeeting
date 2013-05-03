@@ -17,6 +17,8 @@ public interface SiteManager extends DefaultManager<Site, Long>
 
     public Site findWithRooms(Long siteId);
 
+    public Room findRoom(Long id);
+
     public void updateRoom(Room editRoom);
 
     public void removeRoom(Site site, Long roomId);

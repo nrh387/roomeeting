@@ -14,6 +14,7 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import fr.exanpe.roomeeting.domain.business.RoomFeatureManager;
+import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.web.services.InputStreamResponse;
 
 /**
@@ -54,6 +55,9 @@ public class RestImage<T>
     @Inject
     private RoomFeatureManager roomFeatureManager;
 
+    @Inject
+    private SiteManager siteManager;
+
     /**
      * resources
      */
@@ -82,6 +86,18 @@ public class RestImage<T>
     {
         StreamResponse response = new InputStreamResponse(new ByteArrayInputStream(roomFeatureManager.find(id).getIcon()), contentType);
 
+        return response;
+    }
+
+    /**
+     * Event rendering the image
+     * 
+     * @return the stream response containing the image
+     */
+    @OnEvent(value = "roomMap")
+    StreamResponse renderRoomMap(Long id)
+    {
+        StreamResponse response = new InputStreamResponse(new ByteArrayInputStream(siteManager.findRoom(id).getMap()), contentType);
         return response;
     }
 }

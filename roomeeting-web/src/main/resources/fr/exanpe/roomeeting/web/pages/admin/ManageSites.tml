@@ -1,6 +1,7 @@
 <html t:type="layoutmenu" title="Accueil"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
-      xmlns:p="tapestry:parameter">
+      xmlns:p="tapestry:parameter" 
+      xmlns:ex="tapestry-library:exanpe">
 		
 	<div class="span10">
 		
@@ -10,9 +11,19 @@
 			<hr/>
 			
 			<t:grid t:id="gridSites" t:source="sites" t:row="currentSite" 
-				t:include="name,address,roomCount" t:add="edit,delete" 
-				t:order="name,address,edit,delete"
+				t:include="name,address,roomCount" t:add="map,edit,delete" 
+				t:order="name,address,map,edit,delete"
 				t:rowsPerPage="10" style="width:100%">
+				<p:mapCell>
+					<t:if test="hasMap()">
+						<div align="center">
+							<a href="#gMapModal" class="btn" data-toggle="modal" onclick="siteGMap.map.setCenter(new google.maps.LatLng(${currentSite.latitude},${currentSite.longitude}))">
+								<img src="${asset:context:/img/google_maps.png}" alt="GoogleMaps" title="GoogleMaps"/>
+							</a>
+						</div>
+					</t:if>
+					
+				</p:mapCell>
 				<p:editCell>
 					<div align="center">
 						<t:pagelink t:page="admin/ManageSite" t:context="currentSite.id">
@@ -38,13 +49,46 @@
 			</t:grid>
 			
 			<br/>
-			<t:actionlink t:id="initAdd" class="btn btn-primary">
+			<t:pagelink t:page="admin/ManageSite" t:context="literal:_cleanup_" class="btn btn-primary">
 				<i class="icon-plus icon-white"></i> ${message:add } 
-			</t:actionlink>
+			</t:pagelink>
 			<br/><br/>
 
 		</div>
 	
 	</div>
-		
+	
+	<t:if test="sites">
+		<div id="gMapModal" class="modal hide fade" tabindex="-1">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3 id="myModalLabel">${message:modal-header}</h3>
+			</div>
+			<div class="modal-body">
+				<ex:gmap t:id="siteGMap" latitude="0" longitude="0" style="height:100px">
+					<t:loop source="sites" value="currentSite">
+						<t:if test="hasMap()">
+							<ex:gmapmarker 
+								title="prop:currentSite.name"
+								latitude="prop:currentSite.latitude"
+								longitude="prop:currentSite.longitude"
+								info="prop:currentSite.name"
+								icon="asset:context:/img/google_maps.png"/>
+						</t:if>						
+					</t:loop>		
+				</ex:gmap>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">${message:modal-close-button}</button>
+		</div>
+	</div>
+	</t:if>
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('#gMapModal').on('shown', function () {
+				google.maps.event.trigger(siteGMap.map, 'resize');
+			});
+		});
+	</script>
 </html>

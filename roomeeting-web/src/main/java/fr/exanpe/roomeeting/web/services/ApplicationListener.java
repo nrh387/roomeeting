@@ -160,7 +160,7 @@ public class ApplicationListener
         LOGGER.info("<<< RoomFeatures : Chargement termine.");
     }
 
-    private void loadSites(ApplicationContext context) throws SQLException
+    private void loadSites(ApplicationContext context) throws SQLException, IOException
     {
         LOGGER.info(">>> Sites : Chargement du jeu de donnees par defaut...");
 
@@ -169,6 +169,8 @@ public class ApplicationListener
         Site site = new Site();
         site.setName("Mattei");
         site.setAddress("rue de Bercy, Paris");
+        site.setLatitude("48");
+        site.setLongitude("2");
 
         sm.create(site);
 
@@ -183,11 +185,27 @@ public class ApplicationListener
 
         Room room = new Room();
         room.setName("Oeillet");
+        room.setFloor(8);
+        room.setMap(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/maps/floor/manhattan-8.jpg")));
 
         room.getFeatures().add(rf);
         room.getFeatures().add(rf2);
 
         sm.addRoom(site, room);
+
+        Room room2 = new Room();
+        room2.setName("Rose");
+        room2.setFloor(8);
+        room2.setMap(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/maps/floor/manhattan-8.jpg")));
+
+        sm.addRoom(site, room2);
+
+        Room room3 = new Room();
+        room3.setName("Geranium");
+        room3.setFloor(4);
+        room3.setPhoneNumber("0101010101");
+
+        sm.addRoom(site, room3);
 
         LOGGER.info("<<< Sites : Chargement termine.");
     }
