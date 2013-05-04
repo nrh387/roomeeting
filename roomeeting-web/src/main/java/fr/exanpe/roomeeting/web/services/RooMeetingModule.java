@@ -24,7 +24,9 @@ import org.springframework.context.ApplicationContext;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.t5.lib.services.RooMeetingLibraryModule;
+import fr.exanpe.roomeeting.web.services.coercers.DateStringCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.SiteStringCoercer;
+import fr.exanpe.roomeeting.web.services.coercers.StringDateCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.StringSiteCoercer;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.ExceptionHandlerService;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.RooMeetingRequestExceptionHandler;
@@ -137,5 +139,9 @@ public class RooMeetingModule
     {
         configuration.add(new CoercionTuple<String, Site>(String.class, Site.class, new StringSiteCoercer(siteManager)));
         configuration.add(new CoercionTuple<Site, String>(Site.class, String.class, new SiteStringCoercer(siteManager)));
+
+        configuration.add(new CoercionTuple<Date, String>(Date.class, String.class, new StringDateCoercer()));
+        configuration.add(new CoercionTuple<String, Date>(String.class, Date.class, new DateStringCoercer()));
+
     }
 }

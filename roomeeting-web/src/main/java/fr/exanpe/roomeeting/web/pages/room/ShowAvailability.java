@@ -1,72 +1,132 @@
 package fr.exanpe.roomeeting.web.pages.room;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.FastDateFormat;
+import org.apache.tapestry5.EventConstants;
+import org.apache.tapestry5.PersistenceConstants;
+import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SessionAttribute;
 
+import fr.exanpe.roomeeting.common.enums.ParameterEnum;
+import fr.exanpe.roomeeting.domain.business.BookingManager;
+import fr.exanpe.roomeeting.domain.business.ParameterManager;
+import fr.exanpe.roomeeting.domain.business.SiteManager;
+import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.SiteAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.model.Gap;
 
 public class ShowAvailability
 {
     @SessionAttribute
     @Property
-    private List<RoomAvailabilityDTO> roomAvailabilityDTO;
-
-    @Persist
-    @Property
-    private List<Date> dates;
+    private List<DateAvailabilityDTO> dateAvailabilitiesDTO;
 
     @Property
-    private Date currentDate;
-
-    private RoomAvailabilityDTO currentRA;
+    private DateAvailabilityDTO currentDateAvailabilityDTO;
 
     @Property
-    private boolean dateChanged;
+    private SiteAvailabilityDTO currentSiteAvailabilityDTO;
+
+    @Property
+    private RoomAvailabilityDTO currentRoomAvailabilityDTO;
+
+    @Property
+    private Gap currentGap;
+
+    @Inject
+    private ParameterManager parameterManager;
+
+    @Inject
+    private SiteManager siteManager;
+
+    @Inject
+    private BookingManager bookingManager;
+
+    @SessionAttribute
+    private Gap bookGap;
+
+    @Property
+    @Persist(PersistenceConstants.SESSION)
+    private Integer hourDayStart;
+
+    @Property
+    @Persist(PersistenceConstants.SESSION)
+    private Integer hourDayEnd;
+
+    @Property
+    private Integer currentHour;
 
     Object onActivate()
     {
-        if (roomAvailabilityDTO == null) { return Search.class; }
+        if (dateAvailabilitiesDTO == null) { return Search.class; }
 
-        dates = new ArrayList<Date>();
-        for (RoomAvailabilityDTO r : roomAvailabilityDTO)
+        if (hourDayStart == null)
         {
-            if (!dates.contains(r.getDate()))
-            {
-                dates.add(r.getDate());
-            }
+            hourDayStart = parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue();
+            hourDayEnd = parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue();
         }
+
+        bookGap = null;
 
         return null;
     }
 
-    /**
-     * @return the currentRA
-     */
-    public RoomAvailabilityDTO getCurrentRA()
+    @OnEvent(value = EventConstants.ACTION, component = "book")
+    Object book(Long gapId)
     {
-        return currentRA;
+        bookGap = bookingManager.findGap(gapId);
+
+        return Book.class;
     }
 
-    /**
-     * @param currentRA the currentRA to set
-     */
-    public void setCurrentRA(RoomAvailabilityDTO currentRA)
+    @OnEvent(value = EventConstants.ACTION, component = "bookDay")
+    Object bookDay(Long roomId, Date date)
     {
-        this.dateChanged = true;
+        Gap g = new Gap();
+        g.setRoom(siteManager.findRoom(roomId));
+        g.setDate(date);
+        g.setStartHour(hourDayStart);
+        g.setEndHour(hourDayEnd);
 
-        if (this.currentRA != null)
+        bookGap = g;
+
+        return Book.class;
+    }
+
+    public boolean isFullyFree()
+    {
+        return CollectionUtils.isEmpty(currentRoomAvailabilityDTO.getGaps());
+    }
+
+    public boolean isFree(int hour, int minutes)
+    {
+        if (CollectionUtils.isEmpty(currentRoomAvailabilityDTO.getGaps())) { return true; }
+
+        for (Gap g : currentRoomAvailabilityDTO.getGaps())
         {
-            if (this.currentRA.getDate().equals(currentRA.getDate()))
+            if (g.getStartHour() > hour || g.getEndHour() < hour)
             {
-                this.dateChanged = false;
+                // gap out
+                continue;
+            }
+            if (g.getStartHour() < hour || (g.getStartMinutes() <= minutes))
+            {
+                if (g.getEndHour() > hour || (g.getEndMinutes() >= minutes)) { return true; }
             }
         }
-        this.currentRA = currentRA;
+        return false;
     }
 
+    public String toStringNumberDate(Date d)
+    {
+        return FastDateFormat.getInstance("yyyyMMdd").format(d);
+    }
 }

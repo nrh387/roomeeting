@@ -1,0 +1,16 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	<t:sumupentry name="site-label">
+		${site.name}<br/>${site.address} 
+		<t:if test="hasMap()">
+			<t:sitemapbutton latitude="site.latitude" longitude="site.longitude" />
+		</t:if>
+	</t:sumupentry>
+	
+	<t:if test="hasMap()">
+		<t:sitemapmodal markers="markers"/>
+	</t:if>
+
+</t:container>

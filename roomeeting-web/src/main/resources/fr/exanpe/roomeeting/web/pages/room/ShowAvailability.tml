@@ -17,26 +17,67 @@
 			<div class="row">
 				<div class="span3">
 					<ul class="nav nav-list show-site-affix affix affix-top" >
-					  <t:loop source="dates" value="currentDate">
+					  <t:loop source="dateAvailabilitiesDTO" value="currentDateAvailabilityDTO">
 					  	<li>
-					  		<a href="#date_${currentDate}"><i class="icon-chevron-right"></i> 
-					  		<t:output format="literal:dd/MM/yyyy" value="currentDate"/>
+					  		<a href="#date_${toStringNumberDate(currentDateAvailabilityDTO.date)}"><i class="icon-chevron-right"></i> 
+					  		<t:output format="literal:dd/MM/yyyy" value="currentDateAvailabilityDTO.date"/>
 					  		</a>
 					  	</li>
 					  </t:loop>
 			        </ul>
 		        </div>
 		        <div class="span9">
-		        	<t:loop source="roomAvailabilityDTO" value="currentRA">
-		        		<t:if test="dateChanged">
-		        			<a name="date_${currentRA.room.site.id}" href="#"></a>
-		        			<h2 style="border-bottom:1px solid #CCCCCC;text-align:center">
-		        				<t:output format="literal:dd/MM/yyyy" value="currentRA.date"/>
-		        			</h2>
-		        		</t:if>
+		        	<t:loop source="dateAvailabilitiesDTO" value="currentDateAvailabilityDTO">
+	        			<a name="date_${toStringNumberDate(currentDateAvailabilityDTO.date)}" href="#"></a>
+	        			<h2 style="border-bottom:1px solid #CCCCCC;text-align:center">
+	        				<t:output format="literal:dd/MM/yyyy" value="currentDateAvailabilityDTO.date"/>
+	        			</h2>
+		        		
+		        		<t:loop source="currentDateAvailabilityDTO.siteAvailabilityDTOs" value="currentSiteAvailabilityDTO">
+		        		
+		        			<h4 style="border-bottom:1px solid #CCCCCC">
+		        				${currentSiteAvailabilityDTO.site.name}
+		        			</h4>
+		        		
+		        			<table class="table table-striped table-condensed">
+		        				<tr>
+	        						<th>Salle</th>
+	        						<th>Disponibilités</th>
+	        						<th>Capacité</th>
+		        				</tr>
+		        				<t:loop source="currentSiteAvailabilityDTO.roomAvailabilityDTOs" value="currentRoomAvailabilityDTO">
+	        					<tr>
+		        					<td>${currentRoomAvailabilityDTO.room.name}</td>
+		        					<td>
+		        						<t:if test="isFullyFree()">
+		        							
+		        							<t:actionlink t:id="bookDay" t:context="[currentRoomAvailabilityDTO.room.id,currentDateAvailabilityDTO.date]">
+		        								Open bar <i class="icon-hand-left"></i>
+		        							</t:actionlink>
+		        							
+		        						<p:else>
+			        						<t:loop t:source="currentRoomAvailabilityDTO.gaps" t:value="currentGap">
+			        							
+			        							<t:actionlink t:id="book" t:context="currentGap.id">
+			        								De ${currentGap.startHour}h${currentGap.startMinutes} à ${currentGap.endHour}h${currentGap.endMinutes}
+			        								<i class="icon-hand-left"></i>
+			        							</t:actionlink><br/>
+			        									
+			        						</t:loop>
+		        						</p:else>
+		        						</t:if>
+		        					</td>
+		        					<td>
+		        						${currentRoomAvailabilityDTO.room.capacity}
+		        					</td>
+		        				</tr>
+		        				</t:loop>
+			        			
+		        			</table>
+		        		</t:loop>
 		        	</t:loop>
 		        	
-					${roomAvailabilityDTO.size() }
+					
 		        </div>
 			</div>
 			

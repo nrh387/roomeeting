@@ -24,7 +24,7 @@ import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
-import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
@@ -47,7 +47,7 @@ public class Search
     private RooMeetingSecurityContext securityContext;
 
     @SessionAttribute
-    private List<RoomAvailabilityDTO> roomAvailabilityDTO;
+    private List<DateAvailabilityDTO> dateAvailabilitiesDTO;
 
     @Persist
     @Property
@@ -119,7 +119,6 @@ public class Search
         // date from is passed, adjust it
         if (RoomDateUtils.setHour(filter.getDate(), filter.getRestrictFrom()).before(new Date()))
         {
-            System.out.println("change from");
             filter.setRestrictFrom(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         }
     }
@@ -127,7 +126,7 @@ public class Search
     @OnEvent(value = "search")
     public Object search()
     {
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(filter);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(filter);
 
         if (CollectionUtils.isEmpty(list))
         {
@@ -135,7 +134,7 @@ public class Search
             return this;
         }
 
-        roomAvailabilityDTO = list;
+        dateAvailabilitiesDTO = list;
 
         return ShowAvailability.class;
     }

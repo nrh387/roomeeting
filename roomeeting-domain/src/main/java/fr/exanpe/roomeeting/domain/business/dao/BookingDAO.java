@@ -99,7 +99,8 @@ public class BookingDAO
         subqueryGap.where(new Predicate[]
         { cb.equal(objectGap.<Date> get("date"), dateSearch), cb.equal(objectGap.<Room> get("room"), objectRoom),
                 cb.ge(objectGap.<Integer> get("minutesLength"), filter.getMinutesLength()),
-                cb.greaterThanOrEqualTo(objectGap.<Date> get("startTime"), fromDate), cb.lessThanOrEqualTo(objectGap.<Date> get("endTime"), toDate) });
+                cb.greaterThanOrEqualTo(objectGap.<Integer> get("startHour"), fromDate.getHours()),
+                cb.lessThanOrEqualTo(objectGap.<Integer> get("endHour"), toDate.getHours()) });
 
         predicates.add(cb.or(cb.not(cb.exists(subqueryNot)), cb.exists(subqueryGap)));
 

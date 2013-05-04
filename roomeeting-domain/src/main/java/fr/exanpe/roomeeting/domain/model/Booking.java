@@ -35,11 +35,13 @@ public class Booking implements Serializable
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Temporal(TemporalType.TIME)
-    private Date startTime;
+    private Integer startHour;
 
-    @Temporal(TemporalType.TIME)
-    private Date endTime;
+    private Integer startMinutes;
+
+    private Integer endHour;
+
+    private Integer endMinutes;
 
     /**
      * @return the id
@@ -106,35 +108,67 @@ public class Booking implements Serializable
     }
 
     /**
-     * @return the startDate
+     * @return the startHour
      */
-    public Date getStartTime()
+    public Integer getStartHour()
     {
-        return startTime;
+        return startHour;
     }
 
     /**
-     * @param startDate the startDate to set
+     * @param startHour the startHour to set
      */
-    public void setStartTime(Date startTime)
+    public void setStartHour(Integer startHour)
     {
-        this.startTime = startTime;
+        this.startHour = startHour;
     }
 
     /**
-     * @return the endDate
+     * @return the startMinutes
      */
-    public Date getEndTime()
+    public Integer getStartMinutes()
     {
-        return endTime;
+        return startMinutes;
     }
 
     /**
-     * @param endDate the endDate to set
+     * @param startMinutes the startMinutes to set
      */
-    public void setEndTime(Date endTime)
+    public void setStartMinutes(Integer startMinutes)
     {
-        this.endTime = endTime;
+        this.startMinutes = startMinutes;
+    }
+
+    /**
+     * @return the endHour
+     */
+    public Integer getEndHour()
+    {
+        return endHour;
+    }
+
+    /**
+     * @param endHour the endHour to set
+     */
+    public void setEndHour(Integer endHour)
+    {
+        this.endHour = endHour;
+    }
+
+    /**
+     * @return the endMinutes
+     */
+    public Integer getEndMinutes()
+    {
+        return endMinutes;
+    }
+
+    /**
+     * @param endMinutes the endMinutes to set
+     */
+    public void setEndMinutes(Integer endMinutes)
+    {
+        this.endMinutes = endMinutes;
     }
 
 }

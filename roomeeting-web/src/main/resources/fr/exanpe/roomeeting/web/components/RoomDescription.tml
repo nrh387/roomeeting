@@ -1,0 +1,12 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	<t:sumupentry name="room-label">
+			${room.name}<br/>
+			${room.floor} ${message:number-floor}<br/>
+			${room.capacity} ${message:persons}<br/>
+			<t:displayroomfeatures features="room.features"/>
+		</t:sumupentry>
+
+</t:container>

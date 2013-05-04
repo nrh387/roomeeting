@@ -37,11 +37,13 @@ public class Gap implements Serializable
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Temporal(TemporalType.TIME)
-    private Date startTime;
+    private Integer startHour;
 
-    @Temporal(TemporalType.TIME)
-    private Date endTime;
+    private Integer startMinutes;
+
+    private Integer endHour;
+
+    private Integer endMinutes;
 
     @Column(nullable = false)
     private Integer minutesLength;
@@ -50,7 +52,7 @@ public class Gap implements Serializable
     @PreUpdate
     protected void compute()
     {
-        minutesLength = (int) ((endTime.getTime() - startTime.getTime()) / (1000 * 60));
+        minutesLength = (endHour - startHour) * 60 + endMinutes - startMinutes;
     }
 
     /**
@@ -101,41 +103,73 @@ public class Gap implements Serializable
         this.date = date;
     }
 
-    /**
-     * @return the startDate
-     */
-    public Date getStartTime()
-    {
-        return startTime;
-    }
-
-    /**
-     * @param startDate the startDate to set
-     */
-    public void setStartTime(Date startTime)
-    {
-        this.startTime = startTime;
-    }
-
     public Integer getMinutesLength()
     {
         return minutesLength;
     }
 
     /**
-     * @return the endDate
+     * @return the startHour
      */
-    public Date getEndTime()
+    public Integer getStartHour()
     {
-        return endTime;
+        return startHour;
     }
 
     /**
-     * @param endDate the endDate to set
+     * @param startHour the startHour to set
      */
-    public void setEndTime(Date endTime)
+    public void setStartHour(Integer startHour)
     {
-        this.endTime = endTime;
+        this.startHour = startHour;
+    }
+
+    /**
+     * @return the startMinutes
+     */
+    public Integer getStartMinutes()
+    {
+        return startMinutes;
+    }
+
+    /**
+     * @param startMinutes the startMinutes to set
+     */
+    public void setStartMinutes(Integer startMinutes)
+    {
+        this.startMinutes = startMinutes;
+    }
+
+    /**
+     * @return the endHour
+     */
+    public Integer getEndHour()
+    {
+        return endHour;
+    }
+
+    /**
+     * @param endHour the endHour to set
+     */
+    public void setEndHour(Integer endHour)
+    {
+        this.endHour = endHour;
+    }
+
+    /**
+     * @return the endMinutes
+     */
+    public Integer getEndMinutes()
+    {
+        return endMinutes;
+    }
+
+    /**
+     * @param endMinutes the endMinutes to set
+     */
+    public void setEndMinutes(Integer endMinutes)
+    {
+        this.endMinutes = endMinutes;
     }
 
 }

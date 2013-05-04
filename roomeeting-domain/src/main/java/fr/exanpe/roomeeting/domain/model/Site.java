@@ -165,9 +165,9 @@ public class Site implements Serializable
     @Override
     public boolean equals(Object obj)
     {
-        if (obj == null || !(obj instanceof Room)) { return false; }
+        if (obj == null || !(obj instanceof Site)) { return false; }
 
-        return id != null && id.equals(((Room) obj).getId());
+        return id != null && id.equals(((Site) obj).getId());
     }
 
     @Override

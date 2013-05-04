@@ -2,7 +2,6 @@ package fr.exanpe.roomeeting.domain.business;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.Assert;
@@ -11,7 +10,7 @@ import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.spring.annotation.SpringBeanByType;
 
 import fr.exanpe.roomeeting.domain.base.RooMeetingDomainBaseTest;
-import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
@@ -32,7 +31,14 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         RoomFilter rf = new RoomFilter();
         rf.setRestrictFrom(8);
         rf.setRestrictTo(20);
-
+        try
+        {
+            rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/12/2020"));
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
         return rf;
     }
 
@@ -45,15 +51,13 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // 10
         RoomFilter rf = createFilter();
         rf.setCapacity(10);
-        rf.setDate(new Date());
         rf.setMinutesLength(30);
         rf.setSite(site);
 
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertNotNull(list);
-        Assert.assertEquals(list.size(), 1);
-        Assert.assertNotNull(list.get(0).getRoom().getSite());
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().size(), 1);
 
         // 5
         rf.setCapacity(5);
@@ -61,7 +65,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertNotNull(list);
-        Assert.assertEquals(list.size(), 2);
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().size(), 2);
 
         // 50
         rf.setCapacity(50);
@@ -81,14 +85,13 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // 10
         RoomFilter rf = createFilter();
         rf.setCapacity(1);
-        rf.setDate(new Date());
         rf.setMinutesLength(30);
         rf.setSite(site);
 
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertNotNull(list);
-        Assert.assertEquals(list.size(), 2);
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().size(), 2);
 
         // 5
         rf.setSite(siteManager.find(2L));
@@ -96,13 +99,14 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertNotNull(list);
-        Assert.assertEquals(list.size(), 1);
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().size(), 1);
 
         // test without filter
         rf.setSite(null);
         list = bookingManager.searchRoomAvailable(rf);
 
-        Assert.assertEquals(list.size(), 3);
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(1).getRoomAvailabilityDTOs().size(), 1);
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().size(), 2);
     }
 
     @Test
@@ -111,14 +115,13 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     {
         RoomFilter rf = createFilter();
         rf.setCapacity(1);
-        rf.setDate(new Date());
         rf.setMinutesLength(30);
         rf.setName("ro");
 
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 1);
-        Assert.assertEquals("Rose", list.get(0).getRoom().getName());
+        Assert.assertEquals("Rose", list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().get(0).getRoom().getName());
     }
 
     @Test
@@ -130,7 +133,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         rf.setMinutesLength(30);
 
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 0);
 
@@ -159,10 +162,9 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // 10
         RoomFilter rf = createFilter();
         rf.setCapacity(10);
-        rf.setDate(new Date());
         rf.setMinutesLength(30);
 
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertNotNull(list);
         Assert.assertEquals(list.size(), 1);
@@ -198,10 +200,10 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         // minutes length
         rf.setMinutesLength(10);
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
-        Assert.assertEquals(list.size(), 1);
-        Assert.assertEquals(list.get(0).getGaps().size(), 1);
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().size(), 1);
+        Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().get(0).getGaps().size(), 1);
     }
 
     @Test
@@ -214,7 +216,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         // minutes length
         rf.setMinutesLength(10);
-        List<RoomAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
+        List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 0);
 

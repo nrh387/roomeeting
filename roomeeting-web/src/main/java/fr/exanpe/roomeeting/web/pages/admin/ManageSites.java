@@ -1,5 +1,6 @@
 package fr.exanpe.roomeeting.web.pages.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,6 +13,8 @@ import org.apache.tapestry5.annotations.Property;
 
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.model.Site;
+import fr.exanpe.roomeeting.web.util.GMapUtils;
+import fr.exanpe.t5.lib.model.gmap.GMapMarkerModel;
 
 /**
  * Welcome page
@@ -42,8 +45,23 @@ public class ManageSites
         siteManager.delete(id);
     }
 
-    public boolean hasMap()
+    public boolean hasMap(Site s)
     {
-        return StringUtils.isNotEmpty(currentSite.getLatitude()) && StringUtils.isNotEmpty(currentSite.getLongitude());
+        return StringUtils.isNotEmpty(s.getLatitude()) && StringUtils.isNotEmpty(s.getLongitude());
+    }
+
+    public List<GMapMarkerModel> getMarkers()
+    {
+        List<GMapMarkerModel> markers = new ArrayList<GMapMarkerModel>();
+
+        for (Site s : sites)
+        {
+            if (hasMap(s))
+            {
+                markers.add(GMapUtils.toMarker(s));
+            }
+        }
+
+        return markers;
     }
 }

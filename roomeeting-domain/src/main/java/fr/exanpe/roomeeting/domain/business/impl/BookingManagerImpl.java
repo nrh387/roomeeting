@@ -5,9 +5,7 @@ package fr.exanpe.roomeeting.domain.business.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +19,8 @@ import org.springframework.stereotype.Service;
 import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.dao.BookingDAO;
-import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTOBuilder;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.core.business.impl.DefaultManagerImpl;
 import fr.exanpe.roomeeting.domain.core.dao.CrudDAO;
@@ -45,7 +44,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     private CrudDAO crudDAO;
 
     @Override
-    public List<RoomAvailabilityDTO> searchRoomAvailable(RoomFilter filter)
+    public List<DateAvailabilityDTO> searchRoomAvailable(RoomFilter filter)
     {
         int days = 0;
         int daysSearch = filter.getExtendDays();
@@ -53,9 +52,6 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         List<Room> rooms = null;
 
         Date dateSearch = filter.getDate();
-
-        // TODO consolidate multiple days
-        List<Room> fullRooms = new ArrayList<Room>();
 
         while (CollectionUtils.isEmpty(rooms) && days <= daysSearch)
         {
@@ -75,6 +71,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
             Date toDate = RoomDateUtils.setHour(dateSearch, filter.getRestrictTo());
             if (toDate.before(new Date()))
             {
+                days++;
                 continue;
             }
 
@@ -85,37 +82,32 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
             days++;
         }
 
-        if (CollectionUtils.isEmpty(rooms)) { return new ArrayList<RoomAvailabilityDTO>(); }
+        if (CollectionUtils.isEmpty(rooms)) { return new ArrayList<DateAvailabilityDTO>(); }
 
         List<Gap> gaps = crudDAO.findWithNamedQuery(Room.FIND_GAPS_FOR_DATE, QueryParameters.with("date", dateSearch).and("rooms", rooms).parameters());
 
         return consolidateRoomAndGaps(rooms, gaps, dateSearch);
     }
 
-    private List<RoomAvailabilityDTO> consolidateRoomAndGaps(List<Room> rooms, List<Gap> gaps, Date dateSearch)
+    private List<DateAvailabilityDTO> consolidateRoomAndGaps(List<Room> rooms, List<Gap> gaps, Date dateSearch)
     {
-        List<RoomAvailabilityDTO> searchDTO = new ArrayList<RoomAvailabilityDTO>();
-
-        Map<Long, RoomAvailabilityDTO> roomMapDto = new HashMap<Long, RoomAvailabilityDTO>();
+        RoomAvailabilityDTOBuilder builder = RoomAvailabilityDTOBuilder.create();
 
         for (Room room : rooms)
         {
-            if (!roomMapDto.containsKey(room.getId()))
-            {
-                RoomAvailabilityDTO search = new RoomAvailabilityDTO(room);
-                search.setDate(dateSearch);
-
-                roomMapDto.put(room.getId(), search);
-                searchDTO.add(search);
-            }
+            builder.organise(room, dateSearch);
         }
 
-        for (Gap g : gaps)
+        for (Gap gap : gaps)
         {
-            if (!roomMapDto.containsKey(g.getRoom().getId())) { throw new IllegalStateException("Gap returned, but not room..."); }
-            roomMapDto.get(g.getRoom().getId()).addGap(g);
+            builder.organise(gap, dateSearch);
         }
+        return builder.getResult();
+    }
 
-        return searchDTO;
+    @Override
+    public Gap findGap(Long gapId)
+    {
+        return crudDAO.find(Gap.class, gapId);
     }
 }
