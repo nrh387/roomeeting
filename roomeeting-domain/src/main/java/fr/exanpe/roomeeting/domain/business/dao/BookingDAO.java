@@ -83,14 +83,14 @@ public class BookingDAO
         subqueryNot.where(new Predicate[]
         { cb.equal(objectNotBooking.<Date> get("date"), dateSearch), cb.equal(objectNotBooking.<Room> get("room"), objectRoom) });
 
-        Date fromDate = RoomDateUtils.setHour(dateSearch, filter.getRestrictFrom());
+        Date fromDate = RoomDateUtils.setHourMinutes(dateSearch, filter.getRestrictFrom().getHours(), filter.getRestrictFrom().getMinutes());
         if (fromDate.before(new Date()))
         {
             fromDate = new Date();
         }
 
         // already checked
-        Date toDate = RoomDateUtils.setHour(dateSearch, filter.getRestrictTo());
+        Date toDate = RoomDateUtils.setHourMinutes(dateSearch, filter.getRestrictTo().getHours(), filter.getRestrictFrom().getMinutes());
 
         // or gap available
         Subquery<Gap> subqueryGap = q.subquery(Gap.class);

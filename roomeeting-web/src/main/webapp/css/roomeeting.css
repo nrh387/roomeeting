@@ -208,6 +208,20 @@ ul.displayRoomFeatures li{
 	float:right	
 }
 
-select.hoursOnly{
-	width:60px;	
+.alert-blackandwhite{
+	background-color: #FFFFFF;
+    border-color: #000000;
+    color: #000000;
+}
+
+/* hack modal into alert */
+.modal-header .close {
+    line-height: inherit;
+    position: relative;
+    right: 0px;
+    top: 0px;
+}
+
+.modal-header{
+	color:#000000;	
 }

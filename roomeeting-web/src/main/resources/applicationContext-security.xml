@@ -17,6 +17,7 @@
         <intercept-url pattern="/css/**" access="permitAll"/>
         <intercept-url pattern="/img/**" access="permitAll"/>
         <intercept-url pattern="/bootstrap/**" access="permitAll"/>
+        <intercept-url pattern="/card/**" access="permitAll"/>
 		<intercept-url pattern="/**" access="isAuthenticated()"/>
 		<form-login login-page="/" 
 					authentication-failure-url="/Index?loginFailed=true"

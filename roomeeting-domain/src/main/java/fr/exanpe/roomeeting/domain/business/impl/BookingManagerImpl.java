@@ -21,6 +21,7 @@ import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.dao.BookingDAO;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTOBuilder;
+import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.core.business.impl.DefaultManagerImpl;
 import fr.exanpe.roomeeting.domain.core.dao.CrudDAO;
@@ -68,7 +69,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
             }
 
             // anterior date
-            Date toDate = RoomDateUtils.setHour(dateSearch, filter.getRestrictTo());
+            Date toDate = RoomDateUtils.setHourMinutes(dateSearch, filter.getRestrictTo().getHours(), filter.getRestrictTo().getMinutes());
             if (toDate.before(new Date()))
             {
                 days++;
@@ -109,5 +110,11 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     public Gap findGap(Long gapId)
     {
         return crudDAO.find(Gap.class, gapId);
+    }
+
+    @Override
+    public void processBooking(Gap bookGap, TimeSlot from, TimeSlot to)
+    {
+
     }
 }

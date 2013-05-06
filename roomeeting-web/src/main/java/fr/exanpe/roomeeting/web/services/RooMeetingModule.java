@@ -22,12 +22,15 @@ import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import fr.exanpe.roomeeting.domain.business.SiteManager;
+import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.t5.lib.services.RooMeetingLibraryModule;
 import fr.exanpe.roomeeting.web.services.coercers.DateStringCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.SiteStringCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.StringDateCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.StringSiteCoercer;
+import fr.exanpe.roomeeting.web.services.coercers.StringTimeSlotCoercer;
+import fr.exanpe.roomeeting.web.services.coercers.TimeSlotStringCoercer;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.ExceptionHandlerService;
 import fr.exanpe.roomeeting.web.services.exceptionHandler.RooMeetingRequestExceptionHandler;
 import fr.exanpe.roomeeting.web.services.translators.DateTranslator;
@@ -48,6 +51,7 @@ public class RooMeetingModule
     {
         binder.bind(ApplicationListener.class).eagerLoad();
         binder.bind(ExceptionHandlerService.class);
+        binder.bind(SelectTimeSlotService.class);
 
         // Make bind() calls on the binder object to define most IoC services.
         // Use service builder methods (example below) when the implementation
@@ -142,6 +146,9 @@ public class RooMeetingModule
 
         configuration.add(new CoercionTuple<Date, String>(Date.class, String.class, new StringDateCoercer()));
         configuration.add(new CoercionTuple<String, Date>(String.class, Date.class, new DateStringCoercer()));
+
+        configuration.add(new CoercionTuple<TimeSlot, String>(TimeSlot.class, String.class, new TimeSlotStringCoercer()));
+        configuration.add(new CoercionTuple<String, TimeSlot>(String.class, TimeSlot.class, new StringTimeSlotCoercer()));
 
     }
 }

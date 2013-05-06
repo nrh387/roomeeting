@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
 
@@ -25,9 +26,9 @@ public class RoomFilter
 
     private boolean extendWorkingOnly = true;
 
-    private Integer restrictFrom;
+    private TimeSlot restrictFrom;
 
-    private Integer restrictTo;
+    private TimeSlot restrictTo;
 
     /**
      * @return the site
@@ -144,7 +145,7 @@ public class RoomFilter
     /**
      * @return the restrictFrom
      */
-    public Integer getRestrictFrom()
+    public TimeSlot getRestrictFrom()
     {
         return restrictFrom;
     }
@@ -152,7 +153,7 @@ public class RoomFilter
     /**
      * @param restrictFrom the restrictFrom to set
      */
-    public void setRestrictFrom(Integer restrictFrom)
+    public void setRestrictFrom(TimeSlot restrictFrom)
     {
         this.restrictFrom = restrictFrom;
     }
@@ -160,7 +161,7 @@ public class RoomFilter
     /**
      * @return the restrictTo
      */
-    public Integer getRestrictTo()
+    public TimeSlot getRestrictTo()
     {
         return restrictTo;
     }
@@ -168,7 +169,7 @@ public class RoomFilter
     /**
      * @param restrictTo the restrictTo to set
      */
-    public void setRestrictTo(Integer restrictTo)
+    public void setRestrictTo(TimeSlot restrictTo)
     {
         this.restrictTo = restrictTo;
     }

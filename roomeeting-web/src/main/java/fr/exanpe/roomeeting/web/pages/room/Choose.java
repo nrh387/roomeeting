@@ -20,12 +20,15 @@ import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.SearchAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.SiteAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.model.Gap;
 
-public class ShowAvailability
+public class Choose
 {
     @SessionAttribute
+    private SearchAvailabilityDTO search;
+
     @Property
     private List<DateAvailabilityDTO> dateAvailabilitiesDTO;
 
@@ -66,7 +69,10 @@ public class ShowAvailability
 
     Object onActivate()
     {
-        if (dateAvailabilitiesDTO == null) { return Search.class; }
+        if (search == null) { return Search.class; }
+
+        // backward compat
+        dateAvailabilitiesDTO = search.getDates();
 
         if (hourDayStart == null)
         {

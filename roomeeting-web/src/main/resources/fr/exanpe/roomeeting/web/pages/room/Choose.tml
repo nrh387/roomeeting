@@ -41,9 +41,9 @@
 		        		
 		        			<table class="table table-striped table-condensed">
 		        				<tr>
-	        						<th>Salle</th>
-	        						<th>Disponibilités</th>
-	        						<th>Capacité</th>
+	        						<th>${message:room-label}</th>
+	        						<th>${message:availabilitie-s-label}</th>
+	        						<th>${message:capacity-label}</th>
 		        				</tr>
 		        				<t:loop source="currentSiteAvailabilityDTO.roomAvailabilityDTOs" value="currentRoomAvailabilityDTO">
 	        					<tr>
@@ -52,14 +52,14 @@
 		        						<t:if test="isFullyFree()">
 		        							
 		        							<t:actionlink t:id="bookDay" t:context="[currentRoomAvailabilityDTO.room.id,currentDateAvailabilityDTO.date]">
-		        								Open bar <i class="icon-hand-left"></i>
+		        								${message:fully-available} <i class="icon-hand-left"></i>
 		        							</t:actionlink>
 		        							
 		        						<p:else>
 			        						<t:loop t:source="currentRoomAvailabilityDTO.gaps" t:value="currentGap">
 			        							
 			        							<t:actionlink t:id="book" t:context="currentGap.id">
-			        								De ${currentGap.startHour}h${currentGap.startMinutes} à ${currentGap.endHour}h${currentGap.endMinutes}
+			        								${message:from} ${currentGap.startHour}${message:hour-short}${currentGap.startMinutes} ${message:to} ${currentGap.endHour}${message:hour-short}${currentGap.endMinutes}
 			        								<i class="icon-hand-left"></i>
 			        							</t:actionlink><br/>
 			        									

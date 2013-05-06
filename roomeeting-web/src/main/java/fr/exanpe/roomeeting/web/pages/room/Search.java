@@ -16,6 +16,7 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SessionAttribute;
 import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.internal.SelectModelImpl;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import fr.exanpe.roomeeting.common.enums.ParameterEnum;
@@ -25,9 +26,12 @@ import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.SearchAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
+import fr.exanpe.roomeeting.web.services.SelectTimeSlotService;
 
 public class Search
 {
@@ -44,10 +48,13 @@ public class Search
     private ParameterManager parameterManager;
 
     @Inject
+    private SelectTimeSlotService selectHoursService;
+
+    @Inject
     private RooMeetingSecurityContext securityContext;
 
     @SessionAttribute
-    private List<DateAvailabilityDTO> dateAvailabilitiesDTO;
+    private SearchAvailabilityDTO search;
 
     @Persist
     @Property
@@ -90,36 +97,28 @@ public class Search
         }
         if (hoursModel == null)
         {
+            hoursModel = selectHoursService.create(false);
+
             int start = parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue();
             int end = parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue();
 
-            OptionModel[] oms = new OptionModel[end - start + 1];
-
-            for (int i = 0; i < oms.length; i++)
-            {
-                oms[i] = new OptionModelImpl((start + i) + "h", "" + (start + i));
-            }
-
-            hoursModel = new SelectModelImpl(oms);
-
-            filter.setRestrictFrom(start);
-            filter.setRestrictTo(end);
+            filter.setRestrictFrom(new TimeSlot(start, 0));
+            filter.setRestrictTo(new TimeSlot(end, 0));
         }
     }
 
     @BeginRender
     void begin()
     {
-        System.out.println("begin");
         // date already passed... change day
-        if (RoomDateUtils.setHour(filter.getDate(), filter.getRestrictTo()).before(new Date()))
+        if (RoomDateUtils.setHourMinutes(filter.getDate(), filter.getRestrictTo().getHours(), filter.getRestrictTo().getMinutes()).before(new Date()))
         {
             filter.setDate(RoomDateUtils.nextWorkingDay(new Date()));
         }
         // date from is passed, adjust it
-        if (RoomDateUtils.setHour(filter.getDate(), filter.getRestrictFrom()).before(new Date()))
+        if (RoomDateUtils.setHourMinutes(filter.getDate(), filter.getRestrictFrom().getHours(), filter.getRestrictTo().getMinutes()).before(new Date()))
         {
-            filter.setRestrictFrom(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+            filter.setRestrictFrom(new TimeSlot(Calendar.getInstance().get(Calendar.HOUR_OF_DAY), 0));
         }
     }
 
@@ -134,19 +133,23 @@ public class Search
             return this;
         }
 
-        dateAvailabilitiesDTO = list;
+        search = new SearchAvailabilityDTO(list, filter);
 
-        return ShowAvailability.class;
+        return Choose.class;
     }
+
+    @Inject
+    private Messages messages;
 
     public String toStringDate(Date d)
     {
-        return FastDateFormat.getInstance("dd/MM/yyyy").format(d);
+        return FastDateFormat.getInstance(messages.get("date-format")).format(d);
     }
 
     public Date getToday()
     {
-        if (Calendar.getInstance().after(RoomDateUtils.setHour(new Date(), filter.getRestrictTo()))) { return RoomDateUtils.nextWorkingDay(new Date()); }
+        if (Calendar.getInstance().after(RoomDateUtils.setHourMinutes(new Date(), filter.getRestrictTo().getHours(), filter.getRestrictTo().getMinutes()))) { return RoomDateUtils
+                .nextWorkingDay(new Date()); }
         return new Date();
     }
 }

@@ -9,7 +9,7 @@
 					<li class="divider-vertical"></li>
 					<li>
 						<t:pagelink page="room/Search">
-							Réserver
+							<i class="icon-search"> </i> ${message:search-label}
 						</t:pagelink>
 					</li>
 					<li class="divider-vertical"></li>
@@ -17,27 +17,31 @@
 				<ul class="nav nav pull-right">
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							Administration
+							<i class="icon-wrench"> </i> ${message:admin-label}
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
 							<li>
 								<t:pagelink page="admin/ManageSites">
-									Sites
+									${message:sites-label}
 								</t:pagelink>
 							</li>
 							<li>
 								<t:pagelink page="admin/ManageUsers">
-									Utilisateurs
+									${message:users-label}
 								</t:pagelink>
 							</li>
 							<li class="divider"></li>
-							<li class="nav-header">Référentiel</li>
+							<li class="nav-header">${message:ref-label}</li>
 							<li>
-								<t:pagelink page="admin/manage/ref/RoomFeaturesPage">Propriétés des salles</t:pagelink>
+								<t:pagelink page="admin/manage/ref/RoomFeaturesPage">
+									${message:roomfeatures-label}
+								</t:pagelink>
 							</li>
 							<li>
-								<t:pagelink page="admin/manage/ref/ParametersPage">Paramètres</t:pagelink>
+								<t:pagelink page="admin/manage/ref/ParametersPage">
+									${message:params-label}
+								</t:pagelink>
 							</li>
 						</ul>
 					</li>

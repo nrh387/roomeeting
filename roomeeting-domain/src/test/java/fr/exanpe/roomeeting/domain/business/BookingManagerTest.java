@@ -11,6 +11,7 @@ import org.unitils.spring.annotation.SpringBeanByType;
 
 import fr.exanpe.roomeeting.domain.base.RooMeetingDomainBaseTest;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
+import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
@@ -26,11 +27,16 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @SpringBeanByType
     private RoomFeatureManager roomFeatureManager;
 
+    private TimeSlot createTS(int hour)
+    {
+        return new TimeSlot(hour, 0);
+    }
+
     private RoomFilter createFilter()
     {
         RoomFilter rf = new RoomFilter();
-        rf.setRestrictFrom(8);
-        rf.setRestrictTo(20);
+        rf.setRestrictFrom(createTS(8));
+        rf.setRestrictTo(createTS(20));
         try
         {
             rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/12/2020"));
@@ -211,7 +217,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     public void searchRoomAvailableGapRestrict() throws ParseException
     {
         RoomFilter rf = createFilter();
-        rf.setRestrictFrom(11);
+        rf.setRestrictFrom(createTS(11));
         rf.setCapacity(1);
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         // minutes length
@@ -220,14 +226,14 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
 
         Assert.assertEquals(list.size(), 0);
 
-        rf.setRestrictFrom(0);
-        rf.setRestrictTo(9);
+        rf.setRestrictFrom(createTS(0));
+        rf.setRestrictTo(createTS(9));
         list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 0);
 
-        rf.setRestrictFrom(10);
-        rf.setRestrictTo(11);
+        rf.setRestrictFrom(createTS(10));
+        rf.setRestrictTo(createTS(11));
         list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 1);
