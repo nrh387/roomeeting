@@ -6,18 +6,19 @@ package fr.exanpe.roomeeting.domain.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQueries(
+{ @NamedQuery(name = Gap.FIND_GAP_AROUND_TIMESLOT, query = "From Gap gap where gap.date = :date and gap.room = :room and gap.startHour <= :startHour and gap.endHour >= :endHour") })
 public class Gap implements Serializable
 {
     /**
@@ -25,7 +26,7 @@ public class Gap implements Serializable
      */
     private static final long serialVersionUID = -243347798060345357L;
 
-    public static final String SEARCH_ROOM_AVAILABLE = "Gap.searchRoomAvailable";
+    public static final String FIND_GAP_AROUND_TIMESLOT = "Gap.findGapAroundTimeslot";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,21 +40,22 @@ public class Gap implements Serializable
 
     private Integer startHour;
 
-    private Integer startMinutes;
+    private Integer startMinute;
 
     private Integer endHour;
 
-    private Integer endMinutes;
+    private Integer endMinute;
 
-    @Column(nullable = false)
-    private Integer minutesLength;
-
-    @PrePersist
-    @PreUpdate
-    protected void compute()
-    {
-        minutesLength = (endHour - startHour) * 60 + endMinutes - startMinutes;
-    }
+    //
+    // @Column(nullable = false)
+    // private Integer minutesLength;
+    //
+    // @PrePersist
+    // @PreUpdate
+    // protected void compute()
+    // {
+    // minutesLength = (endHour - startHour) * 60 + endMinute - startMinute;
+    // }
 
     /**
      * @return the id
@@ -103,10 +105,10 @@ public class Gap implements Serializable
         this.date = date;
     }
 
-    public Integer getMinutesLength()
-    {
-        return minutesLength;
-    }
+    // public Integer getMinutesLength()
+    // {
+    // return minutesLength;
+    // }
 
     /**
      * @return the startHour
@@ -127,17 +129,17 @@ public class Gap implements Serializable
     /**
      * @return the startMinutes
      */
-    public Integer getStartMinutes()
+    public Integer getStartMinute()
     {
-        return startMinutes;
+        return startMinute;
     }
 
     /**
      * @param startMinutes the startMinutes to set
      */
-    public void setStartMinutes(Integer startMinutes)
+    public void setStartMinute(Integer startMinutes)
     {
-        this.startMinutes = startMinutes;
+        this.startMinute = startMinutes;
     }
 
     /**
@@ -159,17 +161,17 @@ public class Gap implements Serializable
     /**
      * @return the endMinutes
      */
-    public Integer getEndMinutes()
+    public Integer getEndMinute()
     {
-        return endMinutes;
+        return endMinute;
     }
 
     /**
      * @param endMinutes the endMinutes to set
      */
-    public void setEndMinutes(Integer endMinutes)
+    public void setEndMinute(Integer endMinutes)
     {
-        this.endMinutes = endMinutes;
+        this.endMinute = endMinutes;
     }
 
 }

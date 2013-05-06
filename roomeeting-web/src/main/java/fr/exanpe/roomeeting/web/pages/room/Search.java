@@ -148,8 +148,11 @@ public class Search
 
     public Date getToday()
     {
-        if (Calendar.getInstance().after(RoomDateUtils.setHourMinutes(new Date(), filter.getRestrictTo().getHours(), filter.getRestrictTo().getMinutes()))) { return RoomDateUtils
-                .nextWorkingDay(new Date()); }
+        // last hour allowed
+        Calendar lastHour = Calendar.getInstance();
+        lastHour.set(Calendar.HOUR_OF_DAY, parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue() - 1);
+
+        if (Calendar.getInstance().after(lastHour)) { return RoomDateUtils.nextWorkingDay(new Date()); }
         return new Date();
     }
 }

@@ -100,7 +100,9 @@ public class Choose
         g.setRoom(siteManager.findRoom(roomId));
         g.setDate(date);
         g.setStartHour(hourDayStart);
+        g.setStartMinute(0);
         g.setEndHour(hourDayEnd);
+        g.setEndMinute(0);
 
         bookGap = g;
 
@@ -123,9 +125,9 @@ public class Choose
                 // gap out
                 continue;
             }
-            if (g.getStartHour() < hour || (g.getStartMinutes() <= minutes))
+            if (g.getStartHour() < hour || (g.getStartMinute() <= minutes))
             {
-                if (g.getEndHour() > hour || (g.getEndMinutes() >= minutes)) { return true; }
+                if (g.getEndHour() > hour || (g.getEndMinute() >= minutes)) { return true; }
             }
         }
         return false;
@@ -134,5 +136,19 @@ public class Choose
     public String toStringNumberDate(Date d)
     {
         return FastDateFormat.getInstance("yyyyMMdd").format(d);
+    }
+
+    public String twoDigitsL(int i)
+    {
+        String s = Integer.toString(i);
+
+        return s.length() == 2 ? s : "0" + s;
+    }
+
+    public String twoDigitsR(int i)
+    {
+        String s = Integer.toString(i);
+
+        return s.length() == 2 ? s : s + "0";
     }
 }

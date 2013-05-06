@@ -57,7 +57,6 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // 10
         RoomFilter rf = createFilter();
         rf.setCapacity(10);
-        rf.setMinutesLength(30);
         rf.setSite(site);
 
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
@@ -91,7 +90,6 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // 10
         RoomFilter rf = createFilter();
         rf.setCapacity(1);
-        rf.setMinutesLength(30);
         rf.setSite(site);
 
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
@@ -121,7 +119,6 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     {
         RoomFilter rf = createFilter();
         rf.setCapacity(1);
-        rf.setMinutesLength(30);
         rf.setName("ro");
 
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
@@ -137,20 +134,17 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         RoomFilter rf = createFilter();
         rf.setCapacity(1);
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
-        rf.setMinutesLength(30);
 
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
-        Assert.assertEquals(list.size(), 0);
+        Assert.assertEquals(list.size(), 1);
 
         // minutes length
-        rf.setMinutesLength(10);
         list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 1);
 
         // extendDays
-        rf.setMinutesLength(30);
         rf.setExtendDays(1);
         list = bookingManager.searchRoomAvailable(rf);
 
@@ -168,7 +162,6 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // 10
         RoomFilter rf = createFilter();
         rf.setCapacity(10);
-        rf.setMinutesLength(30);
 
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
@@ -205,7 +198,6 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         rf.setCapacity(1);
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         // minutes length
-        rf.setMinutesLength(10);
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.get(0).getSiteAvailabilityDTOs().get(0).getRoomAvailabilityDTOs().size(), 1);
@@ -221,7 +213,6 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         rf.setCapacity(1);
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
         // minutes length
-        rf.setMinutesLength(10);
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
         Assert.assertEquals(list.size(), 0);

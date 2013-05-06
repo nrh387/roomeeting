@@ -11,16 +11,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQueries(
+{ @NamedQuery(name = Booking.FIND_BOOKING_FOR_DATE, query = "From Booking booking where booking.date = :date and booking.room = :room") })
 public class Booking implements Serializable
 {
     /**
      * 
      */
     private static final long serialVersionUID = -243387776160345357L;
+
+    public static final String FIND_BOOKING_FOR_DATE = "Booking.findBookingForDate";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,11 +43,11 @@ public class Booking implements Serializable
 
     private Integer startHour;
 
-    private Integer startMinutes;
+    private Integer startMinute;
 
     private Integer endHour;
 
-    private Integer endMinutes;
+    private Integer endMinute;
 
     /**
      * @return the id
@@ -126,17 +132,17 @@ public class Booking implements Serializable
     /**
      * @return the startMinutes
      */
-    public Integer getStartMinutes()
+    public Integer getStartMinute()
     {
-        return startMinutes;
+        return startMinute;
     }
 
     /**
      * @param startMinutes the startMinutes to set
      */
-    public void setStartMinutes(Integer startMinutes)
+    public void setStartMinute(Integer startMinutes)
     {
-        this.startMinutes = startMinutes;
+        this.startMinute = startMinutes;
     }
 
     /**
@@ -158,17 +164,17 @@ public class Booking implements Serializable
     /**
      * @return the endMinutes
      */
-    public Integer getEndMinutes()
+    public Integer getEndMinute()
     {
-        return endMinutes;
+        return endMinute;
     }
 
     /**
      * @param endMinutes the endMinutes to set
      */
-    public void setEndMinutes(Integer endMinutes)
+    public void setEndMinute(Integer endMinutes)
     {
-        this.endMinutes = endMinutes;
+        this.endMinute = endMinutes;
     }
 
 }

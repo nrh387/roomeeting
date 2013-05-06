@@ -35,26 +35,29 @@ public class SelectTimeSlotService
             }
         }
 
-        return create(startHour, endHour, 30);
+        return create(new TimeSlot(startHour, 0), new TimeSlot(endHour, 0), 30);
     }
 
-    public SelectModel create(int startHour, int endHour, int minutes)
+    public SelectModel create(TimeSlot start, TimeSlot end, int minutes)
     {
         String separator = messages.get("hour-separator");
 
         int perHour = 60 / minutes;
 
-        OptionModel[] oms = new OptionModel[(endHour - startHour) * perHour + 1];
+        // int numberElements = (end.getHours() - start.getHours() - 1) * perHour + 1;
+        int numberElements = (end.getMinutes() - start.getMinutes()) / minutes;
+
+        OptionModel[] oms = new OptionModel[(end.getHours() - start.getHours()) * perHour + 1 + numberElements];
 
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, startHour);
-        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR_OF_DAY, start.getHours());
+        c.set(Calendar.MINUTE, start.getMinutes());
 
         for (int i = 0; i < oms.length; i++)
         {
             String time = FastDateFormat.getInstance("HH" + separator + "mm").format(c);
 
-            oms[i] = new OptionModelImpl(time, new TimeSlot(i / perHour + startHour, (i % perHour) * minutes));
+            oms[i] = new OptionModelImpl(time, new TimeSlot(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE)));
 
             c.add(Calendar.MINUTE, minutes);
         }

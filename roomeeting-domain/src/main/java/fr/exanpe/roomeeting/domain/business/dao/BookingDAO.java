@@ -90,17 +90,25 @@ public class BookingDAO
         }
 
         // already checked
-        Date toDate = RoomDateUtils.setHourMinutes(dateSearch, filter.getRestrictTo().getHours(), filter.getRestrictFrom().getMinutes());
+        Date toDate = RoomDateUtils.setHourMinutes(dateSearch, filter.getRestrictTo().getHours(), filter.getRestrictTo().getMinutes());
 
-        // or gap available
+        // or gap available around
         Subquery<Gap> subqueryGap = q.subquery(Gap.class);
         Root<Gap> objectGap = subqueryGap.from(Gap.class);
         subqueryGap.select(objectGap);
         subqueryGap.where(new Predicate[]
         { cb.equal(objectGap.<Date> get("date"), dateSearch), cb.equal(objectGap.<Room> get("room"), objectRoom),
-                cb.ge(objectGap.<Integer> get("minutesLength"), filter.getMinutesLength()),
                 cb.greaterThanOrEqualTo(objectGap.<Integer> get("startHour"), fromDate.getHours()),
                 cb.lessThanOrEqualTo(objectGap.<Integer> get("endHour"), toDate.getHours()) });
+
+        // or gap available inner
+        Subquery<Gap> subqueryGapInner = q.subquery(Gap.class);
+        Root<Gap> objectGapInner = subqueryGapInner.from(Gap.class);
+        subqueryGapInner.select(objectGap);
+        subqueryGapInner.where(new Predicate[]
+        { cb.equal(objectGapInner.<Date> get("date"), dateSearch), cb.equal(objectGapInner.<Room> get("room"), objectRoom),
+                cb.lessThanOrEqualTo(objectGapInner.<Integer> get("startHour"), fromDate.getHours()),
+                cb.greaterThanOrEqualTo(objectGapInner.<Integer> get("endHour"), toDate.getHours()) });
 
         predicates.add(cb.or(cb.not(cb.exists(subqueryNot)), cb.exists(subqueryGap)));
 

@@ -5,12 +5,14 @@ package fr.exanpe.roomeeting.domain.business;
 
 import java.util.List;
 
+import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.core.business.DefaultManager;
 import fr.exanpe.roomeeting.domain.model.Booking;
 import fr.exanpe.roomeeting.domain.model.Gap;
+import fr.exanpe.roomeeting.domain.model.User;
 
 public interface BookingManager extends DefaultManager<Booking, Long>
 {
@@ -19,6 +21,6 @@ public interface BookingManager extends DefaultManager<Booking, Long>
 
     Gap findGap(Long gapId);
 
-    void processBooking(Gap bookGap, TimeSlot from, TimeSlot to);
+    void processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException;
 
 }

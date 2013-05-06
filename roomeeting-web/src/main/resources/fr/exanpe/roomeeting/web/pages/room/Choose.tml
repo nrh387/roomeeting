@@ -59,7 +59,7 @@
 			        						<t:loop t:source="currentRoomAvailabilityDTO.gaps" t:value="currentGap">
 			        							
 			        							<t:actionlink t:id="book" t:context="currentGap.id">
-			        								${message:from} ${currentGap.startHour}${message:hour-short}${currentGap.startMinutes} ${message:to} ${currentGap.endHour}${message:hour-short}${currentGap.endMinutes}
+			        								${message:from} ${twoDigitsL(currentGap.startHour)}${message:hour-short}${twoDigitsR(currentGap.startMinute)} ${message:to} ${twoDigitsL(currentGap.endHour)}${message:hour-short}${twoDigitsR(currentGap.endMinute)}
 			        								<i class="icon-hand-left"></i>
 			        							</t:actionlink><br/>
 			        									
