@@ -21,6 +21,6 @@ public interface BookingManager extends DefaultManager<Booking, Long>
 
     Gap findGap(Long gapId);
 
-    void processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException;
+    Booking processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException;
 
 }

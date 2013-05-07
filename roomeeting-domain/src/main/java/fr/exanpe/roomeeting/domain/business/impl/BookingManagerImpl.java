@@ -92,7 +92,11 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
         if (CollectionUtils.isEmpty(rooms)) { return new ArrayList<DateAvailabilityDTO>(); }
 
-        List<Gap> gaps = crudDAO.findWithNamedQuery(Room.FIND_GAPS_FOR_DATE, QueryParameters.with("date", dateSearch).and("rooms", rooms).parameters());
+        // TODO add more precisions with minutes
+        List<Gap> gaps = crudDAO.findWithNamedQuery(
+                Room.FIND_GAPS_FOR_DATE,
+                QueryParameters.with("date", dateSearch).and("rooms", rooms).and("startHour", filter.getRestrictFrom().getHours())
+                        .and("endHour", filter.getRestrictTo().getHours()).parameters());
 
         return consolidateRoomAndGaps(rooms, gaps, dateSearch);
     }
@@ -120,7 +124,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     }
 
     @Override
-    public void processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException
+    public Booking processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException
     {
         List<Gap> gaps = crudDAO.findWithNamedQuery(Gap.FIND_GAP_AROUND_TIMESLOT, QueryParameters.with("date", bookGap.getDate())
                 .and("room", bookGap.getRoom()).and("startHour", from.getHours()).and("endHour", to.getHours()).parameters());
@@ -132,14 +136,15 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
                     Booking.FIND_BOOKING_FOR_DATE,
                     QueryParameters.with("date", bookGap.getDate()).and("room", bookGap.getRoom()).parameters()))) { throw new BusinessException(
                     "Inconsistent database. Booking found without gap"); }
-            bookEmptyDay(user, bookGap, from, to);
-            return;
+            return bookEmptyDay(user, bookGap, from, to);
+
         }
         if (gaps.size() > 1) { throw new BusinessException("Inconsistent database. Multiple gap for selected time slot"); }
 
+        return null;// TODO split gap
     }
 
-    private void bookEmptyDay(User user, Gap bookGap, TimeSlot from, TimeSlot to)
+    private Booking bookEmptyDay(User user, Gap bookGap, TimeSlot from, TimeSlot to)
     {
         // booking
         Booking booking = new Booking();
@@ -178,8 +183,10 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
         after.setRoom(bookGap.getRoom());
 
-        crudDAO.create(booking);
+        booking = crudDAO.create(booking);
         crudDAO.create(before);
         crudDAO.create(after);
+
+        return booking;
     }
 }
