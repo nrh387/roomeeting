@@ -23,7 +23,7 @@ import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
 
 @Entity
 @NamedQueries(
-{ @NamedQuery(name = Room.FIND_GAPS_FOR_DATE, query = "SELECT g FROM Gap g join fetch g.room WHERE g.room in (:rooms) AND g.date = :date and ((g.startHour between :startHour and :endHour) or (g.endHour between :startHour and :endHour)) order by g.room.id, g.date") })
+{ @NamedQuery(name = Room.FIND_GAPS_FOR_DATE, query = "SELECT g FROM Gap g join fetch g.room WHERE g.room in (:rooms) AND g.date = :date and ((g.startTime between :startTime and :endTime) or (g.endTime between :startTime and :endTime)) order by g.room.id, g.date") })
 public class Room implements Serializable
 {
     /**

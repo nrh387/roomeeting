@@ -18,9 +18,11 @@ import org.springframework.stereotype.Service;
 
 import fr.exanpe.roomeeting.common.enums.ParameterEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
+import fr.exanpe.roomeeting.common.exception.TechnicalException;
 import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.ParameterManager;
+import fr.exanpe.roomeeting.domain.business.consts.ErrorMessages;
 import fr.exanpe.roomeeting.domain.business.dao.BookingDAO;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.RoomAvailabilityDTOBuilder;
@@ -92,11 +94,10 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
         if (CollectionUtils.isEmpty(rooms)) { return new ArrayList<DateAvailabilityDTO>(); }
 
-        // TODO add more precisions with minutes
         List<Gap> gaps = crudDAO.findWithNamedQuery(
                 Room.FIND_GAPS_FOR_DATE,
-                QueryParameters.with("date", dateSearch).and("rooms", rooms).and("startHour", filter.getRestrictFrom().getHours())
-                        .and("endHour", filter.getRestrictTo().getHours()).parameters());
+                QueryParameters.with("date", dateSearch).and("rooms", rooms).and("startTime", toTime(dateSearch, filter.getRestrictFrom()))
+                        .and("endTime", toTime(dateSearch, filter.getRestrictTo())).parameters());
 
         return consolidateRoomAndGaps(rooms, gaps, dateSearch);
     }
@@ -127,21 +128,28 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     public Booking processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException
     {
         List<Gap> gaps = crudDAO.findWithNamedQuery(Gap.FIND_GAP_AROUND_TIMESLOT, QueryParameters.with("date", bookGap.getDate())
-                .and("room", bookGap.getRoom()).and("startHour", from.getHours()).and("endHour", to.getHours()).parameters());
+                .and("room", bookGap.getRoom()).and("startTime", toTime(bookGap.getDate(), from)).and("endTime", toTime(bookGap.getDate(), from)).parameters());
 
         // no gap around... check for a booking
         if (CollectionUtils.isEmpty(gaps))
         {
             if (CollectionUtils.isNotEmpty(crudDAO.findWithNamedQuery(
                     Booking.FIND_BOOKING_FOR_DATE,
-                    QueryParameters.with("date", bookGap.getDate()).and("room", bookGap.getRoom()).parameters()))) { throw new BusinessException(
-                    "Inconsistent database. Booking found without gap"); }
+                    QueryParameters.with("date", bookGap.getDate()).and("room", bookGap.getRoom()).parameters()))) { throw new TechnicalException(
+                    ErrorMessages.INCONSISTENT_DATABASE); }
             return bookEmptyDay(user, bookGap, from, to);
-
         }
-        if (gaps.size() > 1) { throw new BusinessException("Inconsistent database. Multiple gap for selected time slot"); }
+        if (gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
+
+        bookOnGap(gaps.get(0), user, bookGap, from, to);
 
         return null;// TODO split gap
+    }
+
+    private void bookOnGap(Gap gap, User user, Gap bookGap, TimeSlot from, TimeSlot to)
+    {
+        // have to split the gap
+
     }
 
     private Booking bookEmptyDay(User user, Gap bookGap, TimeSlot from, TimeSlot to)
@@ -159,34 +167,57 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         booking.setRoom(bookGap.getRoom());
         booking.setUser(user);
 
-        // before
-        Gap before = new Gap();
-
-        before.setDate(bookGap.getDate());
-        before.setStartHour(parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue());
-        before.setStartMinute(0);
-
-        before.setEndHour(from.getHours());
-        before.setEndMinute(from.getMinutes());
-
-        before.setRoom(bookGap.getRoom());
-
-        // after
-        Gap after = new Gap();
-
-        after.setDate(bookGap.getDate());
-        after.setStartHour(to.getHours());
-        after.setStartMinute(to.getMinutes());
-
-        after.setEndHour(parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue());
-        after.setEndMinute(0);
-
-        after.setRoom(bookGap.getRoom());
-
         booking = crudDAO.create(booking);
-        crudDAO.create(before);
-        crudDAO.create(after);
+
+        if (!isFirstHour(from))
+        {
+            // before
+            Gap before = new Gap();
+
+            before.setDate(bookGap.getDate());
+            before.setStartHour(parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue());
+            before.setStartMinute(0);
+
+            before.setEndHour(from.getHours());
+            before.setEndMinute(from.getMinutes());
+
+            before.setRoom(bookGap.getRoom());
+
+            crudDAO.create(before);
+        }
+
+        if (!isLastHour(to))
+        {
+            // after
+            Gap after = new Gap();
+
+            after.setDate(bookGap.getDate());
+            after.setStartHour(to.getHours());
+            after.setStartMinute(to.getMinutes());
+
+            after.setEndHour(parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue());
+            after.setEndMinute(0);
+
+            after.setRoom(bookGap.getRoom());
+
+            crudDAO.create(after);
+        }
 
         return booking;
+    }
+
+    private boolean isFirstHour(TimeSlot ts)
+    {
+        return ts.getHours() == parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue() && ts.getMinutes() == 0;
+    }
+
+    private boolean isLastHour(TimeSlot ts)
+    {
+        return ts.getHours() == parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue() && ts.getMinutes() == 0;
+    }
+
+    private Date toTime(Date d, TimeSlot ts)
+    {
+        return RoomDateUtils.setHourMinutes(d, ts.getHours(), ts.getMinutes());
     }
 }

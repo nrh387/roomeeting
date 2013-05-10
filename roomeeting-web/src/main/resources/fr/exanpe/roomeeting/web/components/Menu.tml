@@ -8,7 +8,7 @@
 				<ul class="nav">
 					<li class="divider-vertical"></li>
 					<li>
-						<t:pagelink page="room/Search">
+						<t:pagelink page="room/Search" context="literal:_cleanup_">
 							<i class="icon-search"> </i> ${message:search-label}
 						</t:pagelink>
 					</li>

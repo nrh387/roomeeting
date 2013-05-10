@@ -12,6 +12,7 @@ import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.dto.SearchAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
+import fr.exanpe.roomeeting.domain.model.Booking;
 import fr.exanpe.roomeeting.domain.model.Gap;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
 import fr.exanpe.roomeeting.web.services.SelectTimeSlotService;
@@ -80,9 +81,17 @@ public class Book
         return null;
     }
 
+    @SessionAttribute
+    private Booking booking;
+
     @OnEvent(value = "book")
-    void book() throws BusinessException
+    Object book() throws BusinessException
     {
-        bookingManager.processBooking(securityContext.getUser(), bookGap, from, to);
+        booking = bookingManager.processBooking(securityContext.getUser(), bookGap, from, to);
+
+        bookGap = null;
+        search = null;
+
+        return ConfirmBooking.class;
     }
 }

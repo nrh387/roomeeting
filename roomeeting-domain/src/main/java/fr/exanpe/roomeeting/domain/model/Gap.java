@@ -13,12 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
+
 @Entity
 @NamedQueries(
-{ @NamedQuery(name = Gap.FIND_GAP_AROUND_TIMESLOT, query = "From Gap gap where gap.date = :date and gap.room = :room and gap.startHour <= :startHour and gap.endHour >= :endHour") })
+{ @NamedQuery(name = Gap.FIND_GAP_AROUND_TIMESLOT, query = "From Gap gap where gap.date = :date and gap.room = :room and gap.startTime <= :startTime and gap.endTime >= :endTime") })
 public class Gap implements Serializable
 {
     /**
@@ -46,6 +50,12 @@ public class Gap implements Serializable
 
     private Integer endMinute;
 
+    @Temporal(TemporalType.TIME)
+    private Date startTime;
+
+    @Temporal(TemporalType.TIME)
+    private Date endTime;
+
     //
     // @Column(nullable = false)
     // private Integer minutesLength;
@@ -56,6 +66,14 @@ public class Gap implements Serializable
     // {
     // minutesLength = (endHour - startHour) * 60 + endMinute - startMinute;
     // }
+
+    @PreUpdate
+    @PrePersist
+    void compute()
+    {
+        startTime = RoomDateUtils.setHourMinutes(date, startHour, startMinute);
+        endTime = RoomDateUtils.setHourMinutes(date, endHour, endMinute);
+    }
 
     /**
      * @return the id
@@ -172,6 +190,22 @@ public class Gap implements Serializable
     public void setEndMinute(Integer endMinutes)
     {
         this.endMinute = endMinutes;
+    }
+
+    /**
+     * @return the startTime
+     */
+    public Date getStartTime()
+    {
+        return startTime;
+    }
+
+    /**
+     * @return the endTime
+     */
+    public Date getEndTime()
+    {
+        return endTime;
     }
 
 }

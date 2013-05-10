@@ -16,6 +16,8 @@
 			<hr/>
 			
 			<t:form class="form-inline">
+				<t:businessExceptionMessage/>
+			
 				<div class="alert alert-blackandwhite" style="text-align:center">
 					${message:reservation-phrase} 
 					<span style="font-weight:bold">

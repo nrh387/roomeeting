@@ -1,0 +1,27 @@
+<html t:type="layoutmenu" title="Recherche"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+	
+	<div class="span10">
+		
+		<div class="well">
+		
+			<h1 style="text-align:center">Confirmation</h1>
+			<hr/>
+			
+			<div class="alert alert-success">
+				<span style="font-weight:bold">
+					${message:confirm-head-phrase}
+				</span><br/><br/><br/>
+				
+				<t:sitedescription site="booking.room.site"/>
+				<hr/>
+				<t:roomdescription room="booking.room"/>
+			</div>
+		
+			<t:actionlink t:id="exportOutlook" class="btn">${message:exportOutlook}</t:actionlink>
+		</div>
+			
+	</div>
+		
+</html>

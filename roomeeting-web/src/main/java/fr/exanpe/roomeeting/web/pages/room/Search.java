@@ -32,6 +32,7 @@ import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
 import fr.exanpe.roomeeting.web.services.SelectTimeSlotService;
+import fr.exanpe.t5.lib.annotation.ContextPageReset;
 
 public class Search
 {
@@ -105,6 +106,15 @@ public class Search
             filter.setRestrictFrom(new TimeSlot(start, 0));
             filter.setRestrictTo(new TimeSlot(end, 0));
         }
+    }
+
+    @ContextPageReset
+    void reset()
+    {
+        filter = null;
+        sitesSelectModel = null;
+        hoursModel = null;
+        search = null;
     }
 
     @BeginRender
