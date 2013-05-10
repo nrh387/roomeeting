@@ -20,12 +20,14 @@
 </head>
 <body class="exanpe-skin">
 	<header>
-	<div class="navbar navbar-fixed-top" style="position:relative">
+	<div class="navbar navbar-fixed-top" style="position:relative;padding-left:180px">
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<t:pagelink page="Index" class="brand">
-					<img src="${asset:context:img/logo_dmp.png}"  alt="${message:application-name-long}"/>
-					${message:application-name-long} : Votre portail de réservation de salle de réunion
+					<img src="${asset:context:img/logo_roomeeting.png}"  alt="${message:application-name-long}"
+					style="position: absolute; top: 0px; left: 0px;z-index:10"
+					class="img-polaroid"/>
+					Votre portail de réservation de salle de réunion
 				</t:pagelink>
 				<div class="nav-collapse">
 					
