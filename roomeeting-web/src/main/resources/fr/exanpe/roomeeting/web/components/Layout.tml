@@ -19,40 +19,44 @@
 	
 </head>
 <body class="exanpe-skin">
-	<header>
-	<div class="navbar navbar-fixed-top" style="position:relative;padding-left:180px">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<t:pagelink page="Index" class="brand">
-					<img src="${asset:context:img/logo_roomeeting.png}"  alt="${message:application-name-long}"
-					style="position: absolute; top: 0px; left: 0px;z-index:10;height:73px"
-					class="img-polaroid"/>
-					Votre portail de réservation de salle de réunion
-				</t:pagelink>
-				<div class="nav-collapse">
-					
-					<ul class="nav pull-right">
-						<t:if test="isAuthenticated()">
-							<li>
-								<a href="#">
-									<i class="icon-user" />&nbsp; &nbsp;
-								</a>
-							</li>
-							<li><a href="${contextRoot}/j_spring_security_logout"><i class="icon-chevron-right" /> Se déconnecter</a></li>
-						</t:if>
-					</ul>
+	<div id="wrap">
+		<header>
+		<div class="navbar navbar-fixed-top" style="position:relative;padding-left:180px">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<t:pagelink page="Index" class="brand">
+						<img src="${asset:context:img/logo_roomeeting.png}"  alt="${message:application-name-long}"
+						style="position: absolute; top: 0px; left: 0px;z-index:10;height:73px"
+						class="img-polaroid"/>
+						Votre portail de réservation de salle de réunion
+					</t:pagelink>
+					<div class="nav-collapse">
+						
+						<ul class="nav pull-right">
+							<t:if test="isAuthenticated()">
+								<li>
+									<a href="#">
+										<i class="icon-user" />&nbsp; &nbsp;
+									</a>
+								</li>
+								<li><a href="${contextRoot}/j_spring_security_logout"><i class="icon-chevron-right" /> Se déconnecter</a></li>
+							</t:if>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	</header>
+		</header>
 	
-
-	<t:body />
-
-
-	<footer>
-		<span>&nbsp; &copy; ${message:application-name-long } 2013</span>
+		<t:body />
+		
+		<div id="push"></div>
+	</div>
+	
+	<footer id="footer">
+		<div style="text-align:center">
+			<span>&nbsp; &copy; ${message:application-name-long } 2013</span>
+		</div>
 	</footer>
 	
 </body>
