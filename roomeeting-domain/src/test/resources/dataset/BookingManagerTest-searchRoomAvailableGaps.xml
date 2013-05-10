@@ -4,9 +4,9 @@
   <Site id="1" name="Le Bois" address="1 allée du bois" roomCount="2"/>
   
   <Room id="10" name="Oeillet" capacity="20" site_id="1"/>
-  <Gap id="1" room_id="10" date="2019-01-01" startHour="10" endHour="11" startMinute="0" endMinute="0"/>
+  <Gap id="1" room_id="10" date="2019-01-01" startHour="10" endHour="11" startMinute="0" endMinute="0" startTime="10:00:00" endTime="11:00:00"/>
   <Booking id="1" room_id="10" date="2019-01-01"/>
   
-  <Gap id="2" room_id="10" date="2019-01-12" startHour="8" endHour="15" startMinute="0" endMinute="0"/>
+  <Gap id="2" room_id="10" date="2019-01-12" startHour="8" endHour="15" startMinute="0" endMinute="0" startTime="08:00:00" endTime="15:00:00"/>
   
 </dataset>

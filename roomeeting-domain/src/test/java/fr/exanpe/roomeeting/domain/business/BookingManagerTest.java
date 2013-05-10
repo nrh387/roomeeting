@@ -7,13 +7,18 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.unitils.dbunit.annotation.DataSet;
+import org.unitils.dbunit.annotation.ExpectedDataSet;
 import org.unitils.spring.annotation.SpringBeanByType;
 
+import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.base.RooMeetingDomainBaseTest;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.business.filters.RoomFilter;
+import fr.exanpe.roomeeting.domain.model.Booking;
+import fr.exanpe.roomeeting.domain.model.Gap;
 import fr.exanpe.roomeeting.domain.model.Site;
+import fr.exanpe.roomeeting.domain.model.User;
 import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
 
 public class BookingManagerTest extends RooMeetingDomainBaseTest
@@ -128,8 +133,8 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     }
 
     @Test
-    @DataSet("/dataset/BookingManagerTest-searchRoomAvailableExtended.xml")
-    public void searchRoomAvailableExtended() throws ParseException
+    @DataSet("/dataset/BookingManagerTest-searchRoomAvailableGaps.xml")
+    public void searchRoomAvailableGaps() throws ParseException
     {
         RoomFilter rf = createFilter();
         rf.setCapacity(1);
@@ -191,7 +196,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     }
 
     @Test
-    @DataSet("/dataset/BookingManagerTest-searchRoomAvailableExtended.xml")
+    @DataSet("/dataset/BookingManagerTest-searchRoomAvailableGaps.xml")
     public void searchRoomAvailableGap() throws ParseException
     {
         RoomFilter rf = createFilter();
@@ -205,7 +210,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     }
 
     @Test
-    @DataSet("/dataset/BookingManagerTest-searchRoomAvailableExtended.xml")
+    @DataSet("/dataset/BookingManagerTest-searchRoomAvailableGaps.xml")
     public void searchRoomAvailableGapRestrict() throws ParseException
     {
         RoomFilter rf = createFilter();
@@ -215,7 +220,7 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // minutes length
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
-        Assert.assertEquals(list.size(), 0);
+        Assert.assertEquals(list.size(), 1);
 
         rf.setRestrictFrom(createTS(0));
         rf.setRestrictTo(createTS(9));
@@ -230,4 +235,83 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         Assert.assertEquals(list.size(), 1);
     }
 
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-processBookingNewDay.xml")
+    @ExpectedDataSet("/dataset/expected/BookingManagerTest-processBookingNewDay.xml")
+    public void processBookingNewDay() throws ParseException, BusinessException
+    {
+        User u = new User();
+        u.setId(1L);
+
+        Gap bookGap = new Gap();
+        bookGap.setRoom(siteManager.findRoom(10L));
+        bookGap.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
+
+        TimeSlot from = new TimeSlot(11, 30);
+        TimeSlot to = new TimeSlot(12, 0);
+
+        Booking booking = bookingManager.processBooking(u, bookGap, from, to);
+
+        Assert.assertNotNull(booking);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-processBookingNewDay.xml")
+    @ExpectedDataSet("/dataset/expected/BookingManagerTest-processBookingNewDayBorder.xml")
+    public void processBookingNewDayBorder() throws ParseException, BusinessException
+    {
+        User u = new User();
+        u.setId(1L);
+
+        Gap bookGap = new Gap();
+        bookGap.setRoom(siteManager.findRoom(10L));
+        bookGap.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
+
+        TimeSlot from = new TimeSlot(9, 0);
+        TimeSlot to = new TimeSlot(12, 0);
+
+        Booking booking = bookingManager.processBooking(u, bookGap, from, to);
+
+        Assert.assertNotNull(booking);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-processBookingDay.xml")
+    @ExpectedDataSet("/dataset/expected/BookingManagerTest-processBookingDayInner.xml")
+    public void processBookingDayInner() throws ParseException, BusinessException
+    {
+        User u = new User();
+        u.setId(1L);
+
+        Gap bookGap = new Gap();
+        bookGap.setRoom(siteManager.findRoom(10L));
+        bookGap.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
+
+        TimeSlot from = new TimeSlot(9, 30);
+        TimeSlot to = new TimeSlot(10, 30);
+
+        Booking booking = bookingManager.processBooking(u, bookGap, from, to);
+
+        Assert.assertNotNull(booking);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-processBookingDay.xml")
+    @ExpectedDataSet("/dataset/expected/BookingManagerTest-processBookingDayFullGap.xml")
+    public void processBookingDayInnerFullGap() throws ParseException, BusinessException
+    {
+        User u = new User();
+        u.setId(1L);
+
+        Gap bookGap = new Gap();
+        bookGap.setRoom(siteManager.findRoom(10L));
+        bookGap.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
+
+        TimeSlot from = new TimeSlot(9, 00);
+        TimeSlot to = new TimeSlot(11, 30);
+
+        Booking booking = bookingManager.processBooking(u, bookGap, from, to);
+
+        Assert.assertNotNull(booking);
+    }
 }
