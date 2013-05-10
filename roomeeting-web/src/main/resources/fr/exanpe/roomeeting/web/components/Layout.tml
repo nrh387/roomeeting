@@ -25,7 +25,7 @@
 			<div class="container-fluid">
 				<t:pagelink page="Index" class="brand">
 					<img src="${asset:context:img/logo_roomeeting.png}"  alt="${message:application-name-long}"
-					style="position: absolute; top: 0px; left: 0px;z-index:10"
+					style="position: absolute; top: 0px; left: 0px;z-index:10;height:73px"
 					class="img-polaroid"/>
 					Votre portail de réservation de salle de réunion
 				</t:pagelink>
