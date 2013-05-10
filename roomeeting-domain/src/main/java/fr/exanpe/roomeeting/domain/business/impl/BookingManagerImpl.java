@@ -141,15 +141,78 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         }
         if (gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
 
-        bookOnGap(gaps.get(0), user, bookGap, from, to);
-
-        return null;// TODO split gap
+        return bookOnGap(gaps.get(0), user, bookGap, from, to);
     }
 
-    private void bookOnGap(Gap gap, User user, Gap bookGap, TimeSlot from, TimeSlot to)
+    private Booking bookOnGap(Gap gap, User user, Gap bookGap, TimeSlot from, TimeSlot to)
     {
-        // have to split the gap
+        boolean onGapBound = false;
+        boolean perfectMatch = false;
 
+        // booking start on last booking end
+        if (from.getHours() == gap.getStartHour() && from.getMinutes() == gap.getStartMinute())
+        {
+            // alter gap
+            gap.setStartHour(to.getHours());
+            gap.setStartMinute(to.getMinutes());
+            onGapBound = true;
+        }
+        // booking end on next booking start
+        if (to.getHours() == gap.getEndHour() && to.getMinutes() == gap.getEndMinute())
+        {
+            // alter gap
+            gap.setEndHour(from.getHours());
+            gap.setEndMinute(from.getMinutes());
+            perfectMatch = onGapBound;
+            onGapBound = true;
+        }
+
+        if (onGapBound)
+        {
+            if (perfectMatch)
+            {
+                crudDAO.delete(Gap.class, gap.getId());
+            }
+            else
+            {
+                crudDAO.update(gap);
+            }
+        }
+        else
+        {
+            Gap gapEnd = new Gap();
+            gapEnd.setDate(bookGap.getDate());
+            gapEnd.setStartHour(to.getHours());
+            gapEnd.setStartMinute(to.getMinutes());
+
+            gapEnd.setEndHour(gap.getEndHour());
+            gapEnd.setEndMinute(gap.getEndMinute());
+
+            gapEnd.setRoom(bookGap.getRoom());
+
+            crudDAO.create(gapEnd);
+
+            // booking in the middle of a gap
+            gap.setEndHour(from.getHours());
+            gap.setEndMinute(from.getMinutes());
+            crudDAO.update(gap);
+        }
+
+        Booking booking = new Booking();
+
+        booking.setDate(bookGap.getDate());
+        booking.setStartHour(from.getHours());
+        booking.setStartMinute(from.getMinutes());
+
+        booking.setEndHour(to.getHours());
+        booking.setEndMinute(to.getMinutes());
+
+        booking.setRoom(bookGap.getRoom());
+        booking.setUser(user);
+
+        booking = crudDAO.create(booking);
+
+        return booking;
     }
 
     private Booking bookEmptyDay(User user, Gap bookGap, TimeSlot from, TimeSlot to)
