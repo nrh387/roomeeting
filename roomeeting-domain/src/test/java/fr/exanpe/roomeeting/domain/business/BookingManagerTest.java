@@ -32,6 +32,9 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @SpringBeanByType
     private RoomFeatureManager roomFeatureManager;
 
+    @SpringBeanByType
+    private UserManager userManager;
+
     private TimeSlot createTS(int hour)
     {
         return new TimeSlot(hour, 0);
@@ -313,5 +316,49 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         Booking booking = bookingManager.processBooking(u, bookGap, from, to);
 
         Assert.assertNotNull(booking);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-listUserFuturesBookings.xml")
+    public void listUserBookings() throws ParseException, BusinessException
+    {
+        User u = userManager.find(1L);
+
+        List<Booking> list = bookingManager.listUserFuturesBookings(u);
+
+        Assert.assertNotNull(list);
+        Assert.assertEquals(list.size(), 3);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-deleteBooking.xml")
+    @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingFirst.xml")
+    public void deleteBookingFirst() throws ParseException, BusinessException
+    {
+        bookingManager.deleteBooking(100L);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-deleteBooking.xml")
+    @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingLast.xml")
+    public void deleteBookingLast() throws ParseException, BusinessException
+    {
+        bookingManager.deleteBooking(101L);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-deleteBooking.xml")
+    @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingUnique.xml")
+    public void deleteBookingUnique() throws ParseException, BusinessException
+    {
+        bookingManager.deleteBooking(102L);
+    }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-deleteBooking.xml")
+    @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingMiddle.xml")
+    public void deleteBookingMiddle() throws ParseException, BusinessException
+    {
+        bookingManager.deleteBooking(104L);
     }
 }

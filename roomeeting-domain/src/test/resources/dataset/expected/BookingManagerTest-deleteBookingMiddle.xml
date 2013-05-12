@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dataset.xsd">
+  
+  <Parameter id="1" name="start_hour" integerValue="9"/>
+  <Parameter id="2" name="end_hour" integerValue="20"/>
+  
+  <USER id="1" username="admin" password="admin" email="admin@admin.com"/>
+  
+  <Site id="1" name="Le Bois" address="1 allée du bois" roomCount="2"/>
+  
+  <Room id="10" name="Oeillet" capacity="20" site_id="1"/>
+  <Room id="11" name="Rose" capacity="30" site_id="1"/>
+  
+  
+  <!-- Room 10, first booking -->
+  <Booking id="100" startHour="9" startMinute="00" endHour="12" endMinute="00"  room_id="10" user_id="1" date="2019-01-01"/>  
+  <Gap id="100" startHour="12" startMinute="00" endHour="20" endMinute="00" startTime="12:00:00" endTime="20:00:00" room_id="10" date="2019-01-01"/>  
+  
+  <!-- Room 10, last booking -->
+  <Gap id="101" startHour="9" startMinute="00" endHour="11" endMinute="30" startTime="09:00:00" endTime="11:30:00" room_id="10" date="2019-01-02"/>
+  <Booking id="101" startHour="11" startMinute="30" endHour="20" endMinute="00"  room_id="10" user_id="1" date="2019-01-02"/>
+  
+  <!-- Room 10, unique booking -->
+  <Booking id="102" startHour="9" startMinute="00" endHour="20" endMinute="00" room_id="10" user_id="1" date="2019-01-03"/>
+
+  <!-- Room 11, middle booking -->
+  <Gap id="102" startHour="9" startMinute="00" endHour="11" endMinute="30" startTime="09:00:00" endTime="11:30:00" room_id="11" date="2019-01-02"/>
+  <Booking id="103" startHour="11" startMinute="30" endHour="14" endMinute="00" room_id="11" user_id="1" date="2019-01-02"/>
+  <Gap id="104" startHour="14" startMinute="00" endHour="20" endMinute="00" startTime="14:00:00" endTime="20:00:00" room_id="11" date="2019-01-02"/>
+  
+</dataset>

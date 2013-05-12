@@ -22,7 +22,9 @@ import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 
 @Entity
 @NamedQueries(
-{ @NamedQuery(name = Gap.FIND_GAP_AROUND_TIMESLOT, query = "From Gap gap where gap.date = :date and gap.room = :room and gap.startTime <= :startTime and gap.endTime >= :endTime") })
+{
+        @NamedQuery(name = Gap.FIND_GAP_AROUND_TIMESLOT, query = "From Gap gap where gap.date = :date and gap.room = :room and gap.startTime <= :startTime and gap.endTime >= :endTime"),
+        @NamedQuery(name = Gap.FIND_GAP_FOR_TIME, query = "From Gap gap where gap.date = :date and gap.room = :room and (gap.startTime = :time or gap.endTime = :time)") })
 public class Gap implements Serializable
 {
     /**
@@ -31,6 +33,7 @@ public class Gap implements Serializable
     private static final long serialVersionUID = -243347798060345357L;
 
     public static final String FIND_GAP_AROUND_TIMESLOT = "Gap.findGapAroundTimeslot";
+    public static final String FIND_GAP_FOR_TIME = "Gap.findGapForTime";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

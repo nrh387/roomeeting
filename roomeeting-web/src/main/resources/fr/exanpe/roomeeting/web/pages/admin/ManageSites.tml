@@ -12,7 +12,7 @@
 			
 			<t:grid t:id="gridSites" t:source="sites" t:row="currentSite" 
 				t:include="name,address,roomCount" t:add="map,edit,delete" 
-				t:order="name,address,map,edit,delete"
+				t:reorder="name,address,map,edit,delete"
 				t:rowsPerPage="10" style="width:100%">
 				<p:mapCell>
 					<t:if test="hasMap(currentSite)">

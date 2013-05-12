@@ -8,6 +8,12 @@
 				<ul class="nav">
 					<li class="divider-vertical"></li>
 					<li>
+						<t:pagelink page="Home">
+							<i class="icon-home"> </i> ${message:home-label}
+						</t:pagelink>
+					</li>
+					<li class="divider-vertical"></li>
+					<li>
 						<t:pagelink page="room/Search" context="literal:_cleanup_">
 							<i class="icon-search"> </i> ${message:search-label}
 						</t:pagelink>

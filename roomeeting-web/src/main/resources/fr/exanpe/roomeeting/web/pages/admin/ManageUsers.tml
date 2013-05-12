@@ -34,7 +34,8 @@
 			<hr/>
 			
 			<t:grid t:id="gridUsers" t:source="users" t:row="currentUser" 
-				t:include="username,name,firstname" t:order="username,name,firstname,lastConnection"
+				t:include="username,name,firstname" 
+				t:reorder="username,name,firstname,lastConnection"
 				t:rowsPerPage="10" style="width:100%">
 				<p:lastConnection>
 					<t:output format="literal:dd/MM/yyyy" value="currentUser.lastConnection"/>

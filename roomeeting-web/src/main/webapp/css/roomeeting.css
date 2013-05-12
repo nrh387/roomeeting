@@ -187,19 +187,19 @@ ul.nav li a {
 
 #wrap {
     height: auto !important;
-    margin: 0 auto -60px;
+    margin: 0 auto -40px;
     min-height: 100%;
 }
 #push, footer {
-    height: 60px;
+    height: 40px;
 }
 footer {
     background-color: #F5F5F5;
     z-index: 1;
 }
 footer {
-    margin-left: -20px;
-    margin-right: -20px;
+/*    margin-left: -20px;
+    margin-right: -20px; */
     padding-left: 20px;
     padding-right: 20px;
 }

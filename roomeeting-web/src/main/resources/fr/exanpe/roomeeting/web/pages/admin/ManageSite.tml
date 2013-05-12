@@ -40,7 +40,7 @@
 				
 				<t:grid t:id="gridRooms" t:source="site.rooms" t:row="currentRoom" 
 					t:include="name,capacity,floor,phoneNumber" t:add="map,features,edit,delete" 
-					t:order="name,capacity,floor,phoneNumber,map,features"
+					t:reorder="name,capacity,floor,phoneNumber,map,features"
 					t:rowsPerPage="10" style="width:100%">
 					<p:mapCell>
 						<t:if test="hasRoomMap()">

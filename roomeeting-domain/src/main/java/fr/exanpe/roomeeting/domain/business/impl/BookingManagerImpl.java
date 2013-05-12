@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,12 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
     @Autowired
     private CrudDAO crudDAO;
+
+    @Override
+    public void delete(Long id)
+    {
+        throw new NotImplementedException("Use deleteBooking to ensure database coherency");
+    }
 
     @Override
     public List<DateAvailabilityDTO> searchRoomAvailable(RoomFilter filter)
@@ -122,6 +129,12 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     public Gap findGap(Long gapId)
     {
         return crudDAO.find(Gap.class, gapId);
+    }
+
+    @Override
+    public List<Booking> listUserFuturesBookings(User u)
+    {
+        return crudDAO.findWithNamedQuery(Booking.LIST_USER_FUTURES_BOOKINGS, QueryParameters.with("user", u).parameters());
     }
 
     @Override
@@ -215,6 +228,66 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         return booking;
     }
 
+    @Override
+    public void deleteBooking(Long id)
+    {
+        // get it attached
+        Booking booking = find(id);
+
+        boolean beforeisfirst = false;
+        boolean nothingbefore = false;
+
+        Gap before = null;
+
+        // before is always deleted
+        if (!isFirstHour(booking.getStartHour(), booking.getStartMinute()))
+        {
+            List<Gap> gaps = crudDAO.findWithNamedQuery(Gap.FIND_GAP_FOR_TIME, QueryParameters.with("room", booking.getRoom()).and("date", booking.getDate())
+                    .and("time", RoomDateUtils.setHourMinutes(new Date(), booking.getStartHour(), booking.getStartMinute())).parameters());
+
+            if (CollectionUtils.isEmpty(gaps) || gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
+
+            before = gaps.get(0);
+            if (isFirstHour(before.getStartHour(), before.getStartMinute()))
+            {
+                beforeisfirst = true;
+            }
+            entityManager.remove(before);
+        }
+        else
+        {
+            nothingbefore = true;
+        }
+
+        // got something after
+        if (!isLastHour(booking.getEndHour(), booking.getEndMinute()))
+        {
+            List<Gap> gaps = crudDAO.findWithNamedQuery(Gap.FIND_GAP_FOR_TIME, QueryParameters.with("room", booking.getRoom()).and("date", booking.getDate())
+                    .and("time", RoomDateUtils.setHourMinutes(new Date(), booking.getEndHour(), booking.getEndMinute())).parameters());
+
+            if (CollectionUtils.isEmpty(gaps) || gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
+
+            Gap after = gaps.get(0);
+            // last gap
+            if (isLastHour(after.getEndHour(), after.getEndMinute()) && (beforeisfirst || nothingbefore))
+            {
+                entityManager.remove(after);
+            }
+            else if (nothingbefore)
+            {
+                after.setStartHour(booking.getStartHour());
+                after.setStartMinute(booking.getStartMinute());
+            }
+            else
+            {// something after this gap, eat the before gap
+                after.setStartHour(before.getStartHour());
+                after.setStartMinute(before.getStartMinute());
+            }
+        }
+
+        entityManager.remove(booking);
+    }
+
     private Booking bookEmptyDay(User user, Gap bookGap, TimeSlot from, TimeSlot to)
     {
         // booking
@@ -269,14 +342,24 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         return booking;
     }
 
+    private boolean isFirstHour(int hour, int minute)
+    {
+        return hour == parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue() && minute == 0;
+    }
+
     private boolean isFirstHour(TimeSlot ts)
     {
-        return ts.getHours() == parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue() && ts.getMinutes() == 0;
+        return isFirstHour(ts.getHours(), ts.getMinutes());
+    }
+
+    private boolean isLastHour(int hour, int minute)
+    {
+        return hour == parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue() && minute == 0;
     }
 
     private boolean isLastHour(TimeSlot ts)
     {
-        return ts.getHours() == parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue() && ts.getMinutes() == 0;
+        return isLastHour(ts.getHours(), ts.getMinutes());
     }
 
     private Date toTime(Date d, TimeSlot ts)

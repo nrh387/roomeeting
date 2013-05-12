@@ -26,7 +26,7 @@
 				<div class="container-fluid">
 					<t:pagelink page="Index" class="brand">
 						<img src="${asset:context:img/logo_roomeeting.png}"  alt="${message:application-name-long}"
-						style="position: absolute; top: 0px; left: 0px;z-index:10;height:73px"
+						style="position: absolute; top: 0px; left: 0px;z-index:10"
 						class="img-polaroid"/>
 						Votre portail de réservation de salle de réunion
 					</t:pagelink>
@@ -54,7 +54,7 @@
 	</div>
 	
 	<footer id="footer">
-		<div style="text-align:center">
+		<div style="text-align:center;font-weight:bold;padding-top:5px">
 			<span>&nbsp; &copy; ${message:application-name-long } 2013</span>
 		</div>
 	</footer>

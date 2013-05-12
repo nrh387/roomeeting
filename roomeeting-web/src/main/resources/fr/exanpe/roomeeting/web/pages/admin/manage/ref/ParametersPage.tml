@@ -11,7 +11,7 @@
 			
 			<t:grid t:id="grid" t:source="list" t:row="current" 
 				t:include="name,description" t:add="value,edit" 
-				t:order="name,description,edit"
+				t:reorder="name,description,edit"
 				t:rowsPerPage="10" style="width:100%">
 				
 				<p:valueCell>

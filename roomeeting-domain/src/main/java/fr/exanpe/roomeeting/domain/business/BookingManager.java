@@ -23,4 +23,7 @@ public interface BookingManager extends DefaultManager<Booking, Long>
 
     Booking processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException;
 
+    void deleteBooking(Long id);
+
+    List<Booking> listUserFuturesBookings(User u);
 }
