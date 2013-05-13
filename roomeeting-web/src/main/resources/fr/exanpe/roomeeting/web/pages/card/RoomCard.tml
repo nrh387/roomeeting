@@ -1,0 +1,67 @@
+<html t:type="layout" title="${message:room-word} ${room?.name}"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+	
+	<div class="container-fluid">
+			<div class="row-fluid">
+				 <div class="span2">
+				 
+				 </div>
+				<div class="span10">
+	
+	<div class="span10">
+		
+		<div class="well">
+		
+			<t:if test="!room">
+				<h1 style="text-align:center">${message:room-word} ${message:unknown-word}</h1>
+			
+				<div class="alert alert-danger">
+					${message:room-not-found}				
+				</div>
+			<p:else>
+			
+				<h1 style="text-align:center">${message:room-word} ${room?.name}</h1>
+				
+				<t:displayValueContainer>
+					<t:displayValue label="name-label">
+						${room.name}
+					</t:displayValue>
+					<t:displayValue label="site-label">
+						<t:pagelink t:page="card/site" t:context="room.site.id">
+							${room.site.name}
+						</t:pagelink>
+					</t:displayValue>
+					<t:displayValue label="floor-label">
+						${room.floor}
+					</t:displayValue>
+					<t:displayValue label="capacity-label">
+						${room.capacity}
+					</t:displayValue>
+					<t:displayValue label="phoneNumber-label">
+						${room.phoneNumber}
+					</t:displayValue>
+					<t:displayValue label="features-label">
+						<t:displayroomfeatures features="room.features"/>
+					</t:displayValue>
+					<t:displayValue label="map-label">
+						<t:if test="hasMap()">
+							<t:restImage imageType="roomMap" t:context="room.id" title="${message:map-alt-prefix} ${room.name}" alt="${message:map-alt-prefix} ${room.name}"/>
+						</t:if>
+					</t:displayValue>
+				</t:displayValueContainer>
+					
+			</p:else>
+
+			</t:if>
+			
+		</div>
+	
+	</div>
+	
+				</div>
+			</div>		
+		
+		</div>
+	
+</html>

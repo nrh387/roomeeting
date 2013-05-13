@@ -1,0 +1,70 @@
+<html t:type="layout" title="${message:site-word} ${site?.name}"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter"
+      xmlns:ex="tapestry-library:exanpe">
+	
+	<div class="container-fluid">
+			<div class="row-fluid">
+				 <div class="span2">
+				 
+				 </div>
+				<div class="span10">
+	
+	<div class="span10">
+		
+		<div class="well">
+		
+			<t:if test="!site">
+				<h1 style="text-align:center">${message:site-word} ${message:unknown-word}</h1>
+			
+				<div class="alert alert-danger">
+					${message:site-not-found}				
+				</div>
+			<p:else>
+			
+				<h1 style="text-align:center">${message:site-word} ${site?.name}</h1>
+				
+				<t:displayValueContainer>
+					<t:displayValue label="name-label">
+						${site.name}
+					</t:displayValue>
+					<t:displayValue label="address-label">
+						${site.address}
+					</t:displayValue>
+					<t:displayValue label="roomNumber-label">
+						${site.roomCount}
+					</t:displayValue>
+					<t:displayValue label="map-label">
+						<t:if test="hasMap()">
+							<ex:gmap t:id="siteGMap" latitude="0" longitude="0" style="height:100px">
+								<ex:gmapmarker 
+									title="prop:site.name"
+									latitude="prop:site.latitude"
+									longitude="prop:site.longitude"
+									info="prop:site.address"
+									icon="asset:context:/img/google_maps.png"/>
+							</ex:gmap>
+							<script type="text/javascript">
+								jQuery(document).ready(function(){
+									siteGMap.map.setCenter(new google.maps.LatLng(${site.latitude},${site.longitude}))									
+									google.maps.event.trigger(siteGMap.map, 'resize');
+								});
+							</script>
+						</t:if>
+					</t:displayValue>
+				</t:displayValueContainer>
+					
+			</p:else>
+
+			</t:if>
+			
+		</div>
+	
+	</div>
+	
+				</div>
+			</div>		
+		
+		</div>
+	
+</html>

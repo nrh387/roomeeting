@@ -255,3 +255,12 @@ ul.displayRoomFeatures li{
 .modal-header{
 	color:#000000;	
 }
+
+.displayValueContainer hr{
+	margin:0px;
+	margin-bottom:6px;
+}
+
+.displayValueContainer .row-fluid [class*="span"]{
+	min-height:20px;	
+}

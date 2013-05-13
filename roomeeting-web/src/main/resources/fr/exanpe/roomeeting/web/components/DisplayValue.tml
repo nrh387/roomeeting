@@ -1,0 +1,17 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	<div class="row-fluid">
+		<label class="span4" style="font-weight:bold">
+			 ${label}
+		</label>
+		<div class="span8">
+			<t:body/>
+		</div>
+	</div>
+	<t:if test="last" negate="true">
+		<hr/>
+	</t:if>
+
+</t:container>

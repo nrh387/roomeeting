@@ -6,7 +6,7 @@
 		
 		<div class="well">
 		
-			<h1 style="text-align:center">Gestion des propriétés de salles</h1>
+			<h1 style="text-align:center">Gestion des caractéristiques de salles</h1>
 			<hr/>
 			
 			<t:grid t:id="grid" t:source="list" t:row="current" 
