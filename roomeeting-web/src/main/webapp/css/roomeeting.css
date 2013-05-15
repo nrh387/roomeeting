@@ -100,7 +100,6 @@ ul.nav li a {
     color: #000000;
     display: block;
     margin: 0 3px 0 0;
-    padding: 2px 0 2px 22px;
 }
 
 /** SKIN des composants Web **/
@@ -243,6 +242,7 @@ ul.displayRoomFeatures li{
     border-color: #000000;
     color: #000000;
 }
+
 
 /* hack modal into alert */
 .modal-header .close {

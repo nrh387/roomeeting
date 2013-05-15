@@ -9,6 +9,12 @@
 			<h1 style="text-align:center">Confirmation</h1>
 			<hr/>
 			
+			<t:if test="exportMessage">
+				<div class="alert alert-warning">
+					${exportMessage}
+				</div>
+			</t:if>
+			
 			<div class="alert alert-success">
 				<span style="font-weight:bold">
 					${message:confirm-head-phrase}
@@ -18,10 +24,27 @@
 				<hr/>
 				<t:roomdescription room="booking.room"/>
 			</div>
+			
+			<t:actionlink t:id="end" class="btn btn-primary">
+				<i class="icon-ok icon-white"></i> ${message:end}
+			</t:actionlink>
 		
-			<t:actionlink t:id="exportOutlook" class="btn">${message:exportOutlook}</t:actionlink>
+			<span class="pull-right" style="padding-left:10px">
+				<t:informations text="informations-iCalendar"/>
+			</span> 
+			<t:actionlink t:id="exportICal" class="btn pull-right">
+				<i class="icon-download-alt"></i> ${message:exportICal}
+			</t:actionlink>
+			
+			
 		</div>
 			
 	</div>
-		
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			jQuery('a[data-toggle=popover]').popover();
+		});
+	</script>
+	
 </html>

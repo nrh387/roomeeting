@@ -1,0 +1,18 @@
+<t:container 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" 
+	xmlns:p="tapestry:parameter">
+
+	<a href="#" onclick="return false;" 
+		data-original-title="${message:informations-title}" 
+		data-toggle="popover" 
+		data-html="true"
+		data-content="${text}"
+		data-placement="top">
+		
+		<img src="${asset:context:/img/informations.png}"
+		alt="${message:informations-alt-title}"
+		title="${message:informations-alt-title}"/>
+		
+	</a>
+
+</t:container>
