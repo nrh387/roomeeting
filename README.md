@@ -23,13 +23,7 @@ Among all its features, RooMeeting offers the following :
 * Incidents reporting to room managers
 
 
-Demo
+More
 ----
 
-*Coming soon*
-
-
-Installation
-------------
-
-*Coming soon*
+http://attonnnn.github.io/roomeeting
