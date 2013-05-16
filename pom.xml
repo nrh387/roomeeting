@@ -9,8 +9,9 @@
 	<description>Projet RooMeeting</description>
 
 	<scm>
-		<connection>scm:svn:http://</connection>
-		<url>http://svn.ptx.fr.sopra/</url>
+		<connection>scm:git:git@gitproxy:attonnnn/roomeeting.git</connection>
+		<developerConnection>scm:git:git@github.com:attonnnn/roomeeting.git</developerConnection>
+		<url>https://github.com/attonnnn/roomeeting</url>
 	</scm>
 
 	<properties>
@@ -25,6 +26,8 @@
         <hsqldb-version>2.2.8</hsqldb-version>
 		<unitils-version>3.1</unitils-version>
 		<compile-source>1.6</compile-source>
+    
+        <github.global.server>github</github.global.server>
 	</properties>
 
 	<!-- Dependances communes a l'ensemble des modules -->
@@ -128,12 +131,23 @@
 				<artifactId>maven-site-plugin</artifactId>
 				<version>2.0.1</version>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.1.2</version>
-			</plugin>
+      
+            <plugin>
+              <groupId>com.github.github</groupId>
+              <artifactId>site-maven-plugin</artifactId>
+              <version>0.8</version>
+              <configuration>
+                <message>Creating site for ${project.version}</message>
+              </configuration>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>site</goal>
+                  </goals>
+                  <phase>site</phase>
+                </execution>
+              </executions>
+            </plugin>
 
 			<!-- TODO : configurer le fichier custom -->
 			<plugin>
