@@ -288,6 +288,11 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         entityManager.remove(booking);
     }
 
+    public int purgeGaps()
+    {
+        return entityManager.createNamedQuery(Gap.PURGE).executeUpdate();
+    }
+
     private Booking bookEmptyDay(User user, Gap bookGap, TimeSlot from, TimeSlot to)
     {
         // booking

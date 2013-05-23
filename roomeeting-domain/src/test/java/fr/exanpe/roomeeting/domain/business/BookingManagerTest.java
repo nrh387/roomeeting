@@ -361,4 +361,12 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     {
         bookingManager.deleteBooking(104L);
     }
+
+    @Test
+    @DataSet(value = "/dataset/BookingManagerTest-purgeGaps.xml")
+    @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-purgeGaps.xml")
+    public void purgeGaps()
+    {
+        bookingManager.purgeGaps();
+    }
 }

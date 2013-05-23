@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
@@ -25,6 +26,7 @@ import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 {
         @NamedQuery(name = Gap.FIND_GAP_AROUND_TIMESLOT, query = "From Gap gap where gap.date = :date and gap.room = :room and gap.startTime <= :startTime and gap.endTime >= :endTime"),
         @NamedQuery(name = Gap.FIND_GAP_FOR_TIME, query = "From Gap gap where gap.date = :date and gap.room = :room and (gap.startTime = :time or gap.endTime = :time)") })
+@NamedNativeQuery(name = Gap.PURGE, query = "DELETE FROM Gap where date < CURRENT_DATE", resultClass = Gap.class)
 public class Gap implements Serializable
 {
     /**
@@ -34,6 +36,7 @@ public class Gap implements Serializable
 
     public static final String FIND_GAP_AROUND_TIMESLOT = "Gap.findGapAroundTimeslot";
     public static final String FIND_GAP_FOR_TIME = "Gap.findGapForTime";
+    public static final String PURGE = "Gap.purge";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

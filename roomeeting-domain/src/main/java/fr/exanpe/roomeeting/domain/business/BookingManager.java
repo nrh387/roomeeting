@@ -26,4 +26,9 @@ public interface BookingManager extends DefaultManager<Booking, Long>
     void deleteBooking(Long id);
 
     List<Booking> listUserFuturesBookings(User u);
+
+    /**
+     * @return the number of gaps purged
+     */
+    int purgeGaps();
 }
