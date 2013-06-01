@@ -9,24 +9,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd">
     
-    <task:annotation-driven/>
-
-	<bean id="roomeetingPasswordEncoder"
-		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
-
-	<bean id="roomeetingSaltSource"
-		class="org.springframework.security.authentication.dao.SystemWideSaltSource">
-		<property name="systemWideSalt" value="roomeetingSecureSalt3298679" />
-	</bean>
-	
-	<bean id="roomeetingAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-		<property name="userDetailsService" ref="roomeetingUserDetailService"/>
-		<property name="saltSource" ref="roomeetingSaltSource"/>
-		<property name="passwordEncoder" ref="roomeetingPasswordEncoder"/>
-	</bean>
-	
-	<!-- End Security beans -->
-
-    <import resource="classpath:applicationContext-versions-db.xml"/>
+    <bean id="v1_0_0" class="fr.exanpe.roomeeting.domain.database.versions.SimpleDatabaseVersion">
+      <constructor-arg><value>1.0.0</value></constructor-arg>
+      <constructor-arg><value>/sql/1.0.0/*</value></constructor-arg>
+    </bean>
     
 </beans>

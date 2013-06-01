@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -52,7 +50,6 @@ public class Role implements Serializable
      * all the time
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "J_ROLE_AUTHORITY", joinColumns = @JoinColumn(name = "id_role"), inverseJoinColumns = @JoinColumn(name = "id_authority"))
     private List<Authority> authorities;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)

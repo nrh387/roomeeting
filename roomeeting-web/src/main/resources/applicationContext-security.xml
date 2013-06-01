@@ -18,6 +18,12 @@
         <intercept-url pattern="/img/**" access="permitAll"/>
         <intercept-url pattern="/bootstrap/**" access="permitAll"/>
         <intercept-url pattern="/card/**" access="permitAll"/>
+        <intercept-url pattern="/admin/ManageUsers*" access="hasRole('AUTH_ADM_USERS')"/>
+        <intercept-url pattern="/admin/ManageSites*" access="hasAnyRole('AUTH_ADM_SITES','AUTH_ADM_ROOM')"/>
+        <intercept-url pattern="/admin/ManageSite*" access="hasRole('AUTH_ADM_ROOM')"/>
+        <intercept-url pattern="/admin/manage/ref/ParametersPage*" access="hasRole('AUTH_ADM_PARAMS')"/>
+        <intercept-url pattern="/admin/manage/ref/RoomFeaturesPage*" access="hasRole('AUTH_ADM_FEATURES')"/>
+        <intercept-url pattern="/admin/**" access="hasAnyRole('AUTH_ADM_USERS','AUTH_ADM_SITES','AUTH_ADM_ROOM','AUTH_ADM_FEATURES')"/>
 		<intercept-url pattern="/**" access="isAuthenticated()"/>
 		<form-login login-page="/" 
 					authentication-failure-url="/Index?loginFailed=true"

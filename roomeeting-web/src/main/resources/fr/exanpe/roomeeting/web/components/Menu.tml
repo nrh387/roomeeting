@@ -1,5 +1,6 @@
 <t:container
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:ex="tapestry-library:exanpe"
 	xmlns:p="tapestry:parameter">
 
 	<div class="navbar">
@@ -13,45 +14,57 @@
 						</t:pagelink>
 					</li>
 					<li class="divider-vertical"></li>
-					<li>
-						<t:pagelink page="room/Search" context="literal:_cleanup_">
-							<i class="icon-search"> </i> ${message:book-label}
-						</t:pagelink>
-					</li>
-					<li class="divider-vertical"></li>
+					<ex:authorize all="AUTH_BOOK">
+						<li>
+							<t:pagelink page="room/Search" context="literal:_cleanup_">
+								<i class="icon-search"> </i> ${message:book-label}
+							</t:pagelink>
+						</li>
+						<li class="divider-vertical"></li>
+					</ex:authorize>
 				</ul>
-				<ul class="nav nav pull-right">
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							<i class="icon-wrench"> </i> ${message:admin-label}
-							<b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu">
-							<li>
-								<t:pagelink page="admin/ManageSites">
-									${message:sites-label}
-								</t:pagelink>
-							</li>
-							<li>
-								<t:pagelink page="admin/ManageUsers">
-									${message:users-label}
-								</t:pagelink>
-							</li>
-							<li class="divider"></li>
-							<li class="nav-header">${message:ref-label}</li>
-							<li>
-								<t:pagelink page="admin/manage/ref/RoomFeaturesPage">
-									${message:roomfeatures-label}
-								</t:pagelink>
-							</li>
-							<li>
-								<t:pagelink page="admin/manage/ref/ParametersPage">
-									${message:params-label}
-								</t:pagelink>
-							</li>
-						</ul>
-					</li>
-				</ul>
+				<ex:authorize any="AUTH_ADM_USERS,AUTH_ADM_SITES,AUTH_ADM_ROOM,AUTH_ADM_FEATURES">
+					<ul class="nav nav pull-right">
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-wrench"> </i> ${message:admin-label}
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<ex:authorize any="AUTH_ADM_SITES,AUTH_ADM_ROOM">
+									<li>
+										<t:pagelink page="admin/ManageSites">
+											${message:sites-label}
+										</t:pagelink>
+									</li>
+								</ex:authorize>
+								<ex:authorize all="AUTH_ADM_USERS">
+									<li>
+										<t:pagelink page="admin/ManageUsers">
+											${message:users-label}
+										</t:pagelink>
+									</li>
+								</ex:authorize>
+								<li class="divider"></li>
+								<ex:authorize all="AUTH_ADM_FEATURES">
+									<li class="nav-header">${message:ref-label}</li>
+									<li>
+										<t:pagelink page="admin/manage/ref/RoomFeaturesPage">
+											${message:roomfeatures-label}
+										</t:pagelink>
+									</li>
+								</ex:authorize>
+								<ex:authorize all="AUTH_ADM_PARAMS">
+									<li>
+										<t:pagelink page="admin/manage/ref/ParametersPage">
+											${message:params-label}
+										</t:pagelink>
+									</li>
+								</ex:authorize>
+							</ul>
+						</li>
+					</ul>
+				</ex:authorize>
 
 			</div>
 		</div>

@@ -316,7 +316,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
             Gap before = new Gap();
 
             before.setDate(bookGap.getDate());
-            before.setStartHour(parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue());
+            before.setStartHour(parameterManager.findInteger(ParameterEnum.HOUR_DAY_START));
             before.setStartMinute(0);
 
             before.setEndHour(from.getHours());
@@ -336,7 +336,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
             after.setStartHour(to.getHours());
             after.setStartMinute(to.getMinutes());
 
-            after.setEndHour(parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue());
+            after.setEndHour(parameterManager.findInteger(ParameterEnum.HOUR_DAY_END));
             after.setEndMinute(0);
 
             after.setRoom(bookGap.getRoom());
@@ -349,7 +349,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
     private boolean isFirstHour(int hour, int minute)
     {
-        return hour == parameterManager.find(ParameterEnum.HOUR_DAY_START.getCode()).getIntegerValue() && minute == 0;
+        return hour == parameterManager.findInteger(ParameterEnum.HOUR_DAY_START) && minute == 0;
     }
 
     private boolean isFirstHour(TimeSlot ts)
@@ -359,7 +359,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
     private boolean isLastHour(int hour, int minute)
     {
-        return hour == parameterManager.find(ParameterEnum.HOUR_DAY_END.getCode()).getIntegerValue() && minute == 0;
+        return hour == parameterManager.findInteger(ParameterEnum.HOUR_DAY_END) && minute == 0;
     }
 
     private boolean isLastHour(TimeSlot ts)

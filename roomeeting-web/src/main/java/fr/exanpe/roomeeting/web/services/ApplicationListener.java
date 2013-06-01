@@ -21,17 +21,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
-import fr.exanpe.roomeeting.common.enums.ParameterEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
-import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.RoomFeatureManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
+import fr.exanpe.roomeeting.domain.database.DatabaseVersionManager;
 import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Room;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.User;
-import fr.exanpe.roomeeting.domain.model.ref.Parameter;
 import fr.exanpe.roomeeting.domain.model.ref.RoomFeature;
 
 /**
@@ -69,6 +67,16 @@ public class ApplicationListener
             return;
         }
 
+        context.getBean(UserManager.class).listRoles();
+
+        LOGGER.info("Mise à niveau de la base de données...");
+
+        // TODO in production mode too
+        DatabaseVersionManager db = context.getBean(DatabaseVersionManager.class);
+        db.boot();
+
+        LOGGER.info("Mise à niveau terminée");
+
         /**
          * En mode DEVELOPPEMENT, permet d'initialiser un jeu de données par défaut.
          */
@@ -77,9 +85,7 @@ public class ApplicationListener
         // Chargement du jeu de données de test
         try
         {
-            loadParameters(context);
             loadRoomFeatures(context);
-            loadRole(context);
             loadUser(context);
             loadSites(context);
         }
@@ -93,26 +99,6 @@ public class ApplicationListener
             LOGGER.error(">> Erreur fatale : impossible de charger le jeu de données de test: " + e);
             System.exit(1);
         }
-    }
-
-    private void loadParameters(ApplicationContext context)
-    {
-        LOGGER.info(">>> Parameter : Chargement du jeu de donnees par defaut...");
-
-        ParameterManager pm = context.getBean(ParameterManager.class);
-
-        Parameter p1 = new Parameter(ParameterEnum.HOUR_DAY_START.getCode(), "Heure d'ouverture des salles",
-                "Paramètre de l'heure d'ouverture des salles. Aucune salle ne pourra être réservée avant cet horaire.");
-        p1.setIntegerValue(8);
-
-        Parameter p2 = new Parameter(ParameterEnum.HOUR_DAY_END.getCode(), "Heure de fermeture des salles",
-                "Paramètre de l'heure de fermeture des salles. Aucune salle ne pourra être réservée après cet horaire.");
-        p2.setIntegerValue(20);
-
-        pm.create(p1);
-        pm.create(p2);
-
-        LOGGER.info("<<< Parameter : Chargement termine.");
     }
 
     private void loadRoomFeatures(ApplicationContext context) throws IOException
@@ -210,33 +196,6 @@ public class ApplicationListener
         LOGGER.info("<<< Sites : Chargement termine.");
     }
 
-    private void loadRole(ApplicationContext context) throws SQLException
-    {
-        LOGGER.info(">>> Roles : Chargement du jeu de donnees par defaut...");
-
-        UserManager rm = context.getBean(UserManager.class);
-
-        Role superAdmin = new Role();
-        superAdmin.setPriority(1);
-        superAdmin.setName("Super Admin");
-
-        rm.createRole(superAdmin);
-
-        Role admin = new Role();
-        superAdmin.setPriority(2);
-        admin.setName("Admin");
-
-        rm.createRole(admin);
-
-        Role user = new Role();
-        superAdmin.setPriority(3);
-        user.setName("User");
-
-        rm.createRole(user);
-
-        LOGGER.info("<<< Roles : Chargement termine.");
-    }
-
     private void loadUser(ApplicationContext context) throws SQLException, BusinessException
     {
         LOGGER.info(">>> Users : Chargement du jeu de donnees par defaut...");
@@ -246,17 +205,17 @@ public class ApplicationListener
         List<Role> roles = context.getBean(UserManager.class).listRoles();
 
         User superadmin = new User();
-        superadmin.setUsername("superadmin");
-        superadmin.setPassword("superadmin");
-        superadmin.setEmail("jul@gmail.com");
+        superadmin.setUsername("admin");
+        superadmin.setPassword("admin");
+        superadmin.setEmail("admin@admin.com");
         superadmin.setName("Name");
         superadmin.setFirstname("Firstname");
         userManager.createUser(superadmin, Collections.singletonList(roles.get(0)));
 
         User useradmin = new User();
-        useradmin.setUsername("admin");
-        useradmin.setPassword("admin");
-        useradmin.setEmail("jul@gmail.com");
+        useradmin.setUsername("sitemanager");
+        useradmin.setPassword("sitemanager");
+        useradmin.setEmail("sitemanager@sitemanager.com");
         useradmin.setName("Name");
         useradmin.setFirstname("Firstname");
         userManager.createUser(useradmin, Collections.singletonList(roles.get(1)));

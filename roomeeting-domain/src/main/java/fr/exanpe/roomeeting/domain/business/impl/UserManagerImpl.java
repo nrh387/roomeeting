@@ -27,12 +27,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import fr.exanpe.roomeeting.common.enums.AuthorityEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.business.filters.UserFilter;
 import fr.exanpe.roomeeting.domain.core.business.impl.DefaultManagerImpl;
 import fr.exanpe.roomeeting.domain.core.dao.CrudDAO;
 import fr.exanpe.roomeeting.domain.core.dao.QueryParameters;
+import fr.exanpe.roomeeting.domain.model.Authority;
 import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.User;
@@ -93,7 +95,7 @@ public class UserManagerImpl extends DefaultManagerImpl<User, Long> implements U
     @Transactional(readOnly = false, rollbackFor = BusinessException.class)
     public void createUser(User user, List<Role> roles) throws BusinessException
     {
-        if (!isAvailableUsername(user.getUsername())) { throw new BusinessException("L'utilisateur: " + user.getUsername() + " existe d�j�."); }
+        if (!isAvailableUsername(user.getUsername())) { throw new BusinessException("L'utilisateur: " + user.getUsername() + " existe déjà."); }
 
         String pass = user.getPassword();
         user.setPassword(this.passwordEncoder.encodePassword(pass, this.saltSource.getSalt(user)));
@@ -142,6 +144,18 @@ public class UserManagerImpl extends DefaultManagerImpl<User, Long> implements U
     public List<Role> listRoles()
     {
         return crudDAO.findWithNamedQuery(Role.FIND_ALL);
+    }
+
+    @Override
+    public void createAuthority(Authority a)
+    {
+        crudDAO.create(a);
+    }
+
+    @Override
+    public Authority findAuthority(AuthorityEnum a)
+    {
+        return crudDAO.find(Authority.class, a.getCode());
     }
 
     @Override

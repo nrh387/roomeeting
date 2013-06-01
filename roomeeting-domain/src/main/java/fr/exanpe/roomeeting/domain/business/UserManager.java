@@ -5,9 +5,11 @@ package fr.exanpe.roomeeting.domain.business;
 
 import java.util.List;
 
+import fr.exanpe.roomeeting.common.enums.AuthorityEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.filters.UserFilter;
 import fr.exanpe.roomeeting.domain.core.business.DefaultManager;
+import fr.exanpe.roomeeting.domain.model.Authority;
 import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.User;
@@ -57,7 +59,11 @@ public interface UserManager extends DefaultManager<User, Long>
 
     void createRole(Role r);
 
+    void createAuthority(Authority a);
+
     List<Role> listRoles();
+
+    Authority findAuthority(AuthorityEnum a);
 
     void onConnected(User user);
 

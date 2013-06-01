@@ -2,7 +2,7 @@ package fr.exanpe.roomeeting.common.enums;
 
 public enum ParameterEnum
 {
-    HOUR_DAY_START(1L), HOUR_DAY_END(2L);
+    HOUR_DAY_START(1L), HOUR_DAY_END(2L), DB_VERSION(99L);
 
     private long code;
 
