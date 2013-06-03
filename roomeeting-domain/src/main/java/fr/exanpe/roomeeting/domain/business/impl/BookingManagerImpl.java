@@ -137,11 +137,32 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Booking findWithRoomUser(Long id)
+    {
+        Booking booking = find(id);
+
+        if (booking == null) { return null; }
+        booking.getUser();
+        booking.getRoom();
+
+        return booking;
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Booking> listUserFuturesBookings(User u)
     {
         return crudDAO.findWithNamedQuery(Booking.LIST_USER_FUTURES_BOOKINGS, QueryParameters.with("user", u).parameters());
     }
 
+    @Override
+    public List<Booking> listUserPastsBookings(User user)
+    {
+        // TODO max as parameter
+        return crudDAO.findMaxResultsWithNamedQuery(Booking.LIST_USER_PASTS_BOOKINGS, QueryParameters.with("user", user).parameters(), 5);
+    }
+
+    // TODO trash TimeSlot ?
     @Override
     public Booking processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException
     {
@@ -376,4 +397,5 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     {
         return RoomDateUtils.setHourMinutes(d, ts.getHours(), ts.getMinutes());
     }
+
 }

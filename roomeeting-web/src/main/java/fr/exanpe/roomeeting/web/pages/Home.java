@@ -28,7 +28,11 @@ public class Home
 
     @Property
     @Persist(PersistenceConstants.FLASH)
-    private List<Booking> bookings;
+    private List<Booking> futuresBookings;
+
+    @Property
+    @Persist(PersistenceConstants.FLASH)
+    private List<Booking> pastsBookings;
 
     @Property
     private Booking currentBooking;
@@ -39,7 +43,8 @@ public class Home
     @SetupRender
     void setup()
     {
-        bookings = bookingManager.listUserFuturesBookings(securityContext.getUser());
+        futuresBookings = bookingManager.listUserFuturesBookings(securityContext.getUser());
+        pastsBookings = bookingManager.listUserPastsBookings(securityContext.getUser());
     }
 
     @OnEvent(value = EventConstants.ACTION, component = "cancel")

@@ -4,15 +4,14 @@
 package fr.exanpe.roomeeting.web.services;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.annotations.EagerLoad;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -22,10 +21,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import fr.exanpe.roomeeting.common.exception.BusinessException;
+import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.RoomFeatureManager;
 import fr.exanpe.roomeeting.domain.business.SiteManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
+import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.database.DatabaseVersionManager;
+import fr.exanpe.roomeeting.domain.model.Gap;
 import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Room;
 import fr.exanpe.roomeeting.domain.model.Site;
@@ -44,11 +46,6 @@ public class ApplicationListener
      * Logger de la classe
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationListener.class);
-
-    /**
-     * Le formatteur de date / heure
-     */
-    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     /**
      * Constructeur.
@@ -85,9 +82,9 @@ public class ApplicationListener
         // Chargement du jeu de données de test
         try
         {
-            loadRoomFeatures(context);
             loadUser(context);
             loadSites(context);
+            loadBookings(context);
         }
         catch (IOException e)
         {
@@ -101,49 +98,26 @@ public class ApplicationListener
         }
     }
 
-    private void loadRoomFeatures(ApplicationContext context) throws IOException
+    private void loadBookings(ApplicationContext context) throws BusinessException
     {
-        LOGGER.info(">>> RoomFeatures : Chargement du jeu de donnees par defaut...");
+        BookingManager bookingManager = context.getBean(BookingManager.class);
+        UserManager userManager = context.getBean(UserManager.class);
+        SiteManager siteManager = context.getBean(SiteManager.class);
 
-        RoomFeatureManager rfm = context.getBean(RoomFeatureManager.class);
+        User user = userManager.findByUsername("admin");
+        Room room = siteManager.findRoom(1L);
 
-        RoomFeature rf = new RoomFeature();
-        rf.setName("Video-conference");
-        rf.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/features/icons/videoconf.png")));
+        Gap g = new Gap();
+        g.setDate(DateUtils.add(new Date(), Calendar.DAY_OF_YEAR, -7));
+        g.setRoom(room);
 
-        rfm.create(rf);
+        bookingManager.processBooking(user, g, new TimeSlot(10, 0), new TimeSlot(14, 0));
 
-        RoomFeature rf2 = new RoomFeature();
-        rf2.setName("Projector");
-        rf2.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/features/icons/projector.png")));
+        Gap g2 = new Gap();
+        g2.setDate(DateUtils.add(new Date(), Calendar.DAY_OF_YEAR, 7));
+        g2.setRoom(room);
 
-        rfm.create(rf2);
-
-        RoomFeature rf3 = new RoomFeature();
-        rf3.setName("Secured");
-        rf3.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/features/icons/secured.png")));
-
-        rfm.create(rf3);
-
-        RoomFeature rf4 = new RoomFeature();
-        rf4.setName("Drinks");
-        rf4.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/features/icons/drinks.png")));
-
-        rfm.create(rf4);
-
-        RoomFeature rf5 = new RoomFeature();
-        rf5.setName("Phone-conference");
-        rf5.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/features/icons/phoneconf.png")));
-
-        rfm.create(rf5);
-
-        RoomFeature rf6 = new RoomFeature();
-        rf6.setName("Wi-Fi");
-        rf6.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream("/features/icons/wifi.png")));
-
-        rfm.create(rf6);
-
-        LOGGER.info("<<< RoomFeatures : Chargement termine.");
+        bookingManager.processBooking(user, g2, new TimeSlot(17, 0), new TimeSlot(18, 0));
     }
 
     private void loadSites(ApplicationContext context) throws SQLException, IOException
@@ -235,15 +209,5 @@ public class ApplicationListener
         {
             userManager.findByUsername("admin");
         }
-    }
-
-    private Connection pullConnection(ApplicationContext context) throws SQLException
-    {
-        return pullDataSource(context).getConnection();
-    }
-
-    private DataSource pullDataSource(ApplicationContext context)
-    {
-        return (DataSource) context.getBean("dataSource");
     }
 }

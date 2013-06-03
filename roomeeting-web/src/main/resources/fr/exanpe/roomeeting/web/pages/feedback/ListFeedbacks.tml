@@ -10,23 +10,23 @@
 			<hr/>
 			
 			<t:grid t:id="grid" t:source="list" t:row="current" 
-				t:include="room,user,feedback,date" t:add="delete" 
-				t:reorder="room,user,feedback,date"
+				t:include="feedback" t:add="roomA,userA,dateA,delete" 
+				t:reorder="roomA,userA,feedback,dateA,delete"
 				t:rowsPerPage="10" style="width:100%">
 				
-				<p:roomCell>
-					<t:pagelink target="_blank" page="card/roomcard" context="current.room.id">
-						${current.room.name}
+				<p:roomACell>
+					<t:pagelink target="_blank" page="card/roomcard" context="current.booking.room.id">
+						${current.booking.room.name}
 					</t:pagelink>
-				</p:roomCell>
-				<p:userCell>
-					<a href="mailto:${current.user.email}">
-						${current.user.name} ${current.user.firstname}
+				</p:roomACell>
+				<p:userACell>
+					<a href="mailto:${current.booking.user.email}">
+						${current.booking.user.name} ${current.booking.user.firstname}
 					</a>
-				</p:userCell>
-				<p:dateCell>
-					<t:output format="literal:dd/MM/yyyy" value="current.date"/>
-				</p:dateCell>
+				</p:userACell>
+				<p:dateACell>
+					<t:output format="literal:dd/MM/yyyy" value="current.booking.date"/>
+				</p:dateACell>
 				
 				<p:deleteCell>
 					<div align="center">

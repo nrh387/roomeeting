@@ -11,9 +11,9 @@
 			<h1 style="text-align:center">Bienvenue</h1>
 			
 			
-			<t:box title="message:bookings-text">
+			<t:box title="message:futures-bookings-text">
 				
-				<t:grid t:id="gridBookings" t:source="bookings" t:row="currentBooking" 
+				<t:grid t:id="gridFuturesBookings" t:source="futuresBookings" t:row="currentBooking" 
 					t:include="date" t:add="room,start,end,cancel" 
 					t:reorder="room,date,start,end"
 					t:rowsPerPage="10" style="width:100%">
@@ -44,12 +44,44 @@
 					</p:cancelCell>
 					
 					<p:empty>
-						${message:no-booking-text}
+						${message:no-futures-booking-text}
 					</p:empty>
 				</t:grid>
 				
 			</t:box>
 	
+			<t:box title="message:pasts-bookings-text">
+				<t:grid t:id="gridPastsBookings" t:source="pastsBookings" t:row="currentBooking" 
+					t:include="date" t:add="room,start,end,feedback" 
+					t:reorder="room,date,start,end,feedback"
+					t:rowsPerPage="10" style="width:100%">
+					
+					<p:dateCell>
+						<t:output format="literal:dd/MM/yyyy" value="currentBooking.date"/>
+					</p:dateCell>					
+					<p:roomCell>
+						${currentBooking.room.name}
+					</p:roomCell>
+					<p:startCell>
+						${formatCurrentStartTime()}
+					</p:startCell>
+					<p:endCell>
+						${formatCurrentEndTime()}
+					</p:endCell>
+					<p:feedbackCell>
+						<div style="text-align:center">
+							<t:pagelink t:page="feedback/PostFeedback" t:context="currentBooking.id">
+								<i class="icon-comment"></i>
+							</t:pagelink>
+						</div>
+					</p:feedbackCell>
+					
+					<p:empty>
+						${message:no-pasts-booking-text}
+					</p:empty>
+				</t:grid>
+			
+			</t:box>
 		</div>
 	</div>
 	

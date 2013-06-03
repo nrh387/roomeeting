@@ -3,42 +3,52 @@ package fr.exanpe.roomeeting.web.pages.feedback;
 import java.util.Date;
 
 import org.apache.commons.lang.time.FastDateFormat;
-import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.SetupRender;
+import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
+import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.FeedbackManager;
+import fr.exanpe.roomeeting.domain.model.Booking;
 import fr.exanpe.roomeeting.domain.model.Feedback;
-import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
+import fr.exanpe.roomeeting.web.pages.Home;
 
 public class PostFeedback
 {
     @Persist
+    @Property
     private Feedback feedback;
 
     @Inject
     private FeedbackManager feedbackManager;
 
     @Inject
-    private RooMeetingSecurityContext securityContext;
+    private BookingManager bookingManager;
 
     @Inject
     private Messages messages;
 
-    @SetupRender
-    void init()
+    Object onActivate(Long id)
     {
-        feedback.setUser(securityContext.getUser());
+        if (id == null) { return Home.class; }
+        Booking booking = bookingManager.findWithRoomUser(id);
+        if (booking == null) { return Home.class; }
+
+        feedback = new Feedback();
+        feedback.setBooking(booking);
+
+        return null;
     }
 
-    @OnEvent(value = EventConstants.ACTION, component = "post")
-    public void post()
+    @OnEvent(value = "post")
+    public Object post()
     {
         // security check
         feedbackManager.create(feedback);
+
+        return Home.class;
     }
 
     public String toStringDate(Date d)
@@ -46,19 +56,4 @@ public class PostFeedback
         return FastDateFormat.getInstance(messages.get("date-format")).format(d);
     }
 
-    /**
-     * @return the feedback
-     */
-    public Feedback getFeedback()
-    {
-        return feedback;
-    }
-
-    /**
-     * @param feedback the feedback to set
-     */
-    public void setFeedback(Feedback feedback)
-    {
-        this.feedback = feedback;
-    }
 }

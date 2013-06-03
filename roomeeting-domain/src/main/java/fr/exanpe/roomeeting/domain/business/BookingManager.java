@@ -27,8 +27,12 @@ public interface BookingManager extends DefaultManager<Booking, Long>
 
     List<Booking> listUserFuturesBookings(User u);
 
+    List<Booking> listUserPastsBookings(User user);
+
     /**
      * @return the number of gaps purged
      */
     int purgeGaps();
+
+    Booking findWithRoomUser(Long id);
 }

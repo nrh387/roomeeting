@@ -12,14 +12,19 @@
 			<t:form class="form-horizontal">
 				<t:errors/>
 				
-				<t:inputlabel label="date-label">
-						<t:textfield t:id="date" t:value="feedback.date" class="datepicker-input input-small"
-							data-date="${toStringDate(feedback.date)}" autocomplete="off"
-							data-date-startdate="${toStringDate(feedback.date)}"/>
-				</t:inputlabel>
+				<div class="alert alert-info">
+					<t:displayValueContainer>
+						<t:displayValue label="room-label">
+							${feedback.booking.room.name}
+						</t:displayValue>
+						<t:displayValue label="date-label" last="true">
+							<t:output format="literal:dd/MM/yyyy" value="feedback.booking.date"/>
+						</t:displayValue>
+					</t:displayValueContainer>
+				</div>
 				
-				<t:inputlabel forId="feedback" label="feedback">
-					<t:textarea t:value="feedback.feedback" id="feedback"/>
+				<t:inputlabel forId="feedback" label="feedback" required="true">
+					<t:textarea t:value="feedback.feedback" t:id="feedback" validate="required" style="width:80%; height:100px"/>
 				</t:inputlabel>
 				
 				<t:inputlabel>

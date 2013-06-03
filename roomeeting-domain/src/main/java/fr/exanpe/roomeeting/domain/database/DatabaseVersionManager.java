@@ -21,7 +21,8 @@ import org.springframework.stereotype.Component;
 
 import fr.exanpe.roomeeting.common.enums.ParameterEnum;
 import fr.exanpe.roomeeting.domain.business.ParameterManager;
-import fr.exanpe.roomeeting.domain.database.versions.OnlyDatabaseVersion;
+import fr.exanpe.roomeeting.domain.business.RoomFeatureManager;
+import fr.exanpe.roomeeting.domain.database.versions.OnlyDatabaseVersionDescriptor;
 import fr.exanpe.roomeeting.domain.model.ref.Parameter;
 
 @Component
@@ -34,6 +35,9 @@ public class DatabaseVersionManager
 
     @Autowired
     private ParameterManager parameterManager;
+
+    @Autowired
+    private RoomFeatureManager roomFeatureManager;
 
     @Autowired
     private DataSource dataSource;
@@ -52,11 +56,12 @@ public class DatabaseVersionManager
         {
             LOGGER.info("Initializing database from scratch");
             applyVersions = versions;
+            init_V1_0_0_features();
         }
         else
         {
             LOGGER.info("Database version detected [{}]", dbVersion);
-            DatabaseVersion currentVersion = new OnlyDatabaseVersion(dbVersion);
+            DatabaseVersion currentVersion = new OnlyDatabaseVersionDescriptor(dbVersion);
             applyVersions = filterVersions(currentVersion);
             if (CollectionUtils.isEmpty(applyVersions))
             {
@@ -82,6 +87,16 @@ public class DatabaseVersionManager
         parameterManager.update(p);
 
         LOGGER.info("Database up-to-date on version [{}]", p.getStringValue());
+    }
+
+    private void init_V1_0_0_features()
+    {
+        roomFeatureManager.create("Video-conference", "/features/icons/videoconf.png");
+        roomFeatureManager.create("Projector", "/features/icons/projector.png");
+        roomFeatureManager.create("Secured", "/features/icons/secured.png");
+        roomFeatureManager.create("Drinks", "/features/icons/drinks.png");
+        roomFeatureManager.create("Phone-conference", "/features/icons/phoneconf.png");
+        roomFeatureManager.create("Wi-Fi", "/features/icons/wifi.png");
     }
 
     private void sortVersions()

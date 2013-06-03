@@ -4,11 +4,11 @@ import org.springframework.core.io.Resource;
 
 import fr.exanpe.roomeeting.domain.database.DatabaseVersion;
 
-public class OnlyDatabaseVersion implements DatabaseVersion
+public class OnlyDatabaseVersionDescriptor implements DatabaseVersion
 {
     private String version;
 
-    public OnlyDatabaseVersion(String version)
+    public OnlyDatabaseVersionDescriptor(String version)
     {
         this.version = version;
     }

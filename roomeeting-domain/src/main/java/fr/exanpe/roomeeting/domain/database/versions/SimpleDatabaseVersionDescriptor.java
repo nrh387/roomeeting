@@ -9,7 +9,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import fr.exanpe.roomeeting.domain.database.DatabaseVersion;
 
-public class SimpleDatabaseVersion implements DatabaseVersion
+public class SimpleDatabaseVersionDescriptor implements DatabaseVersion
 {
     private static final PathMatchingResourcePatternResolver RESOURCE_LOADER = new PathMatchingResourcePatternResolver();
 
@@ -19,7 +19,7 @@ public class SimpleDatabaseVersion implements DatabaseVersion
 
     private Resource[] resources;
 
-    public SimpleDatabaseVersion(String version, String location)
+    public SimpleDatabaseVersionDescriptor(String version, String location)
     {
         this.version = version;
         this.location = location;

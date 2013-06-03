@@ -3,10 +3,13 @@
  */
 package fr.exanpe.roomeeting.domain.business.impl;
 
+import java.io.IOException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,23 @@ public class RoomFeatureManagerImpl extends DefaultManagerImpl<RoomFeature, Long
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Override
+    public void create(String name, String classpathIcon)
+    {
+        RoomFeature rf = new RoomFeature();
+        rf.setName("Video-conference");
+        try
+        {
+            rf.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream(classpathIcon)));
+        }
+        catch (IOException e)
+        {
+            LOGGER.error("Icon loading error", e);
+        }
+
+        create(rf);
+    }
 
     @Override
     public void delete(Long id)
