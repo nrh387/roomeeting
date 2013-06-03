@@ -1,0 +1,52 @@
+<html t:type="layoutmenu" title="${message:feedbacks}"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+	
+		<div class="span10">
+		
+		<div class="well">
+		
+			<h1 style="text-align:center">${message:feedbacks}</h1>
+			<hr/>
+			
+			<t:grid t:id="grid" t:source="list" t:row="current" 
+				t:include="room,user,feedback,date" t:add="delete" 
+				t:reorder="room,user,feedback,date"
+				t:rowsPerPage="10" style="width:100%">
+				
+				<p:roomCell>
+					<t:pagelink target="_blank" page="card/roomcard" context="current.room.id">
+						${current.room.name}
+					</t:pagelink>
+				</p:roomCell>
+				<p:userCell>
+					<a href="mailto:${current.user.email}">
+						${current.user.name} ${current.user.firstname}
+					</a>
+				</p:userCell>
+				<p:dateCell>
+					<t:output format="literal:dd/MM/yyyy" value="current.date"/>
+				</p:dateCell>
+				
+				<p:deleteCell>
+					<div align="center">
+						<t:actionlink t:id="delete" t:context="current.id"
+							t:mixins="exanpe/dialog"
+							t:title="delete-warning"
+							t:message="delete-text"
+							t:yesLabelButton="delete-yes"
+							t:noLabelButton="delete-no">
+							<i class="icon-remove"></i>
+						</t:actionlink>
+					</div>
+				</p:deleteCell>
+				<p:empty>
+					<div class="alert alert-info" style="text-align:center">
+						<i class="icon-info-sign"></i> ${message:no-results}
+					</div>
+				</p:empty>
+			</t:grid>
+		</div>
+	</div>
+	
+</html>

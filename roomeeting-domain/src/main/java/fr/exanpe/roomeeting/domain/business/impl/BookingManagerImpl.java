@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.exanpe.roomeeting.common.enums.ParameterEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
@@ -61,6 +63,7 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<DateAvailabilityDTO> searchRoomAvailable(RoomFilter filter)
     {
         int days = 0;
@@ -126,12 +129,14 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Gap findGap(Long gapId)
     {
         return crudDAO.find(Gap.class, gapId);
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Booking> listUserFuturesBookings(User u)
     {
         return crudDAO.findWithNamedQuery(Booking.LIST_USER_FUTURES_BOOKINGS, QueryParameters.with("user", u).parameters());

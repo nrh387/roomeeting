@@ -22,6 +22,14 @@
 						</li>
 						<li class="divider-vertical"></li>
 					</ex:authorize>
+					<ex:authorize all="AUTH_READ_FEEDBACK">
+						<li>
+							<t:pagelink page="feedback/ListFeedbacks">
+								<i class="icon-comment"> </i> ${message:feedback-label} (${getFeedbackCount()})
+							</t:pagelink>
+						</li>
+						<li class="divider-vertical"></li>
+					</ex:authorize>
 				</ul>
 				<ex:authorize any="AUTH_ADM_USERS,AUTH_ADM_SITES,AUTH_ADM_ROOM,AUTH_ADM_FEATURES">
 					<ul class="nav nav pull-right">
@@ -65,7 +73,6 @@
 						</li>
 					</ul>
 				</ex:authorize>
-
 			</div>
 		</div>
 	</div>

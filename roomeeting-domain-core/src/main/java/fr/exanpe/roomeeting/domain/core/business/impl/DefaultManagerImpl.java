@@ -90,4 +90,10 @@ public abstract class DefaultManagerImpl<T, PK extends Serializable> implements 
     {
         return crudDAO.list(entityType);
     }
+
+    @Override
+    public List<T> list(int max)
+    {
+        return crudDAO.list(entityType, max);
+    }
 }

@@ -1,5 +1,6 @@
 <configuration>
 
+  <property resource="conf-embedded.properties" />
   <property resource="roomeeting.properties" />
   <!-- Log home is parameterized from .properties. Can be hard coded here using a System/env var -->
   <property name="LOG_HOME" value="${log-home}" />

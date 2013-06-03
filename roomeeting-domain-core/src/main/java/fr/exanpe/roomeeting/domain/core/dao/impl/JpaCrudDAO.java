@@ -180,4 +180,10 @@ public class JpaCrudDAO implements CrudDAO
     {
         return (List<T>) entityManager.createQuery("FROM " + clazz.getSimpleName()).getResultList();
     }
+
+    @Override
+    public <T> List<T> list(Class<T> clazz, int max)
+    {
+        return (List<T>) entityManager.createQuery("FROM " + clazz.getSimpleName()).setMaxResults(max).getResultList();
+    }
 }

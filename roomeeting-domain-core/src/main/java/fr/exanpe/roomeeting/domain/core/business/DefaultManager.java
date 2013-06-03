@@ -81,4 +81,6 @@ public interface DefaultManager<T, PK extends Serializable>
     long count(String queryName, Map<String, Object> params);
 
     List<T> list();
+
+    List<T> list(int max);
 }

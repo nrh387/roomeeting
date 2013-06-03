@@ -1,0 +1,32 @@
+<html t:type="layoutmenu" title="${message:feedback}"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+	
+		<div class="span10">
+		
+		<div class="well">
+		
+			<h1 style="text-align:center">${message:feedback}</h1>
+			<hr/>
+			
+			<t:form class="form-horizontal">
+				<t:errors/>
+				
+				<t:inputlabel label="date-label">
+						<t:textfield t:id="date" t:value="feedback.date" class="datepicker-input input-small"
+							data-date="${toStringDate(feedback.date)}" autocomplete="off"
+							data-date-startdate="${toStringDate(feedback.date)}"/>
+				</t:inputlabel>
+				
+				<t:inputlabel forId="feedback" label="feedback">
+					<t:textarea t:value="feedback.feedback" id="feedback"/>
+				</t:inputlabel>
+				
+				<t:inputlabel>
+					<t:submit t:event="post" t:value="message:post-label" class="btn btn-primary"/>
+				</t:inputlabel>	
+			</t:form>
+		</div>
+	</div>
+	
+</html>

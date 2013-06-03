@@ -4,7 +4,8 @@ INSERT INTO Authority (id, authority) values (3, 'AUTH_ADM_ROOM');
 INSERT INTO Authority (id, authority) values (4, 'AUTH_ADM_FEATURES');
 INSERT INTO Authority (id, authority) values (5, 'AUTH_ADM_PARAMS');
 
-INSERT INTO Authority (id, authority) values (10, 'AUTH_HANDLE_INCIDENT');
+INSERT INTO Authority (id, authority) values (10, 'AUTH_READ_FEEDBACK');
+INSERT INTO Authority (id, authority) values (11, 'AUTH_POST_FEEDBACK');
 
 INSERT INTO Authority (id, authority) values (20, 'AUTH_BOOK');
 INSERT INTO Authority (id, authority) values (21, 'AUTH_REPORT_INCIDENT');

@@ -18,6 +18,8 @@
         <intercept-url pattern="/img/**" access="permitAll"/>
         <intercept-url pattern="/bootstrap/**" access="permitAll"/>
         <intercept-url pattern="/card/**" access="permitAll"/>
+        <intercept-url pattern="/feedback/ListFeedbacks*" access="hasRole('AUTH_READ_FEEDBACK')"/>
+        <intercept-url pattern="/feedback/PostFeedback*" access="hasRole('AUTH_POST_FEEDBACK')"/>
         <intercept-url pattern="/admin/ManageUsers*" access="hasRole('AUTH_ADM_USERS')"/>
         <intercept-url pattern="/admin/ManageSites*" access="hasAnyRole('AUTH_ADM_SITES','AUTH_ADM_ROOM')"/>
         <intercept-url pattern="/admin/ManageSite*" access="hasRole('AUTH_ADM_ROOM')"/>

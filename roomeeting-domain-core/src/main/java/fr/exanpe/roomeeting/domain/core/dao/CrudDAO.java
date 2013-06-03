@@ -151,4 +151,6 @@ public interface CrudDAO
     <T> void refresh(T t);
 
     <T> List<T> list(Class<T> clazz);
+
+    <T> List<T> list(Class<T> clazz, int max);
 }
