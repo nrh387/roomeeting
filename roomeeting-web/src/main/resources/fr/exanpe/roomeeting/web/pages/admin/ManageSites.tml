@@ -2,60 +2,56 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter" 
       xmlns:ex="tapestry-library:exanpe">
-		
-	<div class="span10">
-		
-		<div class="well">
-		
-			<h1 style="text-align:center">Gestion des sites</h1>
-			<hr/>
-			
-			<t:grid t:id="gridSites" t:source="sites" t:row="currentSite" 
-				t:include="name,address,roomCount" t:add="map,edit,delete" 
-				t:reorder="name,address,map,edit,delete"
-				t:rowsPerPage="10" style="width:100%">
-				<p:mapCell>
-					<t:if test="hasMap(currentSite)">
-						<div align="center">
-							<t:sitemapbutton latitude="currentSite.latitude" longitude="currentSite.longitude"/>
-						</div>
-					</t:if>
-					
-				</p:mapCell>
-				<p:editCell>
-					<div align="center">
-						<t:pagelink t:page="admin/ManageSite" t:context="currentSite.id">
-							<i class="icon-edit"></i>
-						</t:pagelink>
-					</div>
-				</p:editCell>
-				<p:deleteCell>
-					<div align="center">
-						<t:actionlink t:id="delete" t:context="currentSite.id"
-							t:mixins="exanpe/dialog"
-							t:title="delete-warning"
-							t:message="delete-text"
-							t:yesLabelButton="delete-yes"
-							t:noLabelButton="delete-no">
-							<i class="icon-remove"></i>
-						</t:actionlink>
-					</div>
-				</p:deleteCell>
-				<p:empty>
-					${message:no-results}
-				</p:empty>
-			</t:grid>
-			
-			<br/>
-			<t:pagelink t:page="admin/ManageSite" t:context="literal:_cleanup_" class="btn btn-primary">
-				<i class="icon-plus icon-white"></i> ${message:add } 
-			</t:pagelink>
-			<br/><br/>
 
-		</div>
+	<div class="well">
 	
+		<h1 style="text-align:center">Gestion des sites</h1>
+		<hr/>
+		
+		<t:grid t:id="gridSites" t:source="sites" t:row="currentSite" 
+			t:include="name,address,roomCount" t:add="map,edit,delete" 
+			t:reorder="name,address,map,edit,delete"
+			t:rowsPerPage="10" style="width:100%">
+			<p:mapCell>
+				<t:if test="hasMap(currentSite)">
+					<div align="center">
+						<t:sitemapbutton latitude="currentSite.latitude" longitude="currentSite.longitude"/>
+					</div>
+				</t:if>
+				
+			</p:mapCell>
+			<p:editCell>
+				<div align="center">
+					<t:pagelink t:page="admin/ManageSite" t:context="currentSite.id">
+						<i class="icon-edit"></i>
+					</t:pagelink>
+				</div>
+			</p:editCell>
+			<p:deleteCell>
+				<div align="center">
+					<t:actionlink t:id="delete" t:context="currentSite.id"
+						t:mixins="exanpe/dialog"
+						t:title="delete-warning"
+						t:message="delete-text"
+						t:yesLabelButton="delete-yes"
+						t:noLabelButton="delete-no">
+						<i class="icon-remove"></i>
+					</t:actionlink>
+				</div>
+			</p:deleteCell>
+			<p:empty>
+				${message:no-results}
+			</p:empty>
+		</t:grid>
+		
+		<br/>
+		<t:pagelink t:page="admin/ManageSite" t:context="literal:_cleanup_" class="btn btn-primary">
+			<i class="icon-plus icon-white"></i> ${message:add } 
+		</t:pagelink>
+		<br/><br/>
+
 	</div>
-	
+
 	<t:if test="sites">
 		<t:sitemapmodal markers="markers"/>
 	</t:if>	

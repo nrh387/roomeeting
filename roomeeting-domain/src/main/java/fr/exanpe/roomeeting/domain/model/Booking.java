@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 @NamedQueries(
 {
         @NamedQuery(name = Booking.FIND_BOOKING_FOR_DATE, query = "From Booking booking where booking.date = :date and booking.room = :room"),
-        @NamedQuery(name = Booking.LIST_USER_FUTURES_BOOKINGS, query = "From Booking booking left join fetch booking.room where booking.user = :user and (booking.date > CURRENT_DATE or (booking.date = CURRENT_DATE and booking.startHour > HOUR(CURRENT_TIME))) order by booking.date, booking.startHour, booking.startMinute"),
+        @NamedQuery(name = Booking.LIST_USER_FUTURES_BOOKINGS, query = "From Booking booking left join fetch booking.room where booking.user = :user and (booking.date > CURRENT_DATE or (booking.date = CURRENT_DATE and booking.endHour > HOUR(CURRENT_TIME))) order by booking.date, booking.startHour, booking.startMinute"),
         @NamedQuery(name = Booking.LIST_USER_PASTS_BOOKINGS, query = "From Booking booking left join fetch booking.room where booking.user = :user and (booking.date < CURRENT_DATE or (booking.date = CURRENT_DATE and booking.endHour <= HOUR(CURRENT_TIME))) order by booking.date, booking.endHour, booking.endMinute") })
 public class Booking implements Serializable
 {

@@ -25,6 +25,8 @@ public class RoomFeatureManagerImpl extends DefaultManagerImpl<RoomFeature, Long
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomFeatureManagerImpl.class);
 
+    private static final String DEFAULT_ICON = "/features/icons/unknown.png";
+
     @Autowired
     private CrudDAO crudDAO;
 
@@ -35,7 +37,7 @@ public class RoomFeatureManagerImpl extends DefaultManagerImpl<RoomFeature, Long
     public void create(String name, String classpathIcon)
     {
         RoomFeature rf = new RoomFeature();
-        rf.setName("Video-conference");
+        rf.setName(name);
         try
         {
             rf.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream(classpathIcon)));
@@ -43,6 +45,14 @@ public class RoomFeatureManagerImpl extends DefaultManagerImpl<RoomFeature, Long
         catch (IOException e)
         {
             LOGGER.error("Icon loading error", e);
+            try
+            {
+                rf.setIcon(IOUtils.toByteArray(Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_ICON)));
+            }
+            catch (IOException e1)
+            {
+                LOGGER.error("Default icon loading error", e);
+            }
         }
 
         create(rf);

@@ -1,88 +1,83 @@
 <html t:type="layoutmenu" title="Accueil"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
+		
+	<div class="well">
 	
+		<h1 style="text-align:center">Bienvenue</h1>
+		
+		
+		<t:box title="message:futures-bookings-text">
+			
+			<t:grid t:id="gridFuturesBookings" t:source="futuresBookings" t:row="currentBooking" 
+				t:include="date" t:add="room,start,end,cancel" 
+				t:reorder="room,date,start,end"
+				t:rowsPerPage="10" style="width:100%">
+				
+				<p:dateCell>
+					<t:output format="literal:dd/MM/yyyy" value="currentBooking.date"/>
+				</p:dateCell>					
+				<p:roomCell>
+					${currentBooking.room.name}
+				</p:roomCell>
+				<p:startCell>
+					${formatCurrentStartTime()}
+				</p:startCell>
+				<p:endCell>
+					${formatCurrentEndTime()}
+				</p:endCell>
+				<p:cancelCell>
+					<div style="text-align:center">
+						<t:actionlink t:id="cancel" t:context="currentBooking.id"
+							t:mixins="exanpe/dialog"
+							t:title="delete-warning"
+							t:message="delete-text"
+							t:yesLabelButton="delete-yes"
+							t:noLabelButton="delete-no">
+							<i class="icon-remove"></i>
+						</t:actionlink>
+					</div>
+				</p:cancelCell>
+				
+				<p:empty>
+					${message:no-futures-booking-text}
+				</p:empty>
+			</t:grid>
+			
+		</t:box>
 
-	
-	<div class="span10">
-		
-		<div class="well">
-		
-			<h1 style="text-align:center">Bienvenue</h1>
-			
-			
-			<t:box title="message:futures-bookings-text">
+		<t:box title="message:pasts-bookings-text">
+			<t:grid t:id="gridPastsBookings" t:source="pastsBookings" t:row="currentBooking" 
+				t:include="date" t:add="room,start,end,feedback" 
+				t:reorder="room,date,start,end,feedback"
+				t:rowsPerPage="10" style="width:100%">
 				
-				<t:grid t:id="gridFuturesBookings" t:source="futuresBookings" t:row="currentBooking" 
-					t:include="date" t:add="room,start,end,cancel" 
-					t:reorder="room,date,start,end"
-					t:rowsPerPage="10" style="width:100%">
-					
-					<p:dateCell>
-						<t:output format="literal:dd/MM/yyyy" value="currentBooking.date"/>
-					</p:dateCell>					
-					<p:roomCell>
-						${currentBooking.room.name}
-					</p:roomCell>
-					<p:startCell>
-						${formatCurrentStartTime()}
-					</p:startCell>
-					<p:endCell>
-						${formatCurrentEndTime()}
-					</p:endCell>
-					<p:cancelCell>
-						<div style="text-align:center">
-							<t:actionlink t:id="cancel" t:context="currentBooking.id"
-								t:mixins="exanpe/dialog"
-								t:title="delete-warning"
-								t:message="delete-text"
-								t:yesLabelButton="delete-yes"
-								t:noLabelButton="delete-no">
-								<i class="icon-remove"></i>
-							</t:actionlink>
-						</div>
-					</p:cancelCell>
-					
-					<p:empty>
-						${message:no-futures-booking-text}
-					</p:empty>
-				</t:grid>
+				<p:dateCell>
+					<t:output format="literal:dd/MM/yyyy" value="currentBooking.date"/>
+				</p:dateCell>					
+				<p:roomCell>
+					${currentBooking.room.name}
+				</p:roomCell>
+				<p:startCell>
+					${formatCurrentStartTime()}
+				</p:startCell>
+				<p:endCell>
+					${formatCurrentEndTime()}
+				</p:endCell>
+				<p:feedbackCell>
+					<div style="text-align:center">
+						<t:pagelink t:page="feedback/PostFeedback" t:context="currentBooking.id">
+							<i class="icon-comment"></i>
+						</t:pagelink>
+					</div>
+				</p:feedbackCell>
 				
-			</t:box>
-	
-			<t:box title="message:pasts-bookings-text">
-				<t:grid t:id="gridPastsBookings" t:source="pastsBookings" t:row="currentBooking" 
-					t:include="date" t:add="room,start,end,feedback" 
-					t:reorder="room,date,start,end,feedback"
-					t:rowsPerPage="10" style="width:100%">
-					
-					<p:dateCell>
-						<t:output format="literal:dd/MM/yyyy" value="currentBooking.date"/>
-					</p:dateCell>					
-					<p:roomCell>
-						${currentBooking.room.name}
-					</p:roomCell>
-					<p:startCell>
-						${formatCurrentStartTime()}
-					</p:startCell>
-					<p:endCell>
-						${formatCurrentEndTime()}
-					</p:endCell>
-					<p:feedbackCell>
-						<div style="text-align:center">
-							<t:pagelink t:page="feedback/PostFeedback" t:context="currentBooking.id">
-								<i class="icon-comment"></i>
-							</t:pagelink>
-						</div>
-					</p:feedbackCell>
-					
-					<p:empty>
-						${message:no-pasts-booking-text}
-					</p:empty>
-				</t:grid>
-			
-			</t:box>
-		</div>
+				<p:empty>
+					${message:no-pasts-booking-text}
+				</p:empty>
+			</t:grid>
+		
+		</t:box>
 	</div>
 	
 </html>

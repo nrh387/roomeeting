@@ -1,67 +1,63 @@
 <html t:type="layoutmenu" title="Recherche"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
-
-	<div class="span10">
 		
-		<div class="well">
+	<div class="well">
+	
+		<h1 style="text-align:center">Recherche d'une salle</h1>
+		<hr/>
 		
-			<h1 style="text-align:center">Recherche d'une salle</h1>
-			<hr/>
-			
-			<t:if test="noResult">
-				<div class="alert alert-info" style="text-align:center">
-					${message:no-results}
-				</div>
-			</t:if>
-			
-			<t:if test="sitesSelectModel">
-				<t:form class="form-horizontal">
-					<t:errors/>
-					
-					<t:inputlabel forId="name" label="name-label">
-						<t:textfield t:value="filter.name" id="name"/>
-					</t:inputlabel>
-					<hr/>
-					
-					<t:inputlabel forId="site" label="site-name-label">
-						<t:select model="sitesSelectModel" t:value="filter.site"/>
-					</t:inputlabel>
-					<t:inputlabel forId="capacity" required="true" label="capacity-label">
-						<t:textfield t:value="filter.capacity" id="capacity" class="input-mini"/>
-					</t:inputlabel>
-
-					<t:inputlabel label="features-label">
-						<t:roomFeaturesSelection selected="filter.features"/>
-					</t:inputlabel>
-					<hr/>
-					
-					<t:inputlabel label="date-label">
-						<t:textfield t:id="date" t:value="filter.date" class="datepicker-input input-small"
-							data-date="${toStringDate(filter.date)}" autocomplete="off"
-							data-date-startdate="${toStringDate(today)}"/>
-							
-							${message:extend-days-label}
-								<t:textfield t:value="filter.extendDays" t:id="extendDays" class="span1"/> 
-								${message:days}
-								<t:checkbox t:value="filter.extendWorkingOnly"/> ${message:working-only} 
-
-					</t:inputlabel>
-					<t:inputlabel label="restrict-label">
-						${message:from} <t:select class="input-small" model="hoursModel" t:value="filter.restrictFrom" t:validate="required"/> ${message:to} <t:select class="input-small" model="hoursModel" t:value="filter.restrictTo" t:validate="required"/> 
-					</t:inputlabel>
-					
-					<t:inputlabel>
-						<t:submit t:event="search" t:value="message:search-label" class="btn btn-primary"/>
-					</t:inputlabel>	
-				</t:form>
+		<t:if test="noResult">
+			<div class="alert alert-info" style="text-align:center">
+				${message:no-results}
+			</div>
+		</t:if>
+		
+		<t:if test="sitesSelectModel">
+			<t:form class="form-horizontal">
+				<t:errors/>
 				
-			<p:else>
-				${message:no-site}
-			</p:else>
-			</t:if>
-		
-		</div>
+				<t:inputlabel forId="name" label="name-label">
+					<t:textfield t:value="filter.name" id="name"/>
+				</t:inputlabel>
+				<hr/>
+				
+				<t:inputlabel forId="site" label="site-name-label">
+					<t:select model="sitesSelectModel" t:value="filter.site"/>
+				</t:inputlabel>
+				<t:inputlabel forId="capacity" required="true" label="capacity-label">
+					<t:textfield t:value="filter.capacity" id="capacity" class="input-mini"/>
+				</t:inputlabel>
+
+				<t:inputlabel label="features-label">
+					<t:roomFeaturesSelection selected="filter.features"/>
+				</t:inputlabel>
+				<hr/>
+				
+				<t:inputlabel label="date-label">
+					<t:textfield t:id="date" t:value="filter.date" class="datepicker-input input-small"
+						data-date="${toStringDate(filter.date)}" autocomplete="off"
+						data-date-startdate="${toStringDate(today)}"/>
+						
+						${message:extend-days-label}
+							<t:textfield t:value="filter.extendDays" t:id="extendDays" class="span1"/> 
+							${message:days}
+							<t:checkbox t:value="filter.extendWorkingOnly"/> ${message:working-only} 
+
+				</t:inputlabel>
+				<t:inputlabel label="restrict-label">
+					${message:from} <t:select class="input-small" model="hoursModel" t:value="filter.restrictFrom" t:validate="required"/> ${message:to} <t:select class="input-small" model="hoursModel" t:value="filter.restrictTo" t:validate="required"/> 
+				</t:inputlabel>
+				
+				<t:inputlabel>
+					<t:submit t:event="search" t:value="message:search-label" class="btn btn-primary"/>
+				</t:inputlabel>	
+			</t:form>
+			
+		<p:else>
+			${message:no-site}
+		</p:else>
+		</t:if>
 	
 	</div>
 		

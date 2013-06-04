@@ -1,44 +1,40 @@
 <html t:type="layoutmenu" title="Recherche"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
+
+	<div class="well">
 	
-	<div class="span10">
+		<h1 style="text-align:center">Confirmation</h1>
+		<hr/>
 		
-		<div class="well">
-		
-			<h1 style="text-align:center">Confirmation</h1>
-			<hr/>
-			
-			<t:if test="exportMessage">
-				<div class="alert alert-warning">
-					${exportMessage}
-				</div>
-			</t:if>
-			
-			<div class="alert alert-success">
-				<span style="font-weight:bold">
-					${message:confirm-head-phrase}
-				</span><br/><br/><br/>
-				
-				<t:sitedescription site="booking.room.site"/>
-				<hr/>
-				<t:roomdescription room="booking.room"/>
+		<t:if test="exportMessage">
+			<div class="alert alert-warning">
+				${exportMessage}
 			</div>
-			
-			<t:actionlink t:id="end" class="btn btn-primary">
-				<i class="icon-ok icon-white"></i> ${message:end}
-			</t:actionlink>
+		</t:if>
 		
-			<span class="pull-right" style="padding-left:10px">
-				<t:informations text="informations-iCalendar"/>
-			</span> 
-			<t:actionlink t:id="exportICal" class="btn pull-right">
-				<i class="icon-download-alt"></i> ${message:exportICal}
-			</t:actionlink>
+		<div class="alert alert-success">
+			<span style="font-weight:bold">
+				${message:confirm-head-phrase}
+			</span><br/><br/><br/>
 			
-			
+			<t:sitedescription site="booking.room.site"/>
+			<hr/>
+			<t:roomdescription room="booking.room"/>
 		</div>
-			
+		
+		<t:actionlink t:id="end" class="btn btn-primary">
+			<i class="icon-ok icon-white"></i> ${message:end}
+		</t:actionlink>
+	
+		<span class="pull-right" style="padding-left:10px">
+			<t:informations text="informations-iCalendar"/>
+		</span> 
+		<t:actionlink t:id="exportICal" class="btn pull-right">
+			<i class="icon-download-alt"></i> ${message:exportICal}
+		</t:actionlink>
+		
+		
 	</div>
 	
 	<script type="text/javascript">

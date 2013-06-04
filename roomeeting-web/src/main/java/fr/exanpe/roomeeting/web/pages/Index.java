@@ -5,6 +5,8 @@ import org.apache.tapestry5.annotations.RequestParameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.RequestGlobals;
 
+import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
+
 /**
  * Start page of application roomeeting-web.
  */
@@ -21,11 +23,18 @@ public class Index
     @Inject
     private RequestGlobals globals;
 
-    void onActivate(@RequestParameter(value = "loginFailed", allowBlank = true)
+    @Inject
+    private RooMeetingSecurityContext securityContext;
+
+    Object onActivate(@RequestParameter(value = "loginFailed", allowBlank = true)
     boolean loginFailed)
     {
+        if (securityContext.isLoggedIn()) { return Home.class; }
+
         this.loginFailed = loginFailed;
         this.contextRoot = globals.getRequest().getContextPath();
+
+        return null;
     }
 
 }

@@ -1,37 +1,34 @@
 <html t:type="layoutmenu" title="${message:feedback}"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
+
+	<div class="well">
 	
-		<div class="span10">
+		<h1 style="text-align:center">${message:feedback}</h1>
+		<hr/>
 		
-		<div class="well">
-		
-			<h1 style="text-align:center">${message:feedback}</h1>
-			<hr/>
+		<t:form class="form-horizontal">
+			<t:errors/>
 			
-			<t:form class="form-horizontal">
-				<t:errors/>
-				
-				<div class="alert alert-info">
-					<t:displayValueContainer>
-						<t:displayValue label="room-label">
-							${feedback.booking.room.name}
-						</t:displayValue>
-						<t:displayValue label="date-label" last="true">
-							<t:output format="literal:dd/MM/yyyy" value="feedback.booking.date"/>
-						</t:displayValue>
-					</t:displayValueContainer>
-				</div>
-				
-				<t:inputlabel forId="feedback" label="feedback" required="true">
-					<t:textarea t:value="feedback.feedback" t:id="feedback" validate="required" style="width:80%; height:100px"/>
-				</t:inputlabel>
-				
-				<t:inputlabel>
-					<t:submit t:event="post" t:value="message:post-label" class="btn btn-primary"/>
-				</t:inputlabel>	
-			</t:form>
-		</div>
+			<div class="alert alert-info">
+				<t:displayValueContainer>
+					<t:displayValue label="room-label">
+						${feedback.booking.room.name}
+					</t:displayValue>
+					<t:displayValue label="date-label" last="true">
+						<t:output format="literal:dd/MM/yyyy" value="feedback.booking.date"/>
+					</t:displayValue>
+				</t:displayValueContainer>
+			</div>
+			
+			<t:inputlabel forId="feedback" label="feedback" required="true">
+				<t:textarea t:value="feedback.feedback" t:id="feedback" validate="required" style="width:80%; height:100px"/>
+			</t:inputlabel>
+			
+			<t:inputlabel>
+				<t:submit t:event="post" t:value="message:post-label" class="btn btn-primary"/>
+			</t:inputlabel>	
+		</t:form>
 	</div>
 	
 </html>

@@ -1,52 +1,49 @@
 <html t:type="layoutmenu" title="${message:feedbacks}"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
+		
+	<div class="well">
 	
-		<div class="span10">
+		<h1 style="text-align:center">${message:feedbacks}</h1>
+		<hr/>
 		
-		<div class="well">
-		
-			<h1 style="text-align:center">${message:feedbacks}</h1>
-			<hr/>
+		<t:grid t:id="grid" t:source="list" t:row="current" 
+			t:include="feedback" t:add="roomA,userA,dateA,delete" 
+			t:reorder="roomA,userA,feedback,dateA,delete"
+			t:rowsPerPage="10" style="width:100%">
 			
-			<t:grid t:id="grid" t:source="list" t:row="current" 
-				t:include="feedback" t:add="roomA,userA,dateA,delete" 
-				t:reorder="roomA,userA,feedback,dateA,delete"
-				t:rowsPerPage="10" style="width:100%">
-				
-				<p:roomACell>
-					<t:pagelink target="_blank" page="card/roomcard" context="current.booking.room.id">
-						${current.booking.room.name}
-					</t:pagelink>
-				</p:roomACell>
-				<p:userACell>
-					<a href="mailto:${current.booking.user.email}">
-						${current.booking.user.name} ${current.booking.user.firstname}
-					</a>
-				</p:userACell>
-				<p:dateACell>
-					<t:output format="literal:dd/MM/yyyy" value="current.booking.date"/>
-				</p:dateACell>
-				
-				<p:deleteCell>
-					<div align="center">
-						<t:actionlink t:id="delete" t:context="current.id"
-							t:mixins="exanpe/dialog"
-							t:title="delete-warning"
-							t:message="delete-text"
-							t:yesLabelButton="delete-yes"
-							t:noLabelButton="delete-no">
-							<i class="icon-remove"></i>
-						</t:actionlink>
-					</div>
-				</p:deleteCell>
-				<p:empty>
-					<div class="alert alert-info" style="text-align:center">
-						<i class="icon-info-sign"></i> ${message:no-results}
-					</div>
-				</p:empty>
-			</t:grid>
-		</div>
+			<p:roomACell>
+				<t:pagelink target="_blank" page="card/roomcard" context="current.booking.room.id">
+					${current.booking.room.name}
+				</t:pagelink>
+			</p:roomACell>
+			<p:userACell>
+				<a href="mailto:${current.booking.user.email}">
+					${current.booking.user.name} ${current.booking.user.firstname}
+				</a>
+			</p:userACell>
+			<p:dateACell>
+				<t:output format="literal:dd/MM/yyyy" value="current.booking.date"/>
+			</p:dateACell>
+			
+			<p:deleteCell>
+				<div align="center">
+					<t:actionlink t:id="delete" t:context="current.id"
+						t:mixins="exanpe/dialog"
+						t:title="delete-warning"
+						t:message="delete-text"
+						t:yesLabelButton="delete-yes"
+						t:noLabelButton="delete-no">
+						<i class="icon-remove"></i>
+					</t:actionlink>
+				</div>
+			</p:deleteCell>
+			<p:empty>
+				<div class="alert alert-info" style="text-align:center">
+					<i class="icon-info-sign"></i> ${message:no-results}
+				</div>
+			</p:empty>
+		</t:grid>
 	</div>
-	
+
 </html>
