@@ -170,6 +170,8 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         // 10
         RoomFilter rf = createFilter();
         rf.setCapacity(10);
+        rf.setRestrictFrom(new TimeSlot(8, 0));
+        rf.setRestrictTo(new TimeSlot(20, 0));
 
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
@@ -205,6 +207,8 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         RoomFilter rf = createFilter();
         rf.setCapacity(1);
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
+        rf.setRestrictFrom(new TimeSlot(8, 0));
+        rf.setRestrictTo(new TimeSlot(20, 0));
         // minutes length
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 
@@ -220,6 +224,8 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         rf.setRestrictFrom(createTS(11));
         rf.setCapacity(1);
         rf.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2019"));
+        rf.setRestrictFrom(new TimeSlot(8, 0));
+        rf.setRestrictTo(new TimeSlot(20, 0));
         // minutes length
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(rf);
 

@@ -19,6 +19,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Index;
+
 import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 
 @Entity
@@ -43,6 +45,8 @@ public class Gap implements Serializable
     private Long id;
 
     @ManyToOne
+    @Index(name = "idx_gap_date_room", columnNames =
+    { "date", "room" })
     private Room room;
 
     @Temporal(TemporalType.DATE)
@@ -61,17 +65,6 @@ public class Gap implements Serializable
 
     @Temporal(TemporalType.TIME)
     private Date endTime;
-
-    //
-    // @Column(nullable = false)
-    // private Integer minutesLength;
-    //
-    // @PrePersist
-    // @PreUpdate
-    // protected void compute()
-    // {
-    // minutesLength = (endHour - startHour) * 60 + endMinute - startMinute;
-    // }
 
     @PreUpdate
     @PrePersist
@@ -128,11 +121,6 @@ public class Gap implements Serializable
     {
         this.date = date;
     }
-
-    // public Integer getMinutesLength()
-    // {
-    // return minutesLength;
-    // }
 
     /**
      * @return the startHour
@@ -204,6 +192,22 @@ public class Gap implements Serializable
     public Date getStartTime()
     {
         return startTime;
+    }
+
+    /**
+     * @param startTime the startTime to set
+     */
+    public void setStartTime(Date startTime)
+    {
+        this.startTime = startTime;
+    }
+
+    /**
+     * @param endTime the endTime to set
+     */
+    public void setEndTime(Date endTime)
+    {
+        this.endTime = endTime;
     }
 
     /**

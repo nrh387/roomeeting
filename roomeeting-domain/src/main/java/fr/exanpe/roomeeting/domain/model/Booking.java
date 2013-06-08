@@ -16,6 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Index;
+
 @Entity
 @NamedQueries(
 {
@@ -38,9 +40,13 @@ public class Booking implements Serializable
     private Long id;
 
     @ManyToOne
+    @Index(name = "idx_booking_date_room", columnNames =
+    { "name", "room" })
     private Room room;
 
     @ManyToOne
+    @Index(name = "idx_booking_date_room", columnNames =
+    { "user" })
     private User user;
 
     @Temporal(TemporalType.DATE)

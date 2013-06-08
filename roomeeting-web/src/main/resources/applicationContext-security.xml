@@ -26,6 +26,7 @@
         <intercept-url pattern="/admin/manage/ref/ParametersPage*" access="hasRole('AUTH_ADM_PARAMS')"/>
         <intercept-url pattern="/admin/manage/ref/RoomFeaturesPage*" access="hasRole('AUTH_ADM_FEATURES')"/>
         <intercept-url pattern="/admin/**" access="hasAnyRole('AUTH_ADM_USERS','AUTH_ADM_SITES','AUTH_ADM_ROOM','AUTH_ADM_FEATURES')"/>
+        <intercept-url pattern="/h2/**" access="isAuthenticated() and authentication.name == 'admin'"/>
 		<intercept-url pattern="/**" access="isAuthenticated()"/>
 		<form-login login-page="/" 
 					authentication-failure-url="/Index?loginFailed=true"

@@ -151,4 +151,9 @@ public class RooMeetingModule
         configuration.add(new CoercionTuple<String, TimeSlot>(String.class, TimeSlot.class, new StringTimeSlotCoercer()));
 
     }
+
+    public static void contributeIgnoredPathsFilter(Configuration<String> configuration)
+    {
+        configuration.add("/h2.*");
+    }
 }

@@ -98,8 +98,12 @@ public class BookingDAO
         subqueryGap.select(objectGap);
 
         subqueryGap.where(new Predicate[]
-        { cb.equal(objectGap.<Date> get("date"), dateSearch), cb.equal(objectGap.<Room> get("room"), objectRoom),
-                cb.or(cb.between(objectGap.<Date> get("startTime"), fromDate, toDate), cb.between(objectGap.<Date> get("endTime"), fromDate, toDate)) });
+        {
+                cb.equal(objectGap.<Date> get("date"), dateSearch),
+                cb.equal(objectGap.<Room> get("room"), objectRoom),
+                cb.or(
+                        cb.between(objectGap.<Date> get("startTime"), sqlTime(fromDate), sqlTime(toDate)),
+                        cb.between(objectGap.<Date> get("endTime"), sqlTime(fromDate), sqlTime(toDate))) });
 
         // or gap available inner
         // Subquery<Gap> subqueryGapInner = q.subquery(Gap.class);
@@ -124,5 +128,10 @@ public class BookingDAO
         // QueryParameters.with("capacity", filter.getCapacity()).and("date",
         // filter.getDate()).and("minutesLength", filter.getMinutesLength())
         // .and("site", filter.getSite()).parameters());
+    }
+
+    private java.sql.Time sqlTime(Date d)
+    {
+        return new java.sql.Time(d.getTime());
     }
 }

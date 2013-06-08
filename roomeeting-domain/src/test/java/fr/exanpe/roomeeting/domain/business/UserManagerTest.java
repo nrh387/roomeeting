@@ -28,7 +28,7 @@ public class UserManagerTest extends RooMeetingDomainBaseTest
 
     private static final String USERNAME_PASSWORD_ADMIN = "admin";
     private static final String ROLE_ADMIN = "ADMIN";
-    
+
     @Test
     public void findByUsername()
     {
@@ -42,7 +42,7 @@ public class UserManagerTest extends RooMeetingDomainBaseTest
     {
         userManager.findByUsername(null);
     }
-    
+
     @Test
     public void testIsAvailableUsername()
     {
@@ -60,6 +60,7 @@ public class UserManagerTest extends RooMeetingDomainBaseTest
         User actual = new User();
         actual.setUsername("user");
         actual.setPassword("password");
+        actual.setEmail("email@email.com");
         Role role = new Role();
         role.setName(ROLE_ADMIN);
         List<Role> roles = new ArrayList<Role>();
@@ -67,7 +68,7 @@ public class UserManagerTest extends RooMeetingDomainBaseTest
         userManager.createUser(actual, roles);
         User expected = userManager.findByUsername(actual.getUsername());
         Assert.assertEquals(expected.getUsername(), actual.getUsername());
-    }    
+    }
 
     @Test
     public void cleanRoles() throws BusinessException
@@ -75,6 +76,7 @@ public class UserManagerTest extends RooMeetingDomainBaseTest
         User actual = new User();
         actual.setUsername("user");
         actual.setPassword("password");
+        actual.setEmail("email@email.com");
         Role role = new Role();
         role.setName(ROLE_ADMIN);
         List<Role> roles = new ArrayList<Role>();

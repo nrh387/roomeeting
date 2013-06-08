@@ -48,6 +48,8 @@ public final class RoomDateUtils
 
         c.set(Calendar.HOUR_OF_DAY, hour);
         c.set(Calendar.MINUTE, minutes);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
 
         c = DateUtils.truncate(c, Calendar.MINUTE);
 

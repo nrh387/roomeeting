@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import org.hibernate.annotations.Index;
+
 @Entity
 @NamedQueries(
 { @NamedQuery(name = Feedback.LIST_BY_SITE, query = "From Feedback where booking.room.site = :site order by date desc"),
@@ -32,6 +34,8 @@ public class Feedback implements Serializable
     private Long id;
 
     @ManyToOne
+    @Index(name = "idx_booking_date_room", columnNames =
+    { "booking" })
     private Booking booking;
 
     private String feedback;
