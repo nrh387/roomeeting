@@ -24,8 +24,10 @@
   <Booking id="102" startHour="9" startMinute="00" endHour="20" endMinute="00" room_id="10" user_id="1" date="2019-01-03"/>
 
   <!-- Room 11, middle booking -->
-  <Gap startHour="9" startMinute="00" endHour="11" endMinute="30" startTime="09:00:00" endTime="11:30:00" room_id="11" date="2019-01-02"/>
+  <Gap id="102" startHour="9" startMinute="00" endHour="11" endMinute="30" startTime="09:00:00" endTime="11:30:00" room_id="11" date="2019-01-02"/>
   <Booking id="103" startHour="11" startMinute="30" endHour="14" endMinute="00" room_id="11" user_id="1" date="2019-01-02"/>
-  <Gap startHour="14" startMinute="00" endHour="20" endMinute="00" startTime="14:00:00" endTime="20:00:00" room_id="11" date="2019-01-02"/>
+  <Booking id="104" startHour="14" startMinute="00" endHour="15" endMinute="30" room_id="11" user_id="1" date="2019-01-02"/>
+  <Booking id="105" startHour="15" startMinute="30" endHour="19" endMinute="00" room_id="11" user_id="1" date="2019-01-02"/>
+  <Gap id="104" startHour="19" startMinute="00" endHour="20" endMinute="00" startTime="19:00:00" endTime="20:00:00" room_id="11" date="2019-01-02"/>
   
 </dataset>

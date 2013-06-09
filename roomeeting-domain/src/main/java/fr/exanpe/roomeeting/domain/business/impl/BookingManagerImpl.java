@@ -260,29 +260,23 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         // get it attached
         Booking booking = find(id);
 
-        boolean beforeisfirst = false;
-        boolean nothingbefore = false;
+        Gap replacementGap = null;
 
-        Gap before = null;
-
-        // before is always deleted
+        // before is never deleted
         if (!isFirstHour(booking.getStartHour(), booking.getStartMinute()))
         {
             List<Gap> gaps = crudDAO.findWithNamedQuery(Gap.FIND_GAP_FOR_TIME, QueryParameters.with("room", booking.getRoom()).and("date", booking.getDate())
                     .and("time", RoomDateUtils.setHourMinutes(new Date(), booking.getStartHour(), booking.getStartMinute())).parameters());
 
-            if (CollectionUtils.isEmpty(gaps) || gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
-
-            before = gaps.get(0);
-            if (isFirstHour(before.getStartHour(), before.getStartMinute()))
+            if (CollectionUtils.isNotEmpty(gaps))
             {
-                beforeisfirst = true;
+                if (gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
+                replacementGap = gaps.get(0);
+                // detach for buffer manipulation
+                entityManager.detach(replacementGap);
+                replacementGap.setEndHour(booking.getEndHour());
+                replacementGap.setEndMinute(booking.getEndMinute());
             }
-            entityManager.remove(before);
-        }
-        else
-        {
-            nothingbefore = true;
         }
 
         // got something after
@@ -291,24 +285,41 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
             List<Gap> gaps = crudDAO.findWithNamedQuery(Gap.FIND_GAP_FOR_TIME, QueryParameters.with("room", booking.getRoom()).and("date", booking.getDate())
                     .and("time", RoomDateUtils.setHourMinutes(new Date(), booking.getEndHour(), booking.getEndMinute())).parameters());
 
-            if (CollectionUtils.isEmpty(gaps) || gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
+            if (CollectionUtils.isNotEmpty(gaps))
+            {
+                if (gaps.size() > 1) { throw new TechnicalException(ErrorMessages.INCONSISTENT_DATABASE); }
+                Gap afterGap = gaps.get(0);
+                if (replacementGap != null)
+                {
+                    replacementGap.setEndHour(afterGap.getEndHour());
+                    replacementGap.setEndMinute(afterGap.getEndMinute());
+                    entityManager.remove(afterGap);
+                }
+                else
+                {
+                    replacementGap = afterGap;
+                    replacementGap.setStartHour(booking.getStartHour());
+                    replacementGap.setStartMinute(booking.getStartMinute());
+                }
+            }
+        }
 
-            Gap after = gaps.get(0);
-            // last gap
-            if (isLastHour(after.getEndHour(), after.getEndMinute()) && (beforeisfirst || nothingbefore))
-            {
-                entityManager.remove(after);
-            }
-            else if (nothingbefore)
-            {
-                after.setStartHour(booking.getStartHour());
-                after.setStartMinute(booking.getStartMinute());
-            }
-            else
-            {// something after this gap, eat the before gap
-                after.setStartHour(before.getStartHour());
-                after.setStartMinute(before.getStartMinute());
-            }
+        // booking between 2 bookings
+        if (replacementGap == null)
+        {
+            replacementGap = new Gap();
+            replacementGap.setDate(booking.getDate());
+            replacementGap.setRoom(booking.getRoom());
+            replacementGap.setStartHour(booking.getStartHour());
+            replacementGap.setStartMinute(booking.getStartMinute());
+            replacementGap.setEndHour(booking.getEndHour());
+            replacementGap.setEndMinute(booking.getEndMinute());
+
+            crudDAO.create(replacementGap);
+        }
+        else
+        {
+            crudDAO.update(replacementGap);
         }
 
         entityManager.remove(booking);

@@ -369,6 +369,14 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     }
 
     @Test
+    @DataSet(value = "/dataset/BookingManagerTest-deleteBookingFollowing.xml")
+    @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingFollowing.xml")
+    public void deleteBookingFollowing() throws ParseException, BusinessException
+    {
+        bookingManager.deleteBooking(104L);
+    }
+
+    @Test
     @DataSet(value = "/dataset/BookingManagerTest-purgeGaps.xml")
     @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-purgeGaps.xml")
     public void purgeGaps()
