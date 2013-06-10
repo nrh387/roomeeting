@@ -15,12 +15,14 @@ import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.exanpe.roomeeting.common.enums.ParameterEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
+import fr.exanpe.roomeeting.common.exception.HackException;
 import fr.exanpe.roomeeting.common.exception.TechnicalException;
 import fr.exanpe.roomeeting.common.utils.RoomDateUtils;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
@@ -137,9 +139,9 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Booking findWithRoomUser(Long id)
+    public Booking findWithRoomUser(Long id, User user)
     {
-        Booking booking = find(id);
+        Booking booking = findSecured(id, user);
 
         if (booking == null) { return null; }
         booking.getUser();
@@ -254,11 +256,22 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         return booking;
     }
 
-    @Override
-    public void deleteBooking(Long id)
+    public Booking findSecured(Long id, User u)
     {
-        // get it attached
-        Booking booking = find(id);
+        try
+        {
+            return crudDAO.findUniqueWithNamedQuery(Booking.FIND_WITH_USER, QueryParameters.with("id", id).and("user", u).parameters());
+        }
+        catch (EmptyResultDataAccessException e)
+        {
+            throw new HackException(e);
+        }
+    }
+
+    @Override
+    public void deleteBooking(Long id, User u)
+    {
+        Booking booking = findSecured(id, u);
 
         Gap replacementGap = null;
 

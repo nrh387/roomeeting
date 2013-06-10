@@ -1,4 +1,4 @@
-package fr.exanpe.roomeeting.web.pages.room;
+package fr.exanpe.roomeeting.web.pages.book;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.tapestry5.EventConstants;

@@ -11,6 +11,7 @@ import org.unitils.dbunit.annotation.ExpectedDataSet;
 import org.unitils.spring.annotation.SpringBeanByType;
 
 import fr.exanpe.roomeeting.common.exception.BusinessException;
+import fr.exanpe.roomeeting.common.exception.HackException;
 import fr.exanpe.roomeeting.domain.base.RooMeetingDomainBaseTest;
 import fr.exanpe.roomeeting.domain.business.dto.DateAvailabilityDTO;
 import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
@@ -336,12 +337,25 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
         Assert.assertEquals(list.size(), 3);
     }
 
+    @Test(expectedExceptions = HackException.class)
+    @DataSet(value = "/dataset/BookingManagerTest-deleteBooking.xml")
+    public void deleteBookingException()
+    {
+        User u = new User();
+        u.setId(2L);
+
+        bookingManager.deleteBooking(100L, u);
+    }
+
     @Test
     @DataSet(value = "/dataset/BookingManagerTest-deleteBooking.xml")
     @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingFirst.xml")
     public void deleteBookingFirst() throws ParseException, BusinessException
     {
-        bookingManager.deleteBooking(100L);
+        User u = new User();
+        u.setId(1L);
+
+        bookingManager.deleteBooking(100L, u);
     }
 
     @Test
@@ -349,7 +363,9 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingLast.xml")
     public void deleteBookingLast() throws ParseException, BusinessException
     {
-        bookingManager.deleteBooking(101L);
+        User u = new User();
+        u.setId(1L);
+        bookingManager.deleteBooking(101L, u);
     }
 
     @Test
@@ -357,7 +373,9 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingUnique.xml")
     public void deleteBookingUnique() throws ParseException, BusinessException
     {
-        bookingManager.deleteBooking(102L);
+        User u = new User();
+        u.setId(1L);
+        bookingManager.deleteBooking(102L, u);
     }
 
     @Test
@@ -365,7 +383,9 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingMiddle.xml")
     public void deleteBookingMiddle() throws ParseException, BusinessException
     {
-        bookingManager.deleteBooking(104L);
+        User u = new User();
+        u.setId(1L);
+        bookingManager.deleteBooking(104L, u);
     }
 
     @Test
@@ -373,7 +393,9 @@ public class BookingManagerTest extends RooMeetingDomainBaseTest
     @ExpectedDataSet(value = "/dataset/expected/BookingManagerTest-deleteBookingFollowing.xml")
     public void deleteBookingFollowing() throws ParseException, BusinessException
     {
-        bookingManager.deleteBooking(104L);
+        User u = new User();
+        u.setId(1L);
+        bookingManager.deleteBooking(104L, u);
     }
 
     @Test

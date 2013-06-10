@@ -6,7 +6,7 @@
 	
 		<h1 style="text-align:center">Salles disponibles</h1>
 
-		<t:pagelink class="btn btn-small" page="room/search">
+		<t:pagelink class="btn btn-small" page="book/search">
 			<i class="icon-chevron-left"></i>
 			${message:return-search}
 		</t:pagelink>

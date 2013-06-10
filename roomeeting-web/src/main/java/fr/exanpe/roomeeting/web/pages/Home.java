@@ -50,7 +50,7 @@ public class Home
     @OnEvent(value = EventConstants.ACTION, component = "cancel")
     void cancelBooking(Long id)
     {
-        bookingManager.deleteBooking(id);
+        bookingManager.deleteBooking(id, securityContext.getUser());
     }
 
     @Inject

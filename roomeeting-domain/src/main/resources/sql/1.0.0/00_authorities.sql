@@ -8,7 +8,6 @@ INSERT INTO Authority (id, authority) values (10, 'AUTH_READ_FEEDBACK');
 INSERT INTO Authority (id, authority) values (11, 'AUTH_POST_FEEDBACK');
 
 INSERT INTO Authority (id, authority) values (20, 'AUTH_BOOK');
-INSERT INTO Authority (id, authority) values (21, 'AUTH_REPORT_INCIDENT');
 
 INSERT INTO Authority (id, authority) values (40, 'AUTH_ROOM_CARD');
 INSERT INTO Authority (id, authority) values (41, 'AUTH_SITE_CARD');

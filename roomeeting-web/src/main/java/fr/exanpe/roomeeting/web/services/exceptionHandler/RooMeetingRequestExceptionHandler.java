@@ -11,7 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.exanpe.roomeeting.common.exception.BusinessException;
+import fr.exanpe.roomeeting.common.exception.HackException;
 import fr.exanpe.roomeeting.common.exception.TechnicalException;
+import fr.exanpe.roomeeting.web.pages.Hack;
 
 /**
  * Application Exception Handler
@@ -93,19 +95,27 @@ public class RooMeetingRequestExceptionHandler implements RequestExceptionHandle
         }
         else
         {
-            if (productionMode)
+            if (exceptionService.getNestedExceptionOfType(exception, HackException.class) != null)
             {
-                LOGGER.error("Unexpected exception: " + exception.getMessage(), exception);
-                exception.printStackTrace();
-                ExceptionReporter error = (ExceptionReporter) componentSource.getPage(ExceptionHandlerService.ERROR_PAGE);
-                error.reportException(exception);
-                pageName = ExceptionHandlerService.ERROR_PAGE;
+                pageName = Hack.PAGE_NAME;
             }
             else
             {
-                ExceptionReporter error = (ExceptionReporter) componentSource.getPage(STANDARD_T5_EXCEPTION_REPORT_PAGE);
-                error.reportException(exception);
-                pageName = STANDARD_T5_EXCEPTION_REPORT_PAGE;
+
+                if (productionMode)
+                {
+                    LOGGER.error("Unexpected exception: " + exception.getMessage(), exception);
+                    exception.printStackTrace();
+                    ExceptionReporter error = (ExceptionReporter) componentSource.getPage(ExceptionHandlerService.ERROR_PAGE);
+                    error.reportException(exception);
+                    pageName = ExceptionHandlerService.ERROR_PAGE;
+                }
+                else
+                {
+                    ExceptionReporter error = (ExceptionReporter) componentSource.getPage(STANDARD_T5_EXCEPTION_REPORT_PAGE);
+                    error.reportException(exception);
+                    pageName = STANDARD_T5_EXCEPTION_REPORT_PAGE;
+                }
             }
         }
         renderer.renderPageMarkupResponse(pageName);

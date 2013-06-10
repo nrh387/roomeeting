@@ -9,12 +9,16 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
+import fr.exanpe.roomeeting.common.annotations.RoomeetingSecured;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.FeedbackManager;
 import fr.exanpe.roomeeting.domain.model.Booking;
 import fr.exanpe.roomeeting.domain.model.Feedback;
+import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
 import fr.exanpe.roomeeting.web.pages.Home;
+import fr.exanpe.t5.lib.annotation.Authorize;
 
+@Authorize(all = "AUTH_POST_FEEDBACK")
 public class PostFeedback
 {
     @Persist
@@ -28,12 +32,16 @@ public class PostFeedback
     private BookingManager bookingManager;
 
     @Inject
+    private RooMeetingSecurityContext securityContext;
+
+    @Inject
     private Messages messages;
 
+    @RoomeetingSecured
     Object onActivate(Long id)
     {
         if (id == null) { return Home.class; }
-        Booking booking = bookingManager.findWithRoomUser(id);
+        Booking booking = bookingManager.findWithRoomUser(id, securityContext.getUser());
         if (booking == null) { return Home.class; }
 
         feedback = new Feedback();

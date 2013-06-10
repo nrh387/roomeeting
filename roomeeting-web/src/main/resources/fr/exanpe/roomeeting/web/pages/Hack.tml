@@ -1,0 +1,9 @@
+<html t:type="layout" title="message:title"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+
+	<div class="alert alert-danger" style="margin-top:100px;text-align:center">
+    	${message:message}
+    </div>
+
+</html>

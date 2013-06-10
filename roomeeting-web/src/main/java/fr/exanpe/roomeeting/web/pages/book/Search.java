@@ -1,4 +1,4 @@
-package fr.exanpe.roomeeting.web.pages.room;
+package fr.exanpe.roomeeting.web.pages.book;
 
 import java.util.Calendar;
 import java.util.Date;

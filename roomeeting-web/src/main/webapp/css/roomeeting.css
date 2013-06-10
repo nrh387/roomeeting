@@ -243,6 +243,12 @@ ul.displayRoomFeatures li{
     color: #000000;
 }
 
+.alert-info{
+	background-color: #FBF9D5;
+    border-color: #000000;
+    color: #000000;
+}
+
 
 /* hack modal into alert */
 .modal-header .close {

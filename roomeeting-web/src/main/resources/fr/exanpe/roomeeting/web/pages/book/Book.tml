@@ -6,7 +6,7 @@
 	
 		<h1 style="text-align:center">Réservation d'une salle</h1>
 		
-		<t:pagelink class="btn btn-small" page="room/choose">
+		<t:pagelink class="btn btn-small" page="book/choose">
 			<i class="icon-chevron-left"></i>
 			${message:return-search}
 		</t:pagelink>

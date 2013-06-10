@@ -1,4 +1,4 @@
-package fr.exanpe.roomeeting.web.pages.room;
+package fr.exanpe.roomeeting.web.pages.book;
 
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;

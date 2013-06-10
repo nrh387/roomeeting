@@ -16,7 +16,7 @@
 					<li class="divider-vertical"></li>
 					<ex:authorize all="AUTH_BOOK">
 						<li>
-							<t:pagelink page="room/Search" context="literal:_cleanup_">
+							<t:pagelink page="book/Search" context="literal:_cleanup_">
 								<i class="icon-search"> </i> ${message:book-label}
 							</t:pagelink>
 						</li>

@@ -23,7 +23,7 @@ public interface BookingManager extends DefaultManager<Booking, Long>
 
     Booking processBooking(User user, Gap bookGap, TimeSlot from, TimeSlot to) throws BusinessException;
 
-    void deleteBooking(Long id);
+    void deleteBooking(Long id, User u);
 
     List<Booking> listUserFuturesBookings(User u);
 
@@ -34,5 +34,7 @@ public interface BookingManager extends DefaultManager<Booking, Long>
      */
     int purgeGaps();
 
-    Booking findWithRoomUser(Long id);
+    Booking findWithRoomUser(Long id, User user);
+
+    Booking findSecured(Long id, User u);
 }

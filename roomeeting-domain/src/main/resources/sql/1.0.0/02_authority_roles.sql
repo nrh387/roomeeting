@@ -9,13 +9,14 @@ INSERT INTO Role_Authority (roles_id, authorities_id)
 	values (1, 4);
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (1, 5);
+	
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (1, 10);
+INSERT INTO Role_Authority (roles_id, authorities_id) 
+	values (1, 11);
 
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (1, 20);
-INSERT INTO Role_Authority (roles_id, authorities_id) 
-	values (1, 21);
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (1, 40);
 INSERT INTO Role_Authority (roles_id, authorities_id) 
@@ -27,8 +28,6 @@ INSERT INTO Role_Authority (roles_id, authorities_id)
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (2, 20);
 INSERT INTO Role_Authority (roles_id, authorities_id) 
-	values (2, 21);
-INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (2, 40);
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (2, 41);	
@@ -38,8 +37,6 @@ INSERT INTO Role_Authority (roles_id, authorities_id)
 	values (3, 11);
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (3, 20);
-INSERT INTO Role_Authority (roles_id, authorities_id) 
-	values (3, 21);
 INSERT INTO Role_Authority (roles_id, authorities_id) 
 	values (3, 40);
 INSERT INTO Role_Authority (roles_id, authorities_id) 

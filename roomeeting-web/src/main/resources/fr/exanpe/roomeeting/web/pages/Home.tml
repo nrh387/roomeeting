@@ -1,6 +1,7 @@
 <html t:type="layoutmenu" title="Accueil"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
-      xmlns:p="tapestry:parameter">
+      xmlns:p="tapestry:parameter"
+      xmlns:ex="tapestry-library:exanpe">
 		
 	<div class="well">
 	
@@ -76,7 +77,13 @@
 					${message:no-pasts-booking-text}
 				</p:empty>
 			</t:grid>
-		
+			
+			<ex:authorize not="AUTH_POST_FEEDBACK">
+				<script type="text/javascript">
+					jQuery('.feedback').hide();
+				</script>
+			</ex:authorize>
+			
 		</t:box>
 	</div>
 	
