@@ -9,13 +9,13 @@
 		
 		<t:if test="noResult">
 			<div class="alert alert-info" style="text-align:center">
-				${message:no-results}
+				${message:no-result}
 			</div>
 		</t:if>
 		
 		<t:if test="sitesSelectModel">
-			<t:form class="form-horizontal">
-				<t:errors/>
+			<t:form t:id="searchForm" class="form-horizontal">
+				<t:formerrors/>
 				
 				<t:inputlabel forId="name" label="name-label">
 					<t:textfield t:value="filter.name" id="name"/>
@@ -50,7 +50,7 @@
 				</t:inputlabel>
 				
 				<t:inputlabel>
-					<t:submit t:event="search" t:value="message:search-label" class="btn btn-primary"/>
+					<t:submit t:value="message:search-label" class="btn btn-primary"/>
 				</t:inputlabel>	
 			</t:form>
 			

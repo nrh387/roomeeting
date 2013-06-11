@@ -13,9 +13,11 @@
 		
 		<hr/>
 		
-		<t:form class="form-inline">
+		<t:form t:id="bookForm" class="form-inline">
+			<t:formerrors/>
+			
 			<t:businessExceptionMessage/>
-		
+			
 			<div class="alert alert-blackandwhite" style="text-align:center">
 				${message:reservation-phrase} 
 				<span style="font-weight:bold">
@@ -24,7 +26,7 @@
 				${message:booking-phrase} <t:select class="input-small" model="hoursModel" t:value="from" t:validate="required"/> ${message:to} <t:select class="input-small" model="hoursModel" t:value="to" t:validate="required"/>
 				<br/><br/>
 
-				<t:submit t:event="book" t:value="message:book-label" class="btn btn-primary"/>
+				<t:submit t:value="message:book-label" class="btn btn-primary"/>
 			</div>
 		</t:form>
 		

@@ -1,11 +1,16 @@
 package fr.exanpe.roomeeting.web.pages.book;
 
+import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.ValidationException;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SessionAttribute;
+import org.apache.tapestry5.corelib.components.Form;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import fr.exanpe.roomeeting.common.exception.BusinessException;
@@ -82,7 +87,22 @@ public class Book
     @SessionAttribute
     private Booking booking;
 
-    @OnEvent(value = "book")
+    @Inject
+    private Messages messages;
+
+    @InjectComponent
+    private Form bookForm;
+
+    @OnEvent(value = EventConstants.VALIDATE, component = "bookForm")
+    void validateSearch() throws ValidationException
+    {
+        if (!from.before(to))
+        {
+            bookForm.recordError(messages.get("search-error-before-after"));
+        }
+    }
+
+    @OnEvent(value = EventConstants.SUCCESS)
     Object book() throws BusinessException
     {
         booking = bookingManager.processBooking(securityContext.getUser(), bookGap, from, to);

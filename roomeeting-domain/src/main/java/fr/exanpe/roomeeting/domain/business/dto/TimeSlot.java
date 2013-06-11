@@ -61,4 +61,8 @@ public class TimeSlot implements Serializable
         this.minutes = minutes;
     }
 
+    public boolean before(TimeSlot ts)
+    {
+        return this.hours < ts.getHours() || (this.hours == ts.getHours() && this.getMinutes() < ts.getMinutes());
+    }
 }

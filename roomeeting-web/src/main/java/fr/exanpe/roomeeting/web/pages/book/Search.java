@@ -6,14 +6,18 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.FastDateFormat;
+import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.OptionModel;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.annotations.BeginRender;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SessionAttribute;
+import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.internal.SelectModelImpl;
 import org.apache.tapestry5.ioc.Messages;
@@ -36,6 +40,9 @@ import fr.exanpe.t5.lib.annotation.ContextPageReset;
 
 public class Search
 {
+    private static final String KEY_NO_RESULT = "no-result";
+    private static final String KEY_DATE_BEFORE_AFTER = "date-before-after";
+
     @Inject
     private UserManager userManager;
 
@@ -132,7 +139,27 @@ public class Search
         }
     }
 
-    @OnEvent(value = "search")
+    @InjectComponent
+    private Form searchForm;
+
+    @OnEvent(value = EventConstants.VALIDATE, component = "searchForm")
+    void validateSearch() throws ValidationException
+    {
+        if (!filter.getRestrictFrom().before(filter.getRestrictTo()))
+        {
+            searchForm.recordError(messages.get("search-error-before-after"));
+        }
+        if (RoomDateUtils.setHourMinutes(filter.getDate(), filter.getRestrictFrom().getHours(), filter.getRestrictFrom().getMinutes()).before(new Date()))
+        {
+            searchForm.recordError(messages.get("search-error-past"));
+        }
+        if (filter.getCapacity() < 0)
+        {
+            searchForm.recordError(messages.get("search-error-capacity"));
+        }
+    }
+
+    @OnEvent(value = EventConstants.SUCCESS)
     public Object search()
     {
         List<DateAvailabilityDTO> list = bookingManager.searchRoomAvailable(filter);
