@@ -32,12 +32,12 @@
 		<hr/>
 		
 		<t:grid t:id="gridUsers" t:source="users" t:row="currentUser" 
-			t:include="username,name,firstname" 
+			t:include="username,name,firstname,lastConnection" 
 			t:reorder="username,name,firstname,lastConnection"
 			t:rowsPerPage="10" style="width:100%">
-			<p:lastConnection>
+			<p:lastConnectionCell>
 				<t:output format="literal:dd/MM/yyyy" value="currentUser.lastConnection"/>
-			</p:lastConnection>
+			</p:lastConnectionCell>
 			<p:empty>
 				${message:no-results}
 			</p:empty>
