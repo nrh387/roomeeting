@@ -3,8 +3,6 @@
 	xmlns:p="tapestry:parameter">
 	
 	<t:layout t:title="${title}">
-		
-		<t:menu/>
 			
 		<div class="container-fluid">
 			<div class="row-fluid">

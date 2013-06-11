@@ -7,8 +7,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.RequestGlobals;
 
-import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
-
 /**
  * Layout component for pages of application roomeeting-web.
  */
@@ -22,23 +20,13 @@ public class Layout
     @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
     private String title;
 
+    /** The page title, for the <title> element and the <h1>element. */
+    @Property
+    @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL, value = "true")
+    private String bar;
+
     @Inject
     private RequestGlobals requestGlobals;
-
-    @Inject
-    private RooMeetingSecurityContext securityContext;
-
-    public String getUsername()
-    {
-        // TODO : a modifier après avoir mis en place le filtre Spring Security
-        // return securityContext.getUser().getUsername();
-        return securityContext.getUser().getUsername();
-    }
-
-    public boolean isAuthenticated()
-    {
-        return securityContext.isLoggedIn();
-    }
 
     public String getContextRoot()
     {

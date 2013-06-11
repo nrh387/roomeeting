@@ -5,74 +5,107 @@
 
 	<div class="navbar">
 		<div class="navbar-inner">
-			<div class="container" style="padding-left:180px;padding-right:100px">
-				<ul class="nav">
-					<li class="divider-vertical"></li>
-					<li>
-						<t:pagelink page="Home">
-							<i class="icon-home"> </i> ${message:home-label}
-						</t:pagelink>
-					</li>
-					<li class="divider-vertical"></li>
-					<ex:authorize all="AUTH_BOOK">
-						<li>
-							<t:pagelink page="book/Search" context="literal:_cleanup_">
-								<i class="icon-search"> </i> ${message:book-label}
+			<div class="container" style="padding-left:20px;padding-right:20px">
+				<t:pagelink page="Index" class="brand" style="padding:0px">
+					<img src="${asset:context:img/logo_roomeeting.png}"  alt="${message:application-name-long}"
+					class="img-polaroid"/>
+				</t:pagelink>
+				
+				<t:if test="isAuthenticated()">
+					
+					<ul class="nav">
+						<li style="width:30px">
+						&nbsp;
+						</li>
+						<li class="big-icon">
+							<t:pagelink page="Home">
+								<img src="${asset:context:img/menu/home.png}"/> <br/>
+								${message:home-label}
 							</t:pagelink>
 						</li>
 						<li class="divider-vertical"></li>
-					</ex:authorize>
-					<ex:authorize all="AUTH_READ_FEEDBACK">
-						<li>
-							<t:pagelink page="feedback/ListFeedbacks">
-								<i class="icon-comment"> </i> ${message:feedback-label} (${getFeedbackCount()})
-							</t:pagelink>
-						</li>
-						<li class="divider-vertical"></li>
-					</ex:authorize>
-				</ul>
-				<ex:authorize any="AUTH_ADM_USERS,AUTH_ADM_SITES,AUTH_ADM_ROOM,AUTH_ADM_FEATURES">
-					<ul class="nav nav pull-right">
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-wrench"> </i> ${message:admin-label}
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								<ex:authorize any="AUTH_ADM_SITES,AUTH_ADM_ROOM">
-									<li>
-										<t:pagelink page="admin/ManageSites">
-											${message:sites-label}
-										</t:pagelink>
-									</li>
-								</ex:authorize>
-								<ex:authorize all="AUTH_ADM_USERS">
-									<li>
-										<t:pagelink page="admin/ManageUsers">
-											${message:users-label}
-										</t:pagelink>
-									</li>
-								</ex:authorize>
-								<li class="divider"></li>
-								<ex:authorize all="AUTH_ADM_FEATURES">
-									<li class="nav-header">${message:ref-label}</li>
-									<li>
-										<t:pagelink page="admin/manage/ref/RoomFeaturesPage">
-											${message:roomfeatures-label}
-										</t:pagelink>
-									</li>
-								</ex:authorize>
-								<ex:authorize all="AUTH_ADM_PARAMS">
-									<li>
-										<t:pagelink page="admin/manage/ref/ParametersPage">
-											${message:params-label}
-										</t:pagelink>
-									</li>
-								</ex:authorize>
-							</ul>
-						</li>
+						<ex:authorize all="AUTH_BOOK">
+							<li class="big-icon">
+								<t:pagelink page="book/Search" context="literal:_cleanup_">
+									<img src="${asset:context:img/menu/book.png}"/> <br/>
+									${message:book-label}
+								</t:pagelink>
+							</li>
+							<li class="divider-vertical"></li>
+						</ex:authorize>
+						<ex:authorize all="AUTH_READ_FEEDBACK">
+							<li class="big-icon">
+								<t:pagelink page="feedback/ListFeedbacks">
+									<img src="${asset:context:img/menu/feedback.png}"/> <br/>
+									${message:feedback-label} (${getFeedbackCount()})
+								</t:pagelink>
+							</li>
+							<li class="divider-vertical"></li>
+						</ex:authorize>
 					</ul>
-				</ex:authorize>
+					<ul class="nav nav pull-right">
+						<ex:authorize any="AUTH_ADM_USERS,AUTH_ADM_SITES,AUTH_ADM_ROOM,AUTH_ADM_FEATURES">
+							<li class="divider-vertical"></li>
+							<li class="dropdown big-icon">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<img src="${asset:context:img/menu/admin.png}"/> <br/>
+									${message:admin-label}
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<ex:authorize any="AUTH_ADM_SITES,AUTH_ADM_ROOM">
+										<li>
+											<t:pagelink page="admin/ManageSites">
+												${message:sites-label}
+											</t:pagelink>
+										</li>
+									</ex:authorize>
+									<ex:authorize all="AUTH_ADM_USERS">
+										<li>
+											<t:pagelink page="admin/ManageUsers">
+												${message:users-label}
+											</t:pagelink>
+										</li>
+									</ex:authorize>
+									<li class="divider"></li>
+									<ex:authorize all="AUTH_ADM_FEATURES">
+										<li class="nav-header">${message:ref-label}</li>
+										<li>
+											<t:pagelink page="admin/manage/ref/RoomFeaturesPage">
+												${message:roomfeatures-label}
+											</t:pagelink>
+										</li>
+									</ex:authorize>
+									<ex:authorize all="AUTH_ADM_PARAMS">
+										<li>
+											<t:pagelink page="admin/manage/ref/ParametersPage">
+												${message:params-label}
+											</t:pagelink>
+										</li>
+									</ex:authorize>
+								</ul>
+							</li>
+	
+						</ex:authorize>
+						
+						<li class="divider-vertical"></li>
+						<li style="text-align:left">
+							<a href="#">
+								<i class="icon-user" /> ${message:profile-label}
+							</a>
+							<br style="display:none"/>
+							<a href="${contextRoot}/j_spring_security_logout"><i class="icon-chevron-right" /> ${message:disconnect-label}</a>
+						</li>
+						
+					</ul>
+					
+					
+					<p:else>
+						<div class="brand" style="line-height:50px;padding-left:5%">
+						Votre portail de réservation de salle de réunion
+						</div>
+					</p:else>
+				</t:if>
 			</div>
 		</div>
 	</div>

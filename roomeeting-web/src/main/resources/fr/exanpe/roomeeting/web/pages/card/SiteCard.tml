@@ -1,4 +1,4 @@
-<html t:type="layout" title="${message:site-word} ${site?.name}"
+<html t:type="layout" title="${message:site-word} ${site?.name}" bar="false"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter"
       xmlns:ex="tapestry-library:exanpe">

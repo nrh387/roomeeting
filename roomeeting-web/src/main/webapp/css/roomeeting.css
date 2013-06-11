@@ -105,6 +105,25 @@ ul.nav li a {
 /** SKIN des composants Web **/
 
 /* **************** HEADER ***************** */
+
+.banner-unlogged-text{
+	line-height:78px;	
+}
+
+header .navbar .divider-vertical {
+	height:80px
+}
+
+header .navbar ul li.big-icon {
+	text-align:center;
+	height: 80px;
+    line-height: 30px;
+}
+
+header .navbar ul li.big-icon ul li {
+	text-align:left;
+}
+
 .header
 {
 	position: relative;

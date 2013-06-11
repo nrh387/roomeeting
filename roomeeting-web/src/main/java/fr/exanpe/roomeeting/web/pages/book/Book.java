@@ -67,12 +67,10 @@ public class Book
                 || (search.getRequest().getRestrictTo().getHours() == bookGap.getEndHour() && search.getRequest().getRestrictTo().getMinutes() <= bookGap
                         .getEndMinute()))
         {
-            System.out.println("to requests:" + search.getRequest().getRestrictTo().getHours() + "/" + search.getRequest().getRestrictTo().getMinutes());
             to = search.getRequest().getRestrictTo();
         }
         else
         {
-            System.out.println("to requests:" + bookGap.getEndHour() + "/" + bookGap.getEndMinute());
             to = new TimeSlot(bookGap.getEndHour(), bookGap.getEndMinute());
         }
 
