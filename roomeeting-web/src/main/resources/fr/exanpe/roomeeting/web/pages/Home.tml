@@ -1,12 +1,11 @@
-<html t:type="layoutmenu" title="Accueil"
+<html t:type="layoutmenu"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter"
       xmlns:ex="tapestry-library:exanpe">
 		
 	<div class="well">
 	
-		<h1 style="text-align:center">Bienvenue</h1>
-		
+		<t:bodyTitle/>
 		
 		<t:box title="message:futures-bookings-text">
 			

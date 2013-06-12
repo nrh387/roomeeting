@@ -1,12 +1,11 @@
-<html t:type="layoutmenu" title="Accueil"
+<html t:type="layoutmenu"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter" 
       xmlns:ex="tapestry-library:exanpe">
 
 	<div class="well">
 	
-		<h1 style="text-align:center">Gestion des sites</h1>
-		<hr/>
+		<t:bodyTitle/>
 		
 		<t:grid t:id="gridSites" t:source="sites" t:row="currentSite" 
 			t:include="name,address,roomCount" t:add="map,edit,delete" 

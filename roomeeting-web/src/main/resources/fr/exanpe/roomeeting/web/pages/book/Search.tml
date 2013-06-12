@@ -1,11 +1,10 @@
-<html t:type="layoutmenu" title="Recherche"
+<html t:type="layoutmenu"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
 		
 	<div class="well">
-	
-		<h1 style="text-align:center">Recherche d'une salle</h1>
-		<hr/>
+		
+		<t:bodyTitle/>
 		
 		<t:if test="noResult">
 			<div class="alert alert-info" style="text-align:center">

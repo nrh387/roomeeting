@@ -20,7 +20,7 @@ import javax.persistence.OrderBy;
 @Entity
 @NamedQueries(
 { @NamedQuery(name = Site.FIND_ALL, query = "FROM Site s ORDER BY name"),
-        @NamedQuery(name = Site.FIND_WITH_ROOMS, query = "FROM Site s left join fetch s.rooms where id=:id ") })
+        @NamedQuery(name = Site.FIND_WITH_ROOMS, query = "FROM Site s left join fetch s.rooms where s.id=:id ") })
 public class Site implements Serializable
 {
     public static final String FIND_ALL = "Site.findAll";

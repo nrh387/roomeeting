@@ -1,10 +1,10 @@
-<html t:type="layoutmenu" title="Accueil"
+<html t:type="layoutmenu"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
 		
 	<div class="well">
 	
-		<h1 style="text-align:center">Gestion du site</h1>
+		<t:bodyTitle/>
 
 		<t:pagelink class="btn btn-small" page="admin/ManageSites">
 			<i class="icon-chevron-left"></i>
