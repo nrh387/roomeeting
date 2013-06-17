@@ -14,6 +14,7 @@ import org.unitils.spring.annotation.SpringBean;
 
 import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.base.RooMeetingDomainBaseTest;
+import fr.exanpe.roomeeting.domain.business.filters.UserFilter;
 import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.User;
 
@@ -41,6 +42,21 @@ public class UserManagerTest extends RooMeetingDomainBaseTest
     public void findByUsernameWithNull()
     {
         userManager.findByUsername(null);
+    }
+
+    @Test()
+    public void findByRole()
+    {
+        UserFilter uf = new UserFilter();
+        uf.setRole(userManager.findRole(1L));
+
+        Assert.assertNotNull(userManager.searchUsers(uf));
+        Assert.assertEquals(userManager.searchUsers(uf).size(), 1);
+
+        uf.setRole(userManager.findRole(2L));
+
+        Assert.assertNotNull(userManager.searchUsers(uf));
+        Assert.assertEquals(userManager.searchUsers(uf).size(), 0);
     }
 
     @Test

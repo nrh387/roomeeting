@@ -22,12 +22,16 @@ import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import fr.exanpe.roomeeting.domain.business.SiteManager;
+import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
+import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.t5.lib.services.RooMeetingLibraryModule;
 import fr.exanpe.roomeeting.web.services.coercers.DateStringCoercer;
+import fr.exanpe.roomeeting.web.services.coercers.RoleStringCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.SiteStringCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.StringDateCoercer;
+import fr.exanpe.roomeeting.web.services.coercers.StringRoleCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.StringSiteCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.StringTimeSlotCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.TimeSlotStringCoercer;
@@ -52,11 +56,6 @@ public class RooMeetingModule
         binder.bind(ApplicationListener.class).eagerLoad();
         binder.bind(ExceptionHandlerService.class);
         binder.bind(SelectTimeSlotService.class);
-
-        // Make bind() calls on the binder object to define most IoC services.
-        // Use service builder methods (example below) when the implementation
-        // is provided inline, or requires more initialization than simply
-        // invoking the constructor.
     }
 
     public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration, @InjectService("applicationContext")
@@ -86,7 +85,7 @@ public class RooMeetingModule
         // you can extend this list of locales (it's a comma separated series of locale names;
         // the first locale name is the default when there's no reasonable match).
 
-        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en");
+        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "fr,en");
 
         // The factory default is true but during the early stages of an application
         // overriding to false is a good idea. In addition, this is often overridden
@@ -110,17 +109,8 @@ public class RooMeetingModule
     public void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration)
     {
         configuration.addInstance("ContextPageResetFilter", ContextPageResetFilter.class);
-    }
-
-    /**
-     * Tell Tapestry how to handle classpath URLs - we provide a converter to handle JBoss 5.
-     * See http://wiki.apache.org/tapestry/HowToRunTapestry5OnJBoss5 .
-     */
-    @SuppressWarnings("rawtypes")
-    public static void contributeServiceOverride(MappedConfiguration<Class, Object> configuration)
-    {
-        // Si JBoss
-        // configuration.add(ClasspathURLConverter.class, new ClasspathURLConverterJBoss5());
+        // configuration.addInstance("LocaleFromHeaderFilter", LocaleFromHeaderFilter.class);
+        // configuration.addInstance("LocaleSessionFilter", LocaleSessionRequestFilter.class);
     }
 
     public RequestExceptionHandler decorateRequestExceptionHandler(final Logger logger, final ResponseRenderer renderer, final ComponentSource componentSource,
@@ -139,10 +129,14 @@ public class RooMeetingModule
     }
 
     public static void contributeTypeCoercer(Configuration<CoercionTuple<?, ?>> configuration, @InjectService("siteManager")
-    SiteManager siteManager)
+    SiteManager siteManager, @InjectService("userManager")
+    UserManager userManager)
     {
         configuration.add(new CoercionTuple<String, Site>(String.class, Site.class, new StringSiteCoercer(siteManager)));
-        configuration.add(new CoercionTuple<Site, String>(Site.class, String.class, new SiteStringCoercer(siteManager)));
+        configuration.add(new CoercionTuple<Site, String>(Site.class, String.class, new SiteStringCoercer()));
+
+        configuration.add(new CoercionTuple<String, Role>(String.class, Role.class, new StringRoleCoercer(userManager)));
+        configuration.add(new CoercionTuple<Role, String>(Role.class, String.class, new RoleStringCoercer()));
 
         configuration.add(new CoercionTuple<Date, String>(Date.class, String.class, new StringDateCoercer()));
         configuration.add(new CoercionTuple<String, Date>(String.class, Date.class, new DateStringCoercer()));

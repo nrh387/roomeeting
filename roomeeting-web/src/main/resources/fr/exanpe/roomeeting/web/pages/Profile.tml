@@ -1,0 +1,55 @@
+<html t:type="layoutmenu"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter"
+      xmlns:ex="tapestry-library:exanpe">
+		
+	<div class="well">
+	
+		<t:bodyTitle/>
+		
+		<t:if test="editDisabled()">
+			<div class="alert alert-warning">
+				${message:external-account}
+			</div>
+		</t:if>
+		
+		<t:if test="success">
+			<div class="alert alert-success">
+				${message:success}			
+			</div>
+		</t:if>
+		
+		<t:form t:id="userForm" class="form-horizontal">
+		
+			<t:formerrors/>
+			
+			<t:inputlabel forId="name" required="true" label="name-label">
+				<t:textfield t:value="user.name" id="name" disabled="editDisabled()" validate="required"/>
+			</t:inputlabel>
+			
+			<t:inputlabel forId="firstname" required="true" label="firstname-label">
+				<t:textfield t:value="user.firstname" id="firstname" validate="required" disabled="editDisabled()"/>
+			</t:inputlabel>
+			
+			<t:inputlabel forId="email" required="true" label="email-label">
+				<t:textfield t:value="user.email" id="email" validate="required" disabled="editDisabled()"/>
+			</t:inputlabel>
+			
+			<t:inputlabel forId="pass1" label="pass1-label">
+				<t:passwordfield t:value="pass1" id="pass1" disabled="editDisabled()"/>
+			</t:inputlabel>
+			
+			<t:inputlabel forId="pass2" label="pass2-label">
+				<t:passwordfield t:value="pass2" id="pass2" disabled="editDisabled()"/>
+			</t:inputlabel>
+
+			<hr/>
+			
+			<t:inputlabel>
+				<t:submit t:value="message:update-label" class="btn btn-primary"/>
+			</t:inputlabel>	
+		</t:form>
+		
+	</div>
+	
+</html>

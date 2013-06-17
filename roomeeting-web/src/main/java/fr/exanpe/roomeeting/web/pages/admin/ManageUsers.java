@@ -6,15 +6,24 @@ import javax.inject.Inject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.tapestry5.EventConstants;
+import org.apache.tapestry5.OptionModel;
+import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Grid;
+import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.internal.OptionModelImpl;
+import org.apache.tapestry5.internal.SelectModelImpl;
+import org.apache.tapestry5.ioc.Messages;
 
 import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.business.filters.UserFilter;
+import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.User;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
 
@@ -42,11 +51,30 @@ public class ManageUsers
     @Persist
     private UserFilter userFilter;
 
+    @InjectComponent
+    private Form form;
+
+    @InjectComponent("userZone")
+    private Zone userZone;
+
+    @Property
+    @Persist
+    private User editUser;
+
+    @org.apache.tapestry5.ioc.annotations.Inject
+    private Messages messages;
+
     @Property
     private boolean maxFound;
 
     @Inject
     private RooMeetingSecurityContext securityContext;
+
+    @Property
+    private SelectModel selectRoles;
+
+    @Property
+    private Role selectedRole;
 
     void onActivate()
     {
@@ -54,6 +82,18 @@ public class ManageUsers
         {
             userFilter = new UserFilter();
         }
+
+        List<Role> list = userManager.listRoles();
+
+        OptionModel[] options = new OptionModel[list.size()];
+
+        int count = 0;
+        for (Role r : list)
+        {
+            options[count++] = new OptionModelImpl(r.getName(), r.getId());
+        }
+
+        selectRoles = new SelectModelImpl(options);
     }
 
     public boolean isMaxFound()
@@ -64,8 +104,12 @@ public class ManageUsers
     @OnEvent(value = "search")
     void search() throws BusinessException
     {
-        if (StringUtils.isEmpty(userFilter.getName()) && StringUtils.isEmpty(userFilter.getFirstname()) && StringUtils.isEmpty(userFilter.getUsername())) { throw new BusinessException(
-                "Au moins un élément du filtre est requis"); }
+        if (StringUtils.isEmpty(userFilter.getName()) && StringUtils.isEmpty(userFilter.getFirstname()) && StringUtils.isEmpty(userFilter.getUsername())
+                && userFilter.getRole() == null)
+        {
+            form.recordError(messages.get("error-filter-empty"));
+            return;
+        }
 
         userFilter.setMaxResults(MAX_RESULTS);
 
@@ -86,5 +130,63 @@ public class ManageUsers
     {
         userFilter = new UserFilter();
         users = null;
+    }
+
+    @OnEvent(value = EventConstants.ACTION, component = "setupEditUser")
+    Object setupEditUser(Long id)
+    {
+        editUser = userManager.find(id);
+
+        if (CollectionUtils.isNotEmpty(editUser.getRoles()))
+        {
+            selectedRole = editUser.getRoles().get(0);
+        }
+
+        return userZone.getBody();
+    }
+
+    @OnEvent(value = EventConstants.SUCCESS, component = "formUser")
+    void editUser()
+    {
+        editUser.getRoles().clear();
+        editUser.getRoles().add(selectedRole);
+
+        userManager.update(editUser);
+
+        editUser = null;
+    }
+
+    @OnEvent(value = EventConstants.ACTION, component = "cancelUser")
+    void cancelUser()
+    {
+        editUser = null;
+    }
+
+    @OnEvent(value = EventConstants.ACTION, component = "deleteUser")
+    void deleteUser(Long id) throws BusinessException
+    {
+        currentUser = userManager.find(id);
+        if (canDelete())
+        {
+            userManager.delete(id);
+            search();
+        }
+        editUser = null;
+    }
+
+    public boolean canDelete()
+    {
+        return currentUser.getId() != securityContext.getUser().getId() && !"admin".equals(currentUser.getUsername());
+    }
+
+    public boolean canEdit()
+    {
+        return canDelete();
+    }
+
+    public String getRole()
+    {
+        if (currentUser != null && CollectionUtils.isNotEmpty(currentUser.getRoles())) { return currentUser.getRoles().get(0).getName(); }
+        return "";
     }
 }

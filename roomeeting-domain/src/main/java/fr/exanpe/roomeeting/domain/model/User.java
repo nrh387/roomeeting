@@ -17,13 +17,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.QueryHint;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -45,6 +44,7 @@ import org.springframework.util.Assert;
 @Entity
 @Cache(region = "archetypeTestCacheMetier", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Cacheable(value = true)
+@Table(name = "Uzer")
 // TODO delete Cache ! just for tests purpose
 @NamedQueries(
 { @NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true")) })
@@ -82,6 +82,8 @@ public class User implements UserDetails
     @Temporal(TemporalType.DATE)
     private Date lastConnection;
 
+    private boolean external;
+
     /**
      * For SUBSELECT explanation,
      * 
@@ -93,7 +95,6 @@ public class User implements UserDetails
     @Column(nullable = false)
     // TODO delete Cache ! just for tests purpose
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "J_USER_ROLE", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
     private List<Role> roles;
 
     @ManyToOne
@@ -297,6 +298,22 @@ public class User implements UserDetails
     public void setLastConnection(Date lastConnection)
     {
         this.lastConnection = lastConnection;
+    }
+
+    /**
+     * @return the external
+     */
+    public boolean isExternal()
+    {
+        return external;
+    }
+
+    /**
+     * @param external the external to set
+     */
+    public void setExternal(boolean external)
+    {
+        this.external = external;
     }
 
 }

@@ -8,7 +8,7 @@
 		
 		<t:form class="form-horizontal">
 		
-			<t:businessExceptionMessage/>
+			<t:formErrors/>
 
 			<t:inputlabel t:label="username-label" t:forId="username">
 				<t:textfield t:id="username" value="userFilter?.username"/>
@@ -22,6 +22,10 @@
 				<t:textfield t:id="firstname" value="userFilter?.firstname"/>
 			</t:inputlabel>
 			
+			<t:inputlabel t:label="role-label" t:forId="search_role">
+				<t:select id="search_role" model="selectRoles" t:value="userFilter?.role"/>
+			</t:inputlabel>
+			
 			<t:submit t:value="message:search-label" class="btn btn-primary" t:event="search"/>
 			&nbsp;&nbsp;&nbsp;
 			<t:submit t:value="message:reset-label" class="btn btn-danger" t:event="reset"/>
@@ -29,25 +33,76 @@
 		</t:form>
 		
 		<hr/>
-		
-		<t:grid t:id="gridUsers" t:source="users" t:row="currentUser" 
-			t:include="username,name,firstname,lastConnection" 
-			t:reorder="username,name,firstname,lastConnection"
-			t:rowsPerPage="10" style="width:100%">
-			<p:lastConnectionCell>
-				<t:output format="literal:dd/MM/yyyy" value="currentUser.lastConnection"/>
-			</p:lastConnectionCell>
-			<p:empty>
-				${message:no-results}
-			</p:empty>
-		</t:grid>
-		
 		<t:if test="maxFound">
 		    <div class="alert">
 			    <button type="button" class="close" data-dismiss="alert">&times;</button>
 			    ${message:max-results-alert}
 		    </div>
 		</t:if>
+		<div style="width:100%;overflow-x:scroll">
+		<t:grid t:id="gridUsers" t:source="users" t:row="currentUser" 
+			t:include="username,name,firstname,email,lastConnection" 
+			t:reorder="username,name,firstname,email,role,lastConnection"
+			t:add="role,edit,delete" 
+			t:rowsPerPage="10" style="overflow-x:scroll">
+			<p:lastConnectionCell>
+				<t:output format="literal:dd/MM/yyyy" value="currentUser.lastConnection"/>
+			</p:lastConnectionCell>
+			<p:roleCell>
+				${role}
+			</p:roleCell>
+			<p:editCell>
+				<t:if test="canEdit()">
+					<div align="center">
+						<t:actionlink t:id="setupEditUser" t:context="currentUser.id" t:zone="userZone">
+							<i class="icon-edit"></i>
+						</t:actionlink>
+					</div>
+				</t:if>
+			</p:editCell>
+			<p:deleteCell>
+				<t:if test="canDelete()">
+					<div align="center">
+						<t:actionlink t:id="deleteUser" t:context="currentUser.id"
+							t:mixins="exanpe/dialog"
+							t:title="delete-warning"
+							t:message="delete-text"
+							t:yesLabelButton="delete-yes"
+							t:noLabelButton="delete-no">
+							<i class="icon-remove"></i>
+						</t:actionlink>
+					</div>
+				</t:if>
+			</p:deleteCell>
+			<p:empty>
+				${message:no-results}
+			</p:empty>
+		</t:grid>
+		</div>
+
+		<div class="userZone">
+			
+			<t:zone id="userZone" t:id="userZone" t:visible="editUser" class="nobanner">
+				<t:if test="editUser">
+					<hr/>
+					<t:form t:id="formUser" class="form-horizontal">
+						
+						<div class="alert alert-recap">
+							${message:editing-of} <b>${editUser.name} ${editUser.firstname}</b>
+						</div>
+							
+						<t:inputlabel forId="user_role" label="role-label" required="true">	
+							<t:select id="user_role" model="selectRoles" t:value="selectedRole" t:validate="required"/>
+						</t:inputlabel>
+				
+						<t:submit  t:value="message:validate-user" class="btn btn-primary"/>
+						&nbsp;&nbsp;&nbsp;
+						<t:actionlink t:id="cancelUser" class="btn">${message:cancel-user}</t:actionlink>
+					</t:form>
+				</t:if>
+			</t:zone>
+		
+		</div>
 
 	</div>
 		

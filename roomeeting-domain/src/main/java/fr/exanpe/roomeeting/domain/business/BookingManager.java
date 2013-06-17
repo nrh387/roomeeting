@@ -25,6 +25,8 @@ public interface BookingManager extends DefaultManager<Booking, Long>
 
     void deleteBooking(Long id, User u);
 
+    void deletePastBooking(Long id);
+
     List<Booking> listUserFuturesBookings(User u);
 
     List<Booking> listUserPastsBookings(User user);

@@ -268,6 +268,11 @@ public class BookingManagerImpl extends DefaultManagerImpl<Booking, Long> implem
         }
     }
 
+    public void deletePastBooking(Long id)
+    {
+        super.delete(id);
+    }
+
     @Override
     public void deleteBooking(Long id, User u)
     {

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -19,6 +20,7 @@ import javax.persistence.NamedQuery;
 @NamedQueries(
 { @NamedQuery(name = Role.FIND_BY_ROLE_NAME, query = "FROM Role WHERE name = :name"), @NamedQuery(name = Role.FIND_ALL, query = "FROM Role ORDER BY priority") })
 @Entity
+@NamedNativeQuery(name = Role.DELETE_FOR_USER, query = "DELETE FROM Uzer_Role WHERE users_id = :userId", resultClass = Role.class)
 public class Role implements Serializable
 {
     /**
@@ -31,6 +33,7 @@ public class Role implements Serializable
      */
     public static final String FIND_BY_ROLE_NAME = "Role.findByRoleName";
 
+    public static final String DELETE_FOR_USER = "Role.deleteForUser";
     /**
      * Identifiants des requetes NamedQuery
      */

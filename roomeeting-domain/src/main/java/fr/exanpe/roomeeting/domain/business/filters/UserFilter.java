@@ -1,5 +1,7 @@
 package fr.exanpe.roomeeting.domain.business.filters;
 
+import fr.exanpe.roomeeting.domain.model.Role;
+
 public class UserFilter
 {
     private String name;
@@ -9,6 +11,8 @@ public class UserFilter
     private String username;
 
     private int maxResults;
+
+    private Role role;
 
     /**
      * @return the name
@@ -72,6 +76,22 @@ public class UserFilter
     public void setMaxResults(int maxResults)
     {
         this.maxResults = maxResults;
+    }
+
+    /**
+     * @return the role
+     */
+    public Role getRole()
+    {
+        return role;
+    }
+
+    /**
+     * @param role the role to set
+     */
+    public void setRole(Role role)
+    {
+        this.role = role;
     }
 
 }

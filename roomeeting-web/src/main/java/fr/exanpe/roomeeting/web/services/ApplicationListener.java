@@ -85,6 +85,7 @@ public class ApplicationListener
             loadUser(context);
             loadSites(context);
             loadBookings(context);
+            loadBookingsUser(context);
         }
         catch (IOException e)
         {
@@ -106,6 +107,28 @@ public class ApplicationListener
 
         User user = userManager.findByUsername("admin");
         Room room = siteManager.findRoom(1L);
+
+        Gap g = new Gap();
+        g.setDate(DateUtils.add(new Date(), Calendar.DAY_OF_YEAR, -7));
+        g.setRoom(room);
+
+        bookingManager.processBooking(user, g, new TimeSlot(10, 0), new TimeSlot(14, 0));
+
+        Gap g2 = new Gap();
+        g2.setDate(DateUtils.add(new Date(), Calendar.DAY_OF_YEAR, 7));
+        g2.setRoom(room);
+
+        bookingManager.processBooking(user, g2, new TimeSlot(17, 0), new TimeSlot(18, 0));
+    }
+
+    private void loadBookingsUser(ApplicationContext context) throws BusinessException
+    {
+        BookingManager bookingManager = context.getBean(BookingManager.class);
+        UserManager userManager = context.getBean(UserManager.class);
+        SiteManager siteManager = context.getBean(SiteManager.class);
+
+        User user = userManager.findByUsername("user");
+        Room room = siteManager.findRoom(2L);
 
         Gap g = new Gap();
         g.setDate(DateUtils.add(new Date(), Calendar.DAY_OF_YEAR, -7));
@@ -177,14 +200,6 @@ public class ApplicationListener
         UserManager userManager = context.getBean(UserManager.class);
 
         List<Role> roles = context.getBean(UserManager.class).listRoles();
-
-        User superadmin = new User();
-        superadmin.setUsername("admin");
-        superadmin.setPassword("admin");
-        superadmin.setEmail("admin@admin.com");
-        superadmin.setName("Name");
-        superadmin.setFirstname("Firstname");
-        userManager.createUser(superadmin, Collections.singletonList(roles.get(0)));
 
         User useradmin = new User();
         useradmin.setUsername("sitemanager");

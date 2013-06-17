@@ -20,9 +20,14 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 
 import fr.exanpe.roomeeting.common.enums.ParameterEnum;
+import fr.exanpe.roomeeting.common.enums.RoleEnum;
+import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.ParameterManager;
 import fr.exanpe.roomeeting.domain.business.RoomFeatureManager;
+import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.database.versions.OnlyDatabaseVersionDescriptor;
+import fr.exanpe.roomeeting.domain.model.Role;
+import fr.exanpe.roomeeting.domain.model.User;
 import fr.exanpe.roomeeting.domain.model.ref.Parameter;
 
 @Component
@@ -38,6 +43,9 @@ public class DatabaseVersionManager
 
     @Autowired
     private RoomFeatureManager roomFeatureManager;
+
+    @Autowired
+    private UserManager userManager;
 
     @Autowired
     private DataSource dataSource;
@@ -56,7 +64,6 @@ public class DatabaseVersionManager
         {
             LOGGER.info("Initializing database from scratch");
             applyVersions = versions;
-            init_V1_0_0_features();
         }
         else
         {
@@ -80,6 +87,11 @@ public class DatabaseVersionManager
         }
         databasePopulator.populate(dataSource.getConnection());
 
+        if (dbVersion == null)
+        {
+            init_post_V1_0_0_features();
+        }
+
         Parameter p = new Parameter(ParameterEnum.DB_VERSION.getCode());
         p.setName("Version");
         p.setStringValue(applyVersions.get(applyVersions.size() - 1).getVersion());
@@ -89,7 +101,7 @@ public class DatabaseVersionManager
         LOGGER.info("Database up-to-date on version [{}]", p.getStringValue());
     }
 
-    private void init_V1_0_0_features()
+    private void init_post_V1_0_0_features()
     {
         roomFeatureManager.create("Video-conference", "/features/icons/videoconf.png");
         roomFeatureManager.create("Projector", "/features/icons/projector.png");
@@ -97,6 +109,23 @@ public class DatabaseVersionManager
         roomFeatureManager.create("Drinks", "/features/icons/drinks.png");
         roomFeatureManager.create("Phone-conference", "/features/icons/phoneconf.png");
         roomFeatureManager.create("Wi-Fi", "/features/icons/wifi.png");
+
+        Role roleAdmin = userManager.findRole(RoleEnum.ADMIN.getCode());
+
+        User admin = new User();
+        admin.setUsername("admin");
+        admin.setPassword("admin");
+        admin.setEmail("admin@admin.com");
+        admin.setName("Admin");
+        admin.setFirstname("Admin");
+        try
+        {
+            userManager.createUser(admin, Collections.singletonList(roleAdmin));
+        }
+        catch (BusinessException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     private void sortVersions()

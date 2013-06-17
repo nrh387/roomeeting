@@ -40,6 +40,8 @@ public interface UserManager extends DefaultManager<User, Long>
      */
     void createUser(User user, List<Role> roles) throws BusinessException;
 
+    String encodePassword(User u, String password);
+
     /**
      * Retourne true si l'utilisateur <code>username</code> n'existe pas déjà.
      * 
@@ -68,4 +70,6 @@ public interface UserManager extends DefaultManager<User, Long>
     void onConnected(User user);
 
     Site findDefaultSite(User user);
+
+    Role findRole(long id);
 }

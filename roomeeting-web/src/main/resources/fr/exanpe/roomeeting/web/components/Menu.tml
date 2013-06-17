@@ -90,7 +90,7 @@
 						
 						<li class="divider-vertical"></li>
 						<li style="text-align:left">
-							<a href="#">
+							<a href="Profile">
 								<i class="icon-user" /> ${message:profile-label}
 							</a>
 							<br style="display:none"/>
