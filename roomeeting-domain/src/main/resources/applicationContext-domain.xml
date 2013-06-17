@@ -12,16 +12,14 @@
     <task:annotation-driven/>
 
 	<bean id="roomeetingPasswordEncoder"
-		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
-
-	<bean id="roomeetingSaltSource"
-		class="org.springframework.security.authentication.dao.SystemWideSaltSource">
-		<property name="systemWideSalt" value="roomeetingSecureSalt3298679" />
-	</bean>
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+      <constructor-arg>
+        <value>room_eeting_UTH6625GN09</value>
+      </constructor-arg>
+    </bean>
 	
 	<bean id="roomeetingAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<property name="userDetailsService" ref="roomeetingUserDetailService"/>
-		<property name="saltSource" ref="roomeetingSaltSource"/>
 		<property name="passwordEncoder" ref="roomeetingPasswordEncoder"/>
 	</bean>
 	
