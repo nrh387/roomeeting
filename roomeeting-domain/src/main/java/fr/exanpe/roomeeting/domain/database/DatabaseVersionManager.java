@@ -103,12 +103,12 @@ public class DatabaseVersionManager
 
     private void init_post_V1_0_0_features()
     {
-        roomFeatureManager.create("Video-conference", "/features/icons/videoconf.png");
-        roomFeatureManager.create("Projector", "/features/icons/projector.png");
-        roomFeatureManager.create("Secured", "/features/icons/secured.png");
-        roomFeatureManager.create("Drinks", "/features/icons/drinks.png");
-        roomFeatureManager.create("Phone-conference", "/features/icons/phoneconf.png");
-        roomFeatureManager.create("Wi-Fi", "/features/icons/wifi.png");
+        roomFeatureManager.create("roomfeatures-key-videoc", "/features/icons/videoconf.png");
+        roomFeatureManager.create("roomfeatures-key-projector", "/features/icons/projector.png");
+        roomFeatureManager.create("roomfeatures-key-secured", "/features/icons/secured.png");
+        roomFeatureManager.create("roomfeatures-key-drinks", "/features/icons/drinks.png");
+        roomFeatureManager.create("roomfeatures-key-phonec", "/features/icons/phoneconf.png");
+        roomFeatureManager.create("roomfeatures-key-wifi", "/features/icons/wifi.png");
 
         Role roleAdmin = userManager.findRole(RoleEnum.ADMIN.getCode());
 

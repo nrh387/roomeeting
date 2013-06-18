@@ -6,7 +6,7 @@
 		<ul class="displayRoomFeatures">
 			<t:loop source="features" value="currentFeature">
 				<li>
-					<t:restImage imageType="roomFeatureIcon" t:context="currentFeature.id" title="${currentFeature.name}" alt="${currentFeature.name}"/>
+					<t:restImage imageType="roomFeatureIcon" t:context="currentFeature.id" title="${optmessage:currentFeature.name}" alt="${currentFeature.name}"/>
 				</li>
 			</t:loop>
 		</ul>

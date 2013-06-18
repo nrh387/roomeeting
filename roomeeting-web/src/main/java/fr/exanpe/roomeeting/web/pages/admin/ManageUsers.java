@@ -2,8 +2,6 @@ package fr.exanpe.roomeeting.web.pages.admin;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tapestry5.EventConstants;
@@ -19,6 +17,7 @@ import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.internal.SelectModelImpl;
 import org.apache.tapestry5.ioc.Messages;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 import fr.exanpe.roomeeting.common.exception.BusinessException;
 import fr.exanpe.roomeeting.domain.business.UserManager;
@@ -26,6 +25,7 @@ import fr.exanpe.roomeeting.domain.business.filters.UserFilter;
 import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.User;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
+import fr.exanpe.roomeeting.web.services.OptionalMessageService;
 
 /**
  * Welcome page
@@ -61,7 +61,7 @@ public class ManageUsers
     @Persist
     private User editUser;
 
-    @org.apache.tapestry5.ioc.annotations.Inject
+    @Inject
     private Messages messages;
 
     @Property
@@ -69,6 +69,9 @@ public class ManageUsers
 
     @Inject
     private RooMeetingSecurityContext securityContext;
+
+    @Inject
+    private OptionalMessageService optionalMessageService;
 
     @Property
     private SelectModel selectRoles;
@@ -90,7 +93,7 @@ public class ManageUsers
         int count = 0;
         for (Role r : list)
         {
-            options[count++] = new OptionModelImpl(r.getName(), r.getId());
+            options[count++] = new OptionModelImpl(optionalMessageService.getOptionalMessage(messages, r.getName()), r.getId());
         }
 
         selectRoles = new SelectModelImpl(options);

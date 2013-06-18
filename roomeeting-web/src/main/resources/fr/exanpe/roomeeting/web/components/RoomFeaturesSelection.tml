@@ -8,8 +8,8 @@
 			
 			<button type="button" class="btn tooltiped ${cssClassIfSelected}" 
 					onclick="jQuery('#rf${currentFeature.id}_hidden').prop('checked', !jQuery('#rf${currentFeature.id}_hidden').prop('checked'));"
-					data-toggle="tooltip" data-original-title="${currentFeature.name}">
-				<t:restImage class="tooltiped" imageType="roomFeatureIcon" t:context="currentFeature.id" title="${currentFeature.name}" alt="${currentFeature.name}" style="height:24px"/>
+					data-toggle="tooltip" data-original-title="${optmessage:currentFeature.name}">
+				<t:restImage class="tooltiped" imageType="roomFeatureIcon" t:context="currentFeature.id" title="${optmessage:currentFeature.name}" alt="${optmessage:currentFeature.name}" style="height:24px"/>
 				
 				<t:if test="featureSelected">
 					<input style="display:none" id="rf${currentFeature.id}_hidden" name="${controlName}" type="checkbox" value="${currentFeature.id}" checked="checked" > </input>

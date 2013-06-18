@@ -12,9 +12,12 @@
 			t:rowsPerPage="10" style="width:100%">
 			
 			<p:iconCell>
-				<t:restImage imageType="roomFeatureIcon" t:context="current.id" title="${current.name}" alt="${current.name}"/>
+				<t:restImage imageType="roomFeatureIcon" t:context="current.id" title="${optmessage:current.name}" alt="${current.name}"/>
 			</p:iconCell>
 			
+			<p:nameCell>
+				${optmessage:current.name}
+			</p:nameCell>
 			<p:editCell>
 				<div align="center">
 					<t:actionlink t:id="setupEdit" t:context="current.id" t:zone="editZone">

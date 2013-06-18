@@ -49,7 +49,7 @@
 				<t:output format="literal:dd/MM/yyyy" value="currentUser.lastConnection"/>
 			</p:lastConnectionCell>
 			<p:roleCell>
-				${role}
+				${optmessage:role}
 			</p:roleCell>
 			<p:editCell>
 				<t:if test="canEdit()">

@@ -11,6 +11,13 @@
 			t:reorder="name,description,edit"
 			t:rowsPerPage="10" style="width:100%">
 			
+			<p:nameCell>
+				${optmessage:current.name}
+			</p:nameCell>
+			<p:descriptionCell>
+				${optmessage:current.description}
+			</p:descriptionCell>
+			
 			<p:valueCell>
 				<t:displayParameter parameter="current"/>
 			</p:valueCell>
@@ -36,9 +43,9 @@
 			<t:if test="editing">
 				<t:form t:id="form" class="form-horizontal">
 				
-					<t:inputlabel forId="edit_name" required="true" label="name-label">
-						<t:textfield t:value="editing.name" id="edit_name" t:validate="required"/>
-					</t:inputlabel>
+					<div class="alert alert-recap">
+						${message:name-label} : <b>${optmessage:editing.name}</b>
+					</div>
 					
 					<t:inputlabel forId="edit_param" required="true" label="value-label">
 						<t:editparameter parameter="editing"/>

@@ -12,6 +12,8 @@ import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.services.CoercionTuple;
+import org.apache.tapestry5.services.BindingFactory;
+import org.apache.tapestry5.services.BindingSource;
 import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.RequestExceptionHandler;
@@ -27,6 +29,7 @@ import fr.exanpe.roomeeting.domain.business.dto.TimeSlot;
 import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.t5.lib.services.RooMeetingLibraryModule;
+import fr.exanpe.roomeeting.web.services.binding.OptionalMessageBindingFactory;
 import fr.exanpe.roomeeting.web.services.coercers.DateStringCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.RoleStringCoercer;
 import fr.exanpe.roomeeting.web.services.coercers.SiteStringCoercer;
@@ -56,6 +59,7 @@ public class RooMeetingModule
         binder.bind(ApplicationListener.class).eagerLoad();
         binder.bind(ExceptionHandlerService.class);
         binder.bind(SelectTimeSlotService.class);
+        binder.bind(OptionalMessageService.class);
     }
 
     public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration, @InjectService("applicationContext")
@@ -79,23 +83,10 @@ public class RooMeetingModule
             }
         }
 
-        // Contributions to ApplicationDefaults will override any contributions to
-        // FactoryDefaults (with the same key). Here we're restricting the supported
-        // locales to just "en" (English). As you add localised message catalogs and other assets,
-        // you can extend this list of locales (it's a comma separated series of locale names;
-        // the first locale name is the default when there's no reasonable match).
+        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en,fr");
 
-        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "fr,en");
-
-        // The factory default is true but during the early stages of an application
-        // overriding to false is a good idea. In addition, this is often overridden
-        // on the command line as -Dtapestry.production-mode=false
         configuration.add(SymbolConstants.PRODUCTION_MODE, "" + productionMode);
 
-        // The application version number is incorprated into URLs for some
-        // assets. Web browsers will cache assets because of the far future expires
-        // header. If existing assets are changed, the version number should also
-        // change, to force the browser to download new versions.
         configuration.add(SymbolConstants.APPLICATION_VERSION, "1.0.0-SNAPSHOT");
 
         // < 100kb
@@ -104,6 +95,11 @@ public class RooMeetingModule
         configuration.add(UploadSymbols.REPOSITORY_THRESHOLD, "100000");
 
         configuration.add(ExanpeSymbols.CONTEXT_PAGE_RESET_MARKER, "_cleanup_");
+    }
+
+    public static void contributeBindingSource(MappedConfiguration<String, BindingFactory> configuration, BindingSource bindingSource)
+    {
+        configuration.add("optmessage", new OptionalMessageBindingFactory(bindingSource));
     }
 
     public void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration)
