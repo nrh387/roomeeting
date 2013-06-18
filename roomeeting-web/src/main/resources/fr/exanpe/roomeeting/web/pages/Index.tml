@@ -9,7 +9,7 @@
     <t:box t:title="Connexion">
 		<t:businessExceptionMessage/>
 		<t:if test="loginFailed">
-			Mauvais couple utilisateur ou mot de passe <br/>
+			${message:login-error} <br/>
 		</t:if>
 		<form action="${contextRoot}/j_spring_security_check" method="POST" class="form-horizontal">
 			<t:inputlabel t:forId="j_username" t:label="id-label">
@@ -17,7 +17,7 @@
 					<span class="add-on">
 						<i class="icon-user"/>
 					</span>
-					<input id="j_username" type="text" name="j_username" placeholder="Identifiant"/>
+					<input id="j_username" type="text" name="j_username" placeholder="${message:id-label}"/>
 				</div>
 			</t:inputlabel>
 			<t:inputlabel t:forId="j_password" t:label="password-label">
@@ -25,12 +25,12 @@
 					<span class="add-on">
 						<i class="icon-lock"/>
 					</span> 
-					<input id="j_password" type="password" name="j_password" placeholder="Mot de passe"/>
+					<input id="j_password" type="password" name="j_password" placeholder="${message:password-label}"/>
 				</div>
 			</t:inputlabel>
 			<div class="control-group">
 				<div class="controls">
-					<button type="submit" class="btn" value="">Se connecter</button>	
+					<button type="submit" class="btn" value="">${message:login-button}</button>	
 				</div>
 			</div>
 			
