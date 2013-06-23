@@ -1,7 +1,0 @@
-<t:layout xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:roomeeting="tapestry-library:roomeeting">
-
-	<t:form t:id="form">
-	    <t:submit value="Form Submit" />
-	</t:form>
-
-</t:layout>

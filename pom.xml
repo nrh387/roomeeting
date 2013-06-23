@@ -267,7 +267,6 @@
     <module>roomeeting-mail</module>
     <module>roomeeting-domain-core</module>
     <module>roomeeting-domain</module>
-    <module>roomeeting-t5-lib</module>
     <module>roomeeting-web</module>
   </modules>
 </project>
