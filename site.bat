@@ -1,1 +1,1 @@
-D:\tools\org\apache\maven\apache-maven-3.0.3\bin\mvn site -N
+D:\tools\org\apache\maven\apache-maven-3.0.3\bin\mvn generate-sources site -N

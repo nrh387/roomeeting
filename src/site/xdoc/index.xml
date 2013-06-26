@@ -13,11 +13,12 @@
     <section name="Overview">
 
       <p>
-          RooMeeting is an Open Source J2EE web application that aim to help companies managing meeting rooms.
+          <b>RooMeeting</b> is an <b>Open Source J2EE web application</b> that aim to help companies managing meeting rooms.<br/>
+          <b>RooMeeting</b> is a lightweight client/server application as it <b>only requires a browser</b> to work with. 
           <br/><br/>
-          This management rely on some principles :
+          <b>RooMeeting</b> relies on some principles :
           <ul>
-            <li>Some sites hosts somes rooms</li>
+            <li>Rooms can be located on different sites</li>
             <li>Rooms offer some features, like the ability to do some video-conference, to access wi-fi... anything you wish to declare.</li>
             <li>A user is linked to a profile that give him access only to a specific part of the application.</li>
           </ul>
@@ -31,16 +32,25 @@
           Among all its features, RooMeeting offers the following :<br/>
 <ul>
 <li>A restricted administration area to manage your company data (users, sites, rooms...)</li>
-<li>A rich search engine, which target automatically the room that best fit a meeting request</li>
-<li>A facility to locate rooms, relying on GoogleMaps and plans</li>
-<li>An integration with almost all calendar products (Microsoft Outlook, Google Agenda, IBM Lotus Notes...) with the iCalendar export feature.</li>
+<li>A rich search engine, which target automatically the room that best fit a meeting room request</li>
+<li>A facility to locate rooms, relying on GoogleMaps and image plans</li>
+<li>An integration with almost all calendar products (Microsoft Outlook, Google Agenda, IBM Lotus Notes...) through the iCal export feature.</li>
+<li>An incident reporting to inform site managers</li>
 </ul>
-<br/><br/>
-<b>Coming Soon :</b> 
+
+      </p>
+      
+    </section>
+    
+        <section name="What it's not">
+
+      <p>
+          RooMeeting is <b>not</b> :<br/>
 <ul>
-<li>An integration with externals user datasource, as Microsoft Exchange</li>
-<li>Incidents reporting to room managers</li>
+  <li>A mail application.</li>
+  <li>An Outlook Front-end</li>
 </ul>
+
       </p>
       
     </section>

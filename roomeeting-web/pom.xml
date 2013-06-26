@@ -148,22 +148,6 @@
 		</plugins>
 	</build>
 
-	<reporting>
-
-		<!-- Adds a report detailing the components, mixins and base classes defined 
-			by this module. -->
-		<plugins>
-			<plugin>
-				<groupId>org.apache.tapestry</groupId>
-				<artifactId>tapestry-component-report</artifactId>
-				<version>${tapestry-release-version}</version>
-				<configuration>
-					<rootPackage>fr.exanpe.roomeeting.web</rootPackage>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
-
     <profiles>
       <profile>
         <id>prod</id>
