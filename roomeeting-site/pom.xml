@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>roomeeting</artifactId>
+        <groupId>fr.exanpe.roomeeting</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+  
+	<artifactId>roomeeting-site</artifactId>
+	<packaging>pom</packaging>
+	<name>roomeeting-site</name>
+	<description>Project RooMeeting</description>
+
+	<properties>
+        <github.global.server>github</github.global.server>
+	</properties>
+
+	<build>
+		<plugins>
+            <plugin>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>2.0.1</version>
+              <configuration>
+                <generateReports>false</generateReports>
+              </configuration>
+            </plugin>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-dependency-plugin</artifactId>
+              <version>2.8</version>
+              <executions>
+                <execution>
+                  <id>maven-dependency-plugin</id>
+                  <phase>generate-sources</phase>
+                  <goals>
+                    <goal>copy</goal>
+                  </goals>
+                  <configuration>
+                    <artifact>${project.groupId}:roomeeting-web:${project.version}:war</artifact>
+                    <transitive>false</transitive>
+                    <outputDirectory>${project.build.directory}/tmp</outputDirectory>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+
+            <plugin>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <version>1.7</version>
+              <executions>
+                <execution>
+                    <id>maven-antrun-plugin</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                </execution>
+              </executions>
+              <configuration>
+                  <target>
+                    <echo>Copying bin...</echo>
+                    <copy file="${basedir}/src/site/base/roomeeting-bin.zip" tofile="${project.build.directory}/to_upload/bin/roomeeting-bin.zip"/>
+                    <echo>Enriching zip...</echo>
+                    <zip destfile="${project.build.directory}/to_upload/bin/roomeeting-bin.zip" update="true">
+                      <zipfileset file="${project.build.directory}/tmp/roomeeting-web-${project.version}.war" fullpath="roomeeting/webapps/roomeeting.war"/>
+                      <zipfileset dir="${basedir}/../roomeeting-classpath/src/main/resources/" prefix="roomeeting/roomeeting-conf/"/>
+                    </zip>
+                    <echo>Complete</echo>         
+                  </target>
+              </configuration>
+            </plugin>
+            
+            <plugin>
+              <groupId>com.github.github</groupId>
+              <artifactId>site-maven-plugin</artifactId>
+              <version>0.8</version>
+              <configuration>
+                <message>Creating site for ${project.version}</message>
+              </configuration>
+              <executions>
+                <execution>
+                  <phase>site</phase>
+                  <goals>
+                    <goal>site</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+
+		</plugins>
+    
+        <!-- 
+         TODO  : activer apres avoir builder la configuration de reporting
+        <extensions>
+          <extension>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>roomeeting-conf-reporting</artifactId>
+            <version>1.0.0</version>
+          </extension>
+        </extensions>
+         -->
+	</build>
+</project>

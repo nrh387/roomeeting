@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dataset.xsd">
-<UzER id="1" username="admin" password="admin" email="email@email.com"/>
+<UZER id="1" username="admin" password="admin" email="email@email.com" external="false"/>
 <ROLE id="1" name="ADMIN" />
-<ROLE id="2" name="USER" />
+<ROLE id="2" name="UZER" />
 <AUTHORITY authority="ROLE_ADMIN" id="1"/>
 <UZER_ROLE users_id="1" roles_id="1"/>
 </dataset>

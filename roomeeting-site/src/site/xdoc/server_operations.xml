@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Server Operations - RooMeeting</title>
+    <author email="jmaupoux@gmail.com">jmaupoux</author>
+  </properties>
+
+  <body>	    
+	
+    <section name="Conventions">
+      <p>
+        This section presents all the operations needed to technically administrate RooMeeting.<br/>
+        We will use the following notation in order to talk the same language :<br/>
+        <ul>
+          <li><b>${INSTALL_HOME}</b> will represent the folder where the RooMeeting package have been installed (unzipped).</li>
+        </ul>
+      </p>     
+    </section>
+  
+	<section name="Configuration">
+	 	<ul>
+          <li>Open the file ${INSTALL_HOME}/roomeeting/roomeeting-conf/roomeeting.properties with a text editor</li>
+          <li>Change the <i>mail</i> configuration according to your smtp</li>
+        </ul>
+    </section>
+    
+    <section name="Start/Stop">
+        <ul>
+          <li>To start, execute ${INSTALL_HOME}/roomeeting/bin/startup.bat|sh according to your OS</li>
+          <li>To stop, execute ${INSTALL_HOME}/roomeeting/bin/shutdown.bat|sh according to your OS</li>
+        </ul>
+    </section>
+    
+    <section name="Advanced Operations">
+      <subsection name="Change Database">
+          Beware, previous database data will be lost :
+          <ul>
+            <li>Open the file <i>${INSTALL_HOME}/roomeeting/roomeeting-conf/roomeeting.properties</i> with a text editor</li>
+            <li>Change the <i>hibernate</i> configuration according to your database</li>
+            <li>Place your database jdbc driver in the folder <i>${INSTALL_HOME}/lib/</i></li>
+          </ul>
+      </subsection>
+      <subsection name="Backup database">
+          <i>This section applies only for default H2 database.</i>
+          <ul>
+            <li>Stop the server</li>
+            <li>Copy the folder <i>%USER_HOME%/.roomeeting/</i></li>
+          </ul>
+      </subsection>
+    </section>
+     
+  </body>
+  
+</document>

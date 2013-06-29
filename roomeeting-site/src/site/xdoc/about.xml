@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>About - RooMeeting</title>
+    <author email="jmaupoux@gmail.com">jmaupoux</author>
+  </properties>
+
+  <body>
+
+    <section name="About RooMeeting">
+      <p>
+        RooMeeting is a 100% free, 100% open source application, under <a href="license/LICENSE-2.0.txt">Apache 2 License</a>.<br/>
+        It is developed with some of the most powerful J2EE frameworks (Twitter Bootstrap, Tapestry 5, Spring 3, JPA 2/Hibernate 4), the whole thing pre-bundled in a Tomcat 7 server.<br/>
+        It can be deployed easily on the cloud, depending on your requirements.
+      </p>
+    </section>
+    <section name="About us">
+      <p>
+        Feel free to contact us on <a href="https://github.com/attonnnn/roomeeting/issues">our github space</a> or <a href="mailto:exanpe@gmail.com">mail us !</a>
+      </p>
+    </section>
+
+  </body>
+
+</document>
