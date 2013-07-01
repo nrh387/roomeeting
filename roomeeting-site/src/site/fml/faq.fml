@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faqs title="Frequently Asked Questions">
-  <part id="General">
-    
+  <part id="Requirements">
+    <faq id="install-location">
+      <question>
+        Where can I install RooMeeting ?
+      </question>
+      <answer>
+        <b>RooMeeting</b> is a client server application. 
+           The client is represented by any browser available on the web.<br/><br/> 
+           The server engine is the only step in order to make it work.<br/>
+           It can be deployed on a Linux&#169; server as well as on your Windows&#169; Desktop. All depends on your IT and requirements.
+      </answer>
+    </faq>
+    <faq id="requirements">
+      <question>
+        What are the server requirements ?
+      </question>
+      <answer>
+       	A Java Virtual Machine (JVM) version 6+ have to be installed in the machine the installation is processed on.<br/>
+	    It is often included in a Windows&#169; installation.<br/><br/>
+	    To get a JVM that fit to your machine, visit <a href="http://www.java.com/fr/download/">http://www.java.com/fr/download/</a> and install on your server machine <b>only</b>.
+      </answer>
+    </faq>
   </part>
 </faqs>

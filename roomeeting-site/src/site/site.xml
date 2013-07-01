@@ -31,14 +31,13 @@
     <menu name="RooMeeting">
       <item name="Overview" href="index.html"/>
       <item name="Online Demo" href="TODO" target="_blank"/>
-      <item name="User Guide" href="user_guide.html"/>
-      <item name="FAQ" href="faq.html" />
     </menu>
     
-    <menu name="Technical documentation">
-      <item name="Installation" href="installation.html"/>
-      <item name="Server Operations" href="server_operations.xml"/>
+    <menu name="Documentation">
+      <item name="Getting started" href="getting_started.html"/>
       <item name="Download" href="download.html"/>
+      <item name="Server Operations" href="server_operations.xml"/>
+      <item name="FAQ" href="faq.html" />
       <item name="License" href="license/LICENSE-2.0.txt" />
     </menu>
     
