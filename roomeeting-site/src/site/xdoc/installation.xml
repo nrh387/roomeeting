@@ -38,6 +38,7 @@
           Open your browser, and enter the URL <i>http://${server_ip}:8080/roomeeting/</i>.<br/>
           For example, if the server is hosted on your computer, the URL becomes <i>http://localhost:8080/roomeeting/</i>
         </p>
+        Follow the <a href="user_guide.html">User Guide</a> in order to get the application ready for your users.
      </section>
      
   </body>

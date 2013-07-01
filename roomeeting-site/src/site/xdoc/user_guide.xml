@@ -10,9 +10,38 @@
 
   <body>
   
-	<section name="User guide">
-		Work in progress...
+	<section name="Overview">
+		This section introduce the application, its initialization and main features. 
 	</section>
+  
+    <section name="Administration guide">
+        <subsection name="First connection">
+          <span class="badge badge-warning">1. Modify your email and password</span><br/>
+          The first time you connect to the application, an admin account is provided :
+          <ul>
+            <li>Login : admin</li>
+            <li>Password : admin</li>
+          </ul>
+          Go to the profile panel, clicking the profile icon on the top left of the screen, and update the information.
+        </subsection>
+        <subsection name="Site and Rooms">
+          <span class="badge badge-warning">2. Setup your data</span><br/>
+          Initialize your sites and related rooms with the GUI provided.
+        </subsection>
+        <subsection name="Users">
+          <span class="badge badge-warning">3. Create users</span><br/>
+          Create users with their according role. On creation, each user will receive an e-mail to be notified of their password.<br/>
+          <ul>
+            <li>Role Admin : Access the whole site</li>
+            <li>Role Supervisor : Manage Feedbacks. Cannot administer RooMeeting</li>
+            <li>Role User : Only booking feature is allowed</li>
+          </ul>
+        </subsection>
+    </section>
+    
+    <section name="User guide">
+       TODO...
+    </section>
 
   </body>
   
