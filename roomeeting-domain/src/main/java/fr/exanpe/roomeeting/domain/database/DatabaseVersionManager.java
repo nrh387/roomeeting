@@ -115,7 +115,7 @@ public class DatabaseVersionManager
         User admin = new User();
         admin.setUsername("admin");
         admin.setPassword("admin");
-        admin.setEmail("admin@admin.com");
+        admin.setEmail("admin@domain.com");
         admin.setName("Admin");
         admin.setFirstname("Admin");
         try

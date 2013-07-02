@@ -25,6 +25,15 @@
 	
 	<!-- End Security beans -->
 
+      <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+          <property name="defaultEncoding" value="UTF-8"/>
+          <property name="basenames">
+            <list>
+                <value>classpath:messages/mails</value>
+            </list>
+          </property>
+      </bean>
+
     <import resource="classpath:applicationContext-versions-db.xml"/>
     
 </beans>

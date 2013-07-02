@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,10 +18,12 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,7 @@ import org.springframework.util.Assert;
 
 import fr.exanpe.roomeeting.common.enums.AuthorityEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
+import fr.exanpe.roomeeting.common.exception.TechnicalException;
 import fr.exanpe.roomeeting.domain.business.BookingManager;
 import fr.exanpe.roomeeting.domain.business.UserManager;
 import fr.exanpe.roomeeting.domain.business.filters.UserFilter;
@@ -42,6 +46,8 @@ import fr.exanpe.roomeeting.domain.model.Role;
 import fr.exanpe.roomeeting.domain.model.Site;
 import fr.exanpe.roomeeting.domain.model.User;
 import fr.exanpe.roomeeting.domain.security.RooMeetingSecurityContext;
+import fr.exanpe.roomeeting.domain.util.MessagesResolver;
+import fr.exanpe.roomeeting.mail.service.RooMeetingMailService;
 
 /**
  * @author lguerin
@@ -66,6 +72,15 @@ public class UserManagerImpl extends DefaultManagerImpl<User, Long> implements U
 
     @Autowired
     private BookingManager bookingManager;
+
+    @Autowired
+    private RooMeetingMailService mailService;
+
+    @Autowired
+    private MessagesResolver messagesResolver;
+
+    @Value("${mail.from}")
+    private String from;
 
     @Override
     public void delete(Long id)
@@ -126,12 +141,42 @@ public class UserManagerImpl extends DefaultManagerImpl<User, Long> implements U
     }
 
     @Override
+    public void resetPassword(String username, Locale locale) throws BusinessException
+    {
+        User user = findByUsername(username);
+        if (user == null) { throw new BusinessException("business-error-invalid-username"); }
+
+        String passwordClear = RandomStringUtils.randomAlphanumeric(8);
+
+        String passwordEncrypted = encodePassword(passwordClear);
+
+        try
+        {
+            // TODO could be outsourced to a dedicated mail service, but not the core one...
+            mailService.sendEmail(
+                    from,
+                    user.getEmail(),
+                    messagesResolver.getMessage("reset-mail-subject", null, locale),
+                    messagesResolver.getMessage("reset-mail-body", new Object[]
+                    { passwordClear }, locale));
+        }
+        catch (Exception e)
+        {
+            throw new TechnicalException("System could not send the mail", e);
+        }
+
+        user.setPassword(passwordEncrypted);
+
+        update(user);
+    }
+
+    @Override
     @Transactional(readOnly = false, rollbackFor = BusinessException.class)
     public void createUser(User user, List<Role> roles) throws BusinessException
     {
         if (!isAvailableUsername(user.getUsername())) { throw new BusinessException("L'utilisateur: " + user.getUsername() + " existe déjà."); }
 
-        String pass = encodePassword(user, user.getPassword());
+        String pass = encodePassword(user.getPassword());
         user.setPassword(pass);
 
         for (Role role : roles)
@@ -144,7 +189,7 @@ public class UserManagerImpl extends DefaultManagerImpl<User, Long> implements U
     }
 
     @Override
-    public String encodePassword(User u, String password)
+    public String encodePassword(String password)
     {
         return this.passwordEncoder.encode(password);
     }

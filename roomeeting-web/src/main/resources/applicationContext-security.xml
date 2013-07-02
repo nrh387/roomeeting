@@ -10,8 +10,9 @@
 
   <http auto-config="true" use-expressions="true">
     <intercept-url pattern="/" access="permitAll" />
-    <intercept-url pattern="/Index" access="permitAll" />
-    <intercept-url pattern="/Hack" access="permitAll" />
+    <intercept-url pattern="/Index*" access="permitAll" />
+    <intercept-url pattern="/Hack*" access="permitAll" />
+    <intercept-url pattern="/ResetPassword*" access="permitAll" />
     <intercept-url pattern="/assets/**" access="permitAll" />
     <intercept-url pattern="/js/**" access="permitAll" />
     <intercept-url pattern="/css/**" access="permitAll" />
@@ -35,6 +36,7 @@
     <intercept-url pattern="/h2/**"
       access="isAuthenticated() and authentication.name == 'admin'" />
     <intercept-url pattern="/**" access="isAuthenticated()" />
+    
     <form-login login-page="/" authentication-failure-url="/Index?loginFailed=true"
       authentication-success-handler-ref="authenticationSuccessHandler" />
 

@@ -1,4 +1,4 @@
-<html t:type="layout" title="Accueil"
+<html t:type="layout" title="message:application-name-long"
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
 	xmlns:p="tapestry:parameter">
 
@@ -6,10 +6,12 @@
     <div style="padding-top:100px;margin:auto;width:550px">
     
     
-    <t:box t:title="Connexion">
+    <t:box t:title="message:connection">
 		<t:businessExceptionMessage/>
 		<t:if test="loginFailed">
-			${message:login-error} <br/>
+			<div class="alert alert-danger">
+				${message:login-error}
+			</div>
 		</t:if>
 		<form action="${contextRoot}/j_spring_security_check" method="POST" class="form-horizontal">
 			<t:inputlabel t:forId="j_username" t:label="id-label">
@@ -27,6 +29,8 @@
 					</span> 
 					<input id="j_password" type="password" name="j_password" placeholder="${message:password-label}"/>
 				</div>
+				<br/>
+				<t:pagelink t:page="ResetPassword" style="color: gray;font-size: 80%;">${message:password-lost}</t:pagelink>
 			</t:inputlabel>
 			<div class="control-group">
 				<div class="controls">

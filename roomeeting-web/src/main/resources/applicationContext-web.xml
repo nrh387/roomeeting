@@ -8,6 +8,7 @@
            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
   <import resource="classpath*:applicationContext-common.xml" />
+  <import resource="classpath*:applicationContext-mail.xml" />
   <import resource="classpath*:applicationContext-domain-core.xml"/>
   <import resource="classpath*:applicationContext-domain.xml" />
   <import resource="classpath*:applicationContext-security.xml" />

@@ -83,7 +83,7 @@ public class Profile
     {
         if (StringUtils.isNotEmpty(pass1))
         {
-            user.setPassword(userManager.encodePassword(user, pass1));
+            user.setPassword(userManager.encodePassword(pass1));
         }
         userManager.update(user);
         success = true;

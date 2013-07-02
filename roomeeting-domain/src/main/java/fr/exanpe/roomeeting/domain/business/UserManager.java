@@ -4,6 +4,7 @@
 package fr.exanpe.roomeeting.domain.business;
 
 import java.util.List;
+import java.util.Locale;
 
 import fr.exanpe.roomeeting.common.enums.AuthorityEnum;
 import fr.exanpe.roomeeting.common.exception.BusinessException;
@@ -40,7 +41,7 @@ public interface UserManager extends DefaultManager<User, Long>
      */
     void createUser(User user, List<Role> roles) throws BusinessException;
 
-    String encodePassword(User u, String password);
+    String encodePassword(String password);
 
     /**
      * Retourne true si l'utilisateur <code>username</code> n'existe pas déjà.
@@ -72,4 +73,6 @@ public interface UserManager extends DefaultManager<User, Long>
     Site findDefaultSite(User user);
 
     Role findRole(long id);
+
+    void resetPassword(String username, Locale locale) throws BusinessException;
 }
