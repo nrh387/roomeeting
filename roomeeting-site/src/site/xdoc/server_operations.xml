@@ -24,6 +24,7 @@
 	 	<ul>
           <li>Open the file ${INSTALL_HOME}/roomeeting/roomeeting-conf/roomeeting.properties with a text editor</li>
           <li>Change the <i>mail</i> configuration according to your smtp</li>
+          <li>Every other property can be modified according to your needs. Modifications require a server reboot in order to be applied.</li>
         </ul>
     </section>
     

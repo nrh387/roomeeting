@@ -34,7 +34,9 @@
     </menu>
     
     <menu name="Documentation">
-      <item name="Getting started" href="getting_started.html"/>
+      <item name="Installation" href="installation.html"/>
+      <item name="Admin Guide" href="admin_guide.html"/>
+      <item name="User Guide" href="user_guide.html"/>
       <item name="Download" href="download.html"/>
       <item name="Server Operations" href="server_operations.xml"/>
       <item name="FAQ" href="faq.html" />

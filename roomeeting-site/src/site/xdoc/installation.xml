@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Installation - RooMeeting</title>
+    <author email="jmaupoux@gmail.com">jmaupoux</author>
+  </properties>
+
+  <body>
+  
+	<section name="Overview">
+		This section describe the installation and configuration of RooMeeting.<br/><br/>
+    
+        Have a look at <a href="faq.html">the FAQ</a> to get the server installation requirements.
+	</section>
+  
+    <section name="Installation">
+   	    Installation is made of two mandatories steps :<br/>
+        <ul>
+          <li>
+            Download the last release from the <a href="download.html" target="_blank">Download section</a> and extract the archive anywhere you wish.
+          </li>
+          <li>
+            Configure the installation according to your need. More information in the <a href="server_operations.html">Server operations section</a>
+          </li>
+        </ul>
+        <p>
+          Open your browser, and enter the URL <i>http://${server_ip}:8080/roomeeting/</i>.<br/>
+          For example, if the server is hosted on your computer, the URL becomes <i>http://localhost:8080/roomeeting/</i>
+        </p>
+        Follow the <a href="admin_guide.html">Administration Guide</a> in order to get the application ready for your users.
+     </section>
+ 
+  </body>
+  
+</document>

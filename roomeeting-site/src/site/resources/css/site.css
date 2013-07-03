@@ -1,3 +1,9 @@
 #banner{
 	padding-left:100px;	
 }
+
+.nav-list > .active > a, .nav-list > .active > a:hover {
+	background-color: #FBF44B;
+    color: #666666;
+    text-shadow: none;	
+}

@@ -19,7 +19,7 @@
       <answer>
        	A Java Virtual Machine (JVM) version 6+ have to be installed in the machine the installation is processed on.<br/>
 	    It is often included in a Windows&#169; installation.<br/><br/>
-	    To get a JVM that fit to your machine, visit <a href="http://www.java.com/fr/download/">http://www.java.com/fr/download/</a> and install on your server machine <b>only</b>.
+	    To get a JVM that fit to your machine, visit <a href="http://www.java.com/fr/download/" target="_blank">http://www.java.com/fr/download/</a> and install on your server machine <b>only</b>.
       </answer>
     </faq>
   </part>
